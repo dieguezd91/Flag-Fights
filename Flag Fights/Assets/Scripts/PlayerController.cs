@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float turnSpeed;
     float horizontalInput;
     float forwardInput;
+    bool hasFlag = false;
 
 
     void Update()
@@ -26,5 +27,28 @@ public class PlayerController : MonoBehaviour
         //2D MOVEMENT
         //Vector2 input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         //transform.Translate(new Vector3(input.x, 0f, input.y) * speed * Time.deltaTime);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Flag"))
+        {
+            collision.gameObject.transform.SetParent(gameObject.transform);
+            hasFlag = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Base") && hasFlag && GameManager.Instance.points < GameManager.Instance.totalPoints && GameManager.Instance.currentTime <= GameManager.Instance.lossTimer)
+        {
+            GameManager.Instance.WinRound();
+            Debug.Log("WIN ROUND");
+        }
+        else if(other.gameObject.CompareTag("Base") && hasFlag && GameManager.Instance.points >= GameManager.Instance.totalPoints && GameManager.Instance.currentTime <= GameManager.Instance.lossTimer)
+        {
+            GameManager.Instance.Win();
+            Debug.Log("WIN");
+        }
     }
 }

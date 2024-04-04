@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     public Vector2 directionToPlayer;
     protected Transform target;
     protected LineOfSight _lineOfSight;
+    public float speed;
 
     protected virtual void Start()
     {
@@ -20,6 +21,9 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        
+        if (hasLineOfSight) 
+        {
+            transform.Translate(_lineOfSight.directionToTarget * speed * Time.deltaTime);
+        }
     }
 }

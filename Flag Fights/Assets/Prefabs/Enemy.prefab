@@ -261,6 +261,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   TargetLOS: {fileID: 0}
+  directionToTarget: {x: 0, y: 0, z: 0}
 --- !u!114 &5899494694829893680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,3 +278,4 @@ MonoBehaviour:
   hasLineOfSight: 0
   targetDirection: {x: 0, y: 0}
   directionToPlayer: {x: 0, y: 0}
+  speed: 5

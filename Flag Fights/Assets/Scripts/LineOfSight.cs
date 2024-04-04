@@ -8,6 +8,7 @@ public class LineOfSight : MonoBehaviour, ILineOfSight
     [Range(1, 360)] public float angle;
     public LayerMask obstacles; //Capa de obstaculos de vision
     public Transform TargetLOS; //Posicion del jugador
+    public Vector3 directionToTarget;
 
     private Enemy _enemy;
 
@@ -49,7 +50,7 @@ public class LineOfSight : MonoBehaviour, ILineOfSight
     //Obtiene la direccion desde el enemigo hasta el jugador
     public bool CheckAngle(Transform target)
     {
-        var directionToTarget = target.position - Origin;
+        directionToTarget = target.position - Origin;
         //Debug.Log(directionToTarget + " es la direccion al objetivo");
         float angleToTarget = Vector3.Angle(Forward, directionToTarget);
         //Debug.Log(angleToTarget <= _enemy.enemyData.AngleDetection / 2);
@@ -59,7 +60,7 @@ public class LineOfSight : MonoBehaviour, ILineOfSight
     //Chequea que no haya obstaculos visuales entre el enemigo y su objetivo
     public bool CheckObstacles(Transform target)
     {
-        Vector3 directionToTarget = target.position - Origin;
+        directionToTarget = target.position - Origin;
         float distance = directionToTarget.magnitude;
         //Debug.Log(distance);
         //Debug.DrawRay(Origin, directionToTarget, Color.green, obstacles);        
