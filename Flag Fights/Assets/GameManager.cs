@@ -15,14 +15,34 @@ public class GameManager : MonoBehaviour
     [SerializeField] public float lossTimer;
     private bool timeElapsed = false; // Variable para controlar si ha transcurrido el tiempo
 
+    // Posiciones iniciales del jugador y el enemigo
+    public Transform playerInitialPosition;
+    public Transform enemyInitialPosition;
+    public Transform flagInitialPosition;
+    private Transform playerTransform;
+    private Transform enemyTransform;
+    private Transform flagTransform;
+
     void Start()
     {
-        if(Instance == null)
+        if (Instance == null)
             Instance = this;
         else
             Destroy(Instance);
 
+        // Asignar las posiciones iniciales
+        playerInitialPosition = GameObject.Find("PlayerInitialPosition").transform;
+        enemyInitialPosition = GameObject.Find("EnemyInitialPosition").transform;
+        flagInitialPosition = GameObject.Find("FlagInitialPosition").transform;
+
+        // Obtener las referencias a las transformadas del jugador, el enemigo y la bandera
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        enemyTransform = GameObject.FindGameObjectWithTag("Enemy").transform;
+        flagTransform = GameObject.FindGameObjectWithTag("Flag").transform;
+
         timer = Time.time; // Iniciar el temporizador al inicio
+        //UIManager.Instance.RestartScore();
+        RestartRound(); // Iniciar la primera ronda
     }
 
     void Update()
@@ -48,18 +68,16 @@ public class GameManager : MonoBehaviour
     }
 
     public void WinRound()
-    {
-        timeElapsed = false; // Reiniciar el indicador de tiempo transcurrido
+    {        
         points++;
+        UIManager.Instance.UpdateScore();
         RestartRound();
-        //Actualizar marcador
     }
 
     public void LoseRound()
-    {
-        timeElapsed = false; // Reiniciar el indicador de tiempo transcurrido
+    {        
         enemyPoints ++;
-        //Actualizar marcador
+        UIManager.Instance.UpdateScore();
         RestartRound();
     }
 
@@ -77,7 +95,13 @@ public class GameManager : MonoBehaviour
 
     public void RestartRound()
     {
+        timeElapsed = false; // Reiniciar el indicador de tiempo transcurrido
         timer = Time.time;
         currentTime = 0f;
+
+        // Reiniciar posiciones del jugador, el enemigo y la bandera a las posiciones iniciales
+        playerTransform.position = playerInitialPosition.position;
+        enemyTransform.position = enemyInitialPosition.position;
+        flagTransform.position = flagInitialPosition.position;
     }
 }

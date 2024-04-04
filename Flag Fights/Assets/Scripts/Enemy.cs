@@ -21,9 +21,6 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (hasLineOfSight) 
-        {
-            transform.Translate(_lineOfSight.directionToTarget * speed * Time.deltaTime);
-        }
+        
     }
 }
