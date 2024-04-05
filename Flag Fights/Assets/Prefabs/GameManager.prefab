@@ -47,10 +47,12 @@ MonoBehaviour:
   totalPoints: 3
   points: 0
   enemyPoints: 0
+  round: 0
   timer: 0
   currentTime: 0
   stopTimer: 0
   lossTimer: 15
+  flag: {fileID: 0}
   playerInitialPosition: {fileID: 0}
   enemyInitialPosition: {fileID: 0}
   flagInitialPosition: {fileID: 0}

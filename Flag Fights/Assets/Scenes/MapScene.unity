@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44216692, g: 0.4911766, b: 0.5710786, a: 1}
+  m_IndirectSpecularColor: {r: 0.4421671, g: 0.49117714, b: 0.5710792, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &4076493 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7355930627262628593, guid: 68bc3582bab6eef4fa3d1b2201b01469, type: 3}
+  m_PrefabInstance: {fileID: 9178265663238343847}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7adb5aeb417543f41a9998d69628ffc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &49447280
 GameObject:
   m_ObjectHideFlags: 0
@@ -3310,6 +3321,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 62.408, y: -22.303, z: 0}
+--- !u!1 &1266296014 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1710560215107864773, guid: 5cabff97a00d64c4f89bb3b10affc6ce, type: 3}
+  m_PrefabInstance: {fileID: 8374976935621482084}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1324219331
 GameObject:
   m_ObjectHideFlags: 0
@@ -5344,6 +5360,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4923258780272212027, guid: 43642501260a7384dbf5ef963815fcbf, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 4076493}
     - target: {fileID: 6496895714591354308, guid: 43642501260a7384dbf5ef963815fcbf, type: 3}
       propertyPath: m_Name
       value: UI
@@ -5364,18 +5384,6 @@ PrefabInstance:
     - target: {fileID: 1710560215107864773, guid: 5cabff97a00d64c4f89bb3b10affc6ce, type: 3}
       propertyPath: m_Name
       value: Flag
-      objectReference: {fileID: 0}
-    - target: {fileID: 6899604495555809745, guid: 5cabff97a00d64c4f89bb3b10affc6ce, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6899604495555809745, guid: 5cabff97a00d64c4f89bb3b10affc6ce, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6899604495555809745, guid: 5cabff97a00d64c4f89bb3b10affc6ce, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6899604495555809745, guid: 5cabff97a00d64c4f89bb3b10affc6ce, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5417,18 +5425,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6899604495555809745, guid: 5cabff97a00d64c4f89bb3b10affc6ce, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8415508093914032665, guid: 5cabff97a00d64c4f89bb3b10affc6ce, type: 3}
-      propertyPath: m_Constraints
-      value: 112
-      objectReference: {fileID: 0}
-    - target: {fileID: 8415508093914032665, guid: 5cabff97a00d64c4f89bb3b10affc6ce, type: 3}
-      propertyPath: m_IsKinematic
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5447,17 +5443,9 @@ PrefabInstance:
       value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 7355930627262628593, guid: 68bc3582bab6eef4fa3d1b2201b01469, type: 3}
-      propertyPath: flagInitialPosition
+      propertyPath: flag
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7355930627262628593, guid: 68bc3582bab6eef4fa3d1b2201b01469, type: 3}
-      propertyPath: enemyInitialPosition
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7355930627262628593, guid: 68bc3582bab6eef4fa3d1b2201b01469, type: 3}
-      propertyPath: playerInitialPosition
-      value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1266296014}
     - target: {fileID: 7642869937632075239, guid: 68bc3582bab6eef4fa3d1b2201b01469, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

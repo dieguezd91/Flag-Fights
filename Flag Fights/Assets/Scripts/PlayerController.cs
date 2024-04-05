@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     float horizontalInput;
     float forwardInput;
     public bool hasFlag = false;
+    public GameObject flag;
 
     void Update()
     {
@@ -32,7 +33,8 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Flag"))
         {
-            collision.gameObject.transform.SetParent(gameObject.transform);
+            collision.gameObject.SetActive(false);
+            flag.SetActive(true);
             hasFlag = true;
         }
     }
