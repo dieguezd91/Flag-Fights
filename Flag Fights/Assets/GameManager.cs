@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    public static GameManager instance;
+
+    bool gameActive;
     [SerializeField] public int totalPoints = 3;
     [SerializeField] public int points = 0;
     [SerializeField] public int enemyPoints = 0;
@@ -28,29 +30,32 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(Instance);
+        if (instance == null) instance = this;
+        else Destroy(instance);
+
+        SetRound();
+        StartRound(); // Iniciar la primera ronda
+    }
+
+    private void SetRound()
+    {
+        // Obtener las referencias a las transforms del jugador, el enemigo y la bandera
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        enemyTransform = GameObject.FindGameObjectWithTag("Enemy").transform;
+        flagTransform = GameObject.FindGameObjectWithTag("Flag").transform;
 
         // Asignar las posiciones iniciales
         playerInitialPosition = GameObject.Find("PlayerInitialPosition").transform;
         enemyInitialPosition = GameObject.Find("EnemyInitialPosition").transform;
         flagInitialPosition = GameObject.Find("FlagInitialPosition").transform;
 
-        // Obtener las referencias a las transformadas del jugador, el enemigo y la bandera
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        enemyTransform = GameObject.FindGameObjectWithTag("Enemy").transform;
-        flagTransform = GameObject.FindGameObjectWithTag("Flag").transform;
 
         timer = Time.time; // Iniciar el temporizador al inicio
-        //UIManager.Instance.RestartScore();
-        RestartRound(); // Iniciar la primera ronda
     }
 
     void Update()
     {
-        CheckRoundStatus();
+        if(gameActive) CheckRoundStatus();
     }
 
     public void CheckRoundStatus()
@@ -78,6 +83,7 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.ShowScore();
         //Se para el tiempo
         Time.timeScale = 0;
+        gameActive = false;
     }
 
     public void LoseRound()
@@ -92,13 +98,14 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.ShowScore();
         //Se para el tiempo
         Time.timeScale = 0;
+        gameActive = false;
     }
 
     public void NextRound()
     {
         round++;
         UIManager.Instance.scoreScreen.SetActive(false);
-        RestartRound();
+        StartRound();
     }
 
     public void Win()
@@ -123,7 +130,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    public void RestartRound()
+    public void StartRound()
     {
         flag.SetActive(true);
         // Reiniciar posiciones del jugador, el enemigo y la bandera a las posiciones iniciales
@@ -137,6 +144,7 @@ public class GameManager : MonoBehaviour
         timeElapsed = false; // Reiniciar el indicador de tiempo transcurrido
         timer = Time.time;
         currentTime = 0f;
+        gameActive = true;
 
     }
 }

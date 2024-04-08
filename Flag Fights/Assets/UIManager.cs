@@ -33,13 +33,13 @@ public class UIManager : MonoBehaviour
 
     public void UpdateScore()
     {
-        score.text = GameManager.Instance.points.ToString() + " - " + GameManager.Instance.enemyPoints.ToString();
+        score.text = GameManager.instance.points.ToString() + " - " + GameManager.instance.enemyPoints.ToString();
     }
 
     public void UpdateTimer()
     {
-        int minutes = Mathf.FloorToInt(GameManager.Instance.currentTime / 60.0f);
-        int seconds = Mathf.FloorToInt(GameManager.Instance.currentTime % 60.0f);
+        int minutes = Mathf.FloorToInt(GameManager.instance.currentTime / 60.0f);
+        int seconds = Mathf.FloorToInt(GameManager.instance.currentTime % 60.0f);
 
         timer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
@@ -47,7 +47,7 @@ public class UIManager : MonoBehaviour
     public void ShowScore()
     {
         scoreScreen.SetActive(true);
-        currentScore.text = GameManager.Instance.points.ToString() + " - " + GameManager.Instance.enemyPoints.ToString();
+        currentScore.text = GameManager.instance.points.ToString() + " - " + GameManager.instance.enemyPoints.ToString();
     }
 
     public void RestartScore()
