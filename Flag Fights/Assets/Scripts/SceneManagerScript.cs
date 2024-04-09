@@ -24,7 +24,13 @@ public class SceneManagerScript : MonoBehaviour
         Debug.Log("Game Started");
     }
 
-    public void ChangeScene(int n)
+    public void LoadMainMenu()
+    {
+        ChangeScene(0);
+        Debug.Log("Main Menu loaded");
+    }
+
+    private void ChangeScene(int n)
     {
         SceneManager.LoadScene(n);
         currentScene = n;
