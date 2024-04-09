@@ -133,10 +133,14 @@ public class GameManager : MonoBehaviour
     public void StartRound()
     {
         flag.SetActive(true);
+        playerTransform.GetComponent<PlayerController>().flag.SetActive(false);
         // Reiniciar posiciones del jugador, el enemigo y la bandera a las posiciones iniciales
         playerTransform.position = playerInitialPosition.position;
         enemyTransform.position = enemyInitialPosition.position;
+        playerTransform.rotation= playerInitialPosition.rotation;
+        enemyTransform.rotation= enemyInitialPosition.rotation;
         flagTransform.position = flagInitialPosition.position;
+        playerTransform.GetComponent<PlayerController>().hasFlag = false;
         //Empieza a correr el tiempo
         Time.timeScale = 1;
         //Se activa el hud
@@ -145,6 +149,5 @@ public class GameManager : MonoBehaviour
         timer = Time.time;
         currentTime = 0f;
         gameActive = true;
-
     }
 }

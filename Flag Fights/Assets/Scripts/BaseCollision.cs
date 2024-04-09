@@ -9,8 +9,6 @@ public class BaseCollision : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<PlayerController>().hasFlag && GameManager.instance.points < GameManager.instance.totalPoints && GameManager.instance.currentTime <= GameManager.instance.lossTimer)
         {
             GameManager.instance.WinRound();
-            other.gameObject.GetComponent<PlayerController>().flag.SetActive(false);
-            other.gameObject.GetComponent<PlayerController>().hasFlag = false;  
             Debug.Log("WIN ROUND");                
         }
         else if (other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<PlayerController>().hasFlag && GameManager.instance.points >= GameManager.instance.totalPoints && GameManager.instance.currentTime <= GameManager.instance.lossTimer)
