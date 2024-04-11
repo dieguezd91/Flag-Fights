@@ -6,21 +6,22 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    //Flag management
     public bool hasFlag = false;
     public GameObject flag;
 
+    //Stats
+    [SerializeField] float speed;
+    [SerializeField] float turnSpeed;
+
+    //FSM
     FSM<PlayerStatesEnum> _fsm;
 
-    private void Awake()
-    {
-        InitializeFSM();
-    }
+    private void Awake() => InitializeFSM();
 
-    void Update()
-    {
-        _fsm.OnUpdate();
-    }
+    void Update() => _fsm.OnUpdate();
 
+        //Check collision with flag
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Flag"))
@@ -33,11 +34,14 @@ public class PlayerController : MonoBehaviour
 
     void InitializeFSM()
     {
+        //States declarations
         var idle = new PlayerStateIdle<PlayerStatesEnum>(PlayerStatesEnum.Walk);
-        var walk = new PlayerStateWalk<PlayerStatesEnum>(transform, PlayerStatesEnum.Idle);
+        var walk = new PlayerStateWalk<PlayerStatesEnum>(speed, turnSpeed, transform, PlayerStatesEnum.Idle);
 
+        //Create Finite State Machine
         _fsm = new FSM<PlayerStatesEnum>(idle);
 
+        //Create transitions between states
         idle.AddTransition(PlayerStatesEnum.Walk, walk);
         walk.AddTransition(PlayerStatesEnum.Idle, idle);
     }

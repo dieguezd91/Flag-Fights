@@ -5,17 +5,19 @@ using UnityEngine;
 
 public class EnemyStateIdle<T> : State<T>
 {
+    Animator _animator;
     LineOfSight _LOS;
     T _attackInput;
-    public EnemyStateIdle(LineOfSight LOS, T attackInput)
+    public EnemyStateIdle(Animator animator, LineOfSight LOS, T attackInput)
     {
         _LOS = LOS;
         _attackInput = attackInput;
+        _animator = animator;
     }
 
     public override void Enter()
     {
-        base.Enter();
+        _animator.SetBool("Idle", true);
     }
 
     public override void Execute()
@@ -23,6 +25,10 @@ public class EnemyStateIdle<T> : State<T>
         base.Execute();
         Debug.Log("Enemy idle");
 
-        if (_LOS.HasLineOfSight()) _fsm.Transition(_attackInput);
+        if (_LOS.HasLOS()) _fsm.Transition(_attackInput);
+    }
+    public override void Sleep()
+    {
+        _animator.SetBool("Idle", false);
     }
 }

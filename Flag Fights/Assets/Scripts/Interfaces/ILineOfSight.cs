@@ -9,6 +9,6 @@ public interface ILineOfSight
     bool CheckAngle(Transform target);
     bool CheckObstacles(Transform target);
 
-    bool HasLineOfSight();
-    bool HasLineOfSight(float range);
+    bool HasLOS();
+    bool HasLOS(float range);
 }

@@ -4,88 +4,67 @@ using UnityEngine;
 
 public class LineOfSight : MonoBehaviour, ILineOfSight
 {
-    [SerializeField] float _range;
-    [Range(1, 360)] public float angle;
-    public LayerMask obstacles; //Capa de obstaculos de vision
-    public Transform TargetLOS; //Posicion del jugador
-    public Vector3 directionToTarget;
+    [SerializeField] float _vision;                 //Rango de vision
+    [Range(1, 360)] [SerializeField] float angle;   //Angulo de vision
+    [SerializeField] LayerMask obstacles;           //Capa de obstaculos de vision
+    Transform TargetLOS;                            //Jugador
+    Vector3 directionToTarget;                      //Direccion hacia el objetivo
+    Vector3 Origin => transform.position;           //Posision
+    Vector3 Forward => transform.forward;
+
+    //Obtener el transform del jugador
+    protected virtual void Start() => TargetLOS = GameObject.FindGameObjectWithTag("Player").transform;
 
 
-    protected virtual void Start()
-    {
-        //Obtener el transform del jugador
-        TargetLOS = GameObject.FindGameObjectWithTag("Player").transform;
-    }
+    //Chequear que se cumplan todas las condiciones de deteccion en la linea de vision del enemigo
+    public bool HasLOS() => CheckRange(TargetLOS) && CheckAngle(TargetLOS) && CheckObstacles(TargetLOS);
 
-    protected virtual void Update()
-    {
-        HasLineOfSight();
-    }
 
-    public bool HasLineOfSight()
-    {
-        //Chequear que se cumplan todas las condiciones de deteccion en la linea de vision del enemigo
-        return CheckRange(TargetLOS) && CheckAngle(TargetLOS) && CheckObstacles(TargetLOS);
-    }
+    //Chequear que se cumplan todas las condiciones de deteccion en la linea de vision del enemigo
+    public bool HasLOS(float range) => CheckRange(TargetLOS, range) && CheckAngle(TargetLOS) && CheckObstacles(TargetLOS);
 
-    public bool HasLineOfSight(float range)
-    {
-        //Chequear que se cumplan todas las condiciones de deteccion en la linea de vision del enemigo
-        return CheckRange(TargetLOS, range) && CheckAngle(TargetLOS) && CheckObstacles(TargetLOS);
-    }
 
-    //Chequea la distancia entre el enemigo y el jugador
-    
+    //Chequear que la distancia hacia el objetivo sea menor al rango de vision
     public bool CheckRange(Transform target)
     {
         float distance = Vector3.Distance(target.position, Origin);
-        //Debug.Log(distance + " es la distancia");
-        //Debug.Log(distance <= _enemy.enemyData.RangeDetection);
-        return distance <= _range;
-
+        return distance <= _vision;
     }
 
+
+    //Chequear que la distancia hacia el objetivo sea menor al parametro dado
     public bool CheckRange(Transform target, float range)
     {
         float distance = Vector3.Distance(target.position, Origin);
-        //Debug.Log(distance + " es la distancia");
-        //Debug.Log(distance <= _enemy.enemyData.RangeDetection);
         return distance <= range;
 
     }
-    //Obtiene la direccion desde el enemigo hasta el jugador
+
+
+    //Chequear que la direccion hacia el objetivo este dentro del angulo de vision
     public bool CheckAngle(Transform target)
     {
         directionToTarget = target.position - Origin;
-        //Debug.Log(directionToTarget + " es la direccion al objetivo");
         float angleToTarget = Vector3.Angle(Forward, directionToTarget);
-        //Debug.Log(angleToTarget <= _enemy.enemyData.AngleDetection / 2);
         return angleToTarget <= angle / 2;
     }
 
-    //Chequea que no haya obstaculos visuales entre el enemigo y su objetivo
+
+    //Chequear que no haya obstaculos entre el objetivo y self
     public bool CheckObstacles(Transform target)
     {
         directionToTarget = target.position - Origin;
         float distance = directionToTarget.magnitude;
-        //Debug.Log(distance);
-        //Debug.DrawRay(Origin, directionToTarget, Color.green, obstacles);        
-
         return !Physics2D.Raycast(Origin, directionToTarget, distance, obstacles);
     }
-
-    //posision del enemigo
-    Vector3 Origin => transform.position;
-    //lado de vision del enemigo
-    public Vector3 Forward => transform.forward;
 
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(Origin, _range);
+        Gizmos.DrawWireSphere(Origin, _vision);
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(Origin, Quaternion.Euler(0, angle / 2, 0) * Forward * _range);
-        Gizmos.DrawRay(Origin, Quaternion.Euler(0, -(angle / 2), 0) * Forward * _range);
+        Gizmos.DrawRay(Origin, Quaternion.Euler(0, angle / 2, 0) * Forward * _vision);
+        Gizmos.DrawRay(Origin, Quaternion.Euler(0, -(angle / 2), 0) * Forward * _vision);
     }
 }

@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 8532021651340183327}
   - component: {fileID: 4918186558815978569}
   - component: {fileID: 5899494694829893680}
+  - component: {fileID: 3819989067881826964}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -150,7 +151,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2064256581172565585}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 1953699854639871467, guid: b9ec9923dba91254792103fb97a1e366, type: 3}
 --- !u!23 &4645084771627587185
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -171,7 +172,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 67bec796fd6ba1f40b87997cdf02e1d8, type: 2}
+  - {fileID: 2100000, guid: ccae2dc6cf6f0c4479b782fedd0c8172, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -212,10 +213,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.35
+  m_Height: 1.8839204
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: -0.00000005960468, y: 0.93898046, z: 0.0017322834}
 --- !u!54 &8532021651340183327
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -255,13 +256,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a5b84b6eaa04fd418026f4e54d1711d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 5
+  _vision: 7.5
   angle: 90
   obstacles:
     serializedVersion: 2
     m_Bits: 1024
-  TargetLOS: {fileID: 0}
-  directionToTarget: {x: 0, y: 0, z: 0}
 --- !u!114 &5899494694829893680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,9 +273,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a70df7366a329174094340e29b6762fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rb: {fileID: 0}
+  _rb: {fileID: 8532021651340183327}
+  _animator: {fileID: 3819989067881826964}
+  speed: 5
+  isIdle: 1
+  attackRange: 2
+  _lineOfSight: {fileID: 4918186558815978569}
   hasLineOfSight: 0
   targetDirection: {x: 0, y: 0}
   directionToPlayer: {x: 0, y: 0}
-  _lineOfSight: {fileID: 4918186558815978569}
-  speed: 5
+--- !u!95 &3819989067881826964
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2064256581172565585}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9e9103b37f226c04cbf3589af0f86888, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -5,31 +5,25 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public Rigidbody _rb;
-    public bool hasLineOfSight = false;
-    public Vector2 targetDirection;
-    public Vector2 directionToPlayer;
-    protected Transform target;
-    public LineOfSight _lineOfSight;
+    //COMPONENTS
+    Animator _animator;
+    LineOfSight _lineOfSight;
+
+    //STATS
     public float speed;
-    public int life;
     public bool isIdle;
     public float attackRange;
-    ITreeNode _root;
 
+    //AI
     FSM<EnemyStatesEnum> _fsm;
+    ITreeNode _root;
 
     private void Awake()
     {
+        _lineOfSight = GetComponent<LineOfSight>();
+        _animator = GetComponent<Animator>();
         InitializeFSM(); 
         InitializeTree(); 
-    }
-
-    protected virtual void Start()
-    {
-        _rb = GetComponent<Rigidbody>();
-        _lineOfSight = GetComponent<LineOfSight>();
-        target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     private void Update()
@@ -40,13 +34,16 @@ public class Enemy : MonoBehaviour
 
     void InitializeFSM()
     {
-        var idle = new EnemyStateIdle<EnemyStatesEnum>(_lineOfSight, EnemyStatesEnum.Attack);
-        var patrol = new EnemyStatePatrol<EnemyStatesEnum>();
-        var chase = new EnemyStateChase<EnemyStatesEnum>();
-        var attack = new EnemyStateAttack<EnemyStatesEnum>();
+            //Declarating states
+        var idle = new EnemyStateIdle<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Attack);
+        var patrol = new EnemyStatePatrol<EnemyStatesEnum>(_animator);
+        var chase = new EnemyStateChase<EnemyStatesEnum>(_animator);
+        var attack = new EnemyStateAttack<EnemyStatesEnum>(_animator);
 
+            //Create Finite State Machine
         _fsm = new FSM<EnemyStatesEnum>(idle);
 
+            //Creating transition between states
         idle.AddTransition(EnemyStatesEnum.Patrol, patrol);
         idle.AddTransition(EnemyStatesEnum.Chase, chase);
         idle.AddTransition(EnemyStatesEnum.Attack, attack);
@@ -61,7 +58,6 @@ public class Enemy : MonoBehaviour
     void InitializeTree()
     {
         //Actions
-        ITreeNode dead = new ActionNode(() => print("Tree: Dead"));
         ITreeNode idle = new ActionNode(() => _fsm.Transition(EnemyStatesEnum.Idle));
         ITreeNode patrol = new ActionNode(() => _fsm.Transition(EnemyStatesEnum.Patrol));
         ITreeNode chase = new ActionNode(() => _fsm.Transition(EnemyStatesEnum.Chase));
@@ -71,14 +67,11 @@ public class Enemy : MonoBehaviour
         ITreeNode qChase = new QuestionNode(QuestionIsOnRange, attack, chase);
         ITreeNode qPatrol = new QuestionNode(QuestionLoS, qChase, patrol);
         ITreeNode qIdle = new QuestionNode(QuestionIdle, idle, qPatrol);
-        ITreeNode qHasLife = new QuestionNode(QuestionHasLife, qIdle, dead);
 
-        _root = qHasLife;
+        //First node to execute
+        _root = qIdle;
     }
-
-    public void ChangeTree(ITreeNode newTree) => _root = newTree;
-    public bool QuestionLoS() => _lineOfSight.HasLineOfSight();
-    public bool QuestionHasLife() => life > 0;
-    public bool QuestionIsOnRange() => _lineOfSight.HasLineOfSight(attackRange);
+    public bool QuestionIsOnRange() => _lineOfSight.HasLOS(attackRange);
+    public bool QuestionLoS() => _lineOfSight.HasLOS();
     public bool QuestionIdle() => isIdle;
 }
