@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -9,8 +10,15 @@ public class Enemy : MonoBehaviour
     public Vector2 targetDirection;
     public Vector2 directionToPlayer;
     protected Transform target;
-    protected LineOfSight _lineOfSight;
+    public LineOfSight _lineOfSight;
     public float speed;
+
+    FSM<EnemyStatesEnum> _fsm;
+
+    private void Awake()
+    {
+        InitializeFSM();    
+    }
 
     protected virtual void Start()
     {
@@ -19,8 +27,29 @@ public class Enemy : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
-    void Update()
+    private void Update()
     {
-        
+        _fsm.OnUpdate();
+        Debug.Log(_lineOfSight);
+    }
+
+    void InitializeFSM()
+    {
+        var idle = new EnemyStateIdle<EnemyStatesEnum>(_lineOfSight, EnemyStatesEnum.Attack);
+        var patrol = new EnemyStatePatrol<EnemyStatesEnum>();
+        var chase = new EnemyStateChase<EnemyStatesEnum>();
+        var attack = new EnemyStateAttack<EnemyStatesEnum>();
+
+        _fsm = new FSM<EnemyStatesEnum>(idle);
+
+        idle.AddTransition(EnemyStatesEnum.Patrol, patrol);
+        idle.AddTransition(EnemyStatesEnum.Chase, chase);
+        idle.AddTransition(EnemyStatesEnum.Attack, attack);
+        patrol.AddTransition(EnemyStatesEnum.Chase, chase);
+        patrol.AddTransition(EnemyStatesEnum.Attack, attack);
+        chase.AddTransition(EnemyStatesEnum.Patrol, patrol);
+        chase.AddTransition(EnemyStatesEnum.Attack, attack);
+        attack.AddTransition(EnemyStatesEnum.Chase, chase);
+        attack.AddTransition(EnemyStatesEnum.Patrol, patrol);
     }
 }

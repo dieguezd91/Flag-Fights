@@ -65,7 +65,6 @@ public class GameManager : MonoBehaviour
         if (currentTime >= lossTimer && !timeElapsed)
         {
             LoseRound();
-            Debug.Log("LOSE ROUND");
             timeElapsed = true; // Activar el indicador de tiempo transcurrido
         }
         else if (enemyPoints >= totalPoints)

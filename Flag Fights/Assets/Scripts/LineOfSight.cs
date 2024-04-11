@@ -10,31 +10,22 @@ public class LineOfSight : MonoBehaviour, ILineOfSight
     public Transform TargetLOS; //Posicion del jugador
     public Vector3 directionToTarget;
 
-    private Enemy _enemy;
-
 
     protected virtual void Start()
     {
-        _enemy = GetComponent<Enemy>();
+        //Obtener el transform del jugador
+        TargetLOS = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     protected virtual void Update()
     {
-        //Obtener la posicion del jugador
-        TargetLOS = GameObject.FindGameObjectWithTag("Player").transform;
+        HasLineOfSight();
+    }
 
+    public bool HasLineOfSight()
+    {
         //Chequear que se cumplan todas las condiciones de deteccion en la linea de vision del enemigo
-        if (CheckRange(TargetLOS) && CheckAngle(TargetLOS) && CheckObstacles(TargetLOS))
-        {
-            _enemy.hasLineOfSight = true;
-            // Si todas las condiciones son verdaderas el enemigo ejecuta una accion
-            Debug.Log("Detected");
-        }
-        else
-        {
-            _enemy.hasLineOfSight = false;
-            Debug.Log("Not detected");
-        }
+        return CheckRange(TargetLOS) && CheckAngle(TargetLOS) && CheckObstacles(TargetLOS);
     }
 
     //Chequea la distancia entre el enemigo y el jugador

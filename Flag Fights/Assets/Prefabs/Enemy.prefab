@@ -278,4 +278,5 @@ MonoBehaviour:
   hasLineOfSight: 0
   targetDirection: {x: 0, y: 0}
   directionToPlayer: {x: 0, y: 0}
+  _lineOfSight: {fileID: 4918186558815978569}
   speed: 5
