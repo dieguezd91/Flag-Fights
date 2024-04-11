@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LineOfSight : MonoBehaviour, ILineOfSight
 {
-    public float range;
+    [SerializeField] float _range;
     [Range(1, 360)] public float angle;
     public LayerMask obstacles; //Capa de obstaculos de vision
     public Transform TargetLOS; //Posicion del jugador
@@ -28,8 +28,24 @@ public class LineOfSight : MonoBehaviour, ILineOfSight
         return CheckRange(TargetLOS) && CheckAngle(TargetLOS) && CheckObstacles(TargetLOS);
     }
 
+    public bool HasLineOfSight(float range)
+    {
+        //Chequear que se cumplan todas las condiciones de deteccion en la linea de vision del enemigo
+        return CheckRange(TargetLOS, range) && CheckAngle(TargetLOS) && CheckObstacles(TargetLOS);
+    }
+
     //Chequea la distancia entre el enemigo y el jugador
+    
     public bool CheckRange(Transform target)
+    {
+        float distance = Vector3.Distance(target.position, Origin);
+        //Debug.Log(distance + " es la distancia");
+        //Debug.Log(distance <= _enemy.enemyData.RangeDetection);
+        return distance <= _range;
+
+    }
+
+    public bool CheckRange(Transform target, float range)
     {
         float distance = Vector3.Distance(target.position, Origin);
         //Debug.Log(distance + " es la distancia");
@@ -37,7 +53,6 @@ public class LineOfSight : MonoBehaviour, ILineOfSight
         return distance <= range;
 
     }
-
     //Obtiene la direccion desde el enemigo hasta el jugador
     public bool CheckAngle(Transform target)
     {
@@ -68,9 +83,9 @@ public class LineOfSight : MonoBehaviour, ILineOfSight
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(Origin, range);
+        Gizmos.DrawWireSphere(Origin, _range);
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(Origin, Quaternion.Euler(0, angle / 2, 0) * Forward * range);
-        Gizmos.DrawRay(Origin, Quaternion.Euler(0, -(angle / 2), 0) * Forward * range);
+        Gizmos.DrawRay(Origin, Quaternion.Euler(0, angle / 2, 0) * Forward * _range);
+        Gizmos.DrawRay(Origin, Quaternion.Euler(0, -(angle / 2), 0) * Forward * _range);
     }
 }

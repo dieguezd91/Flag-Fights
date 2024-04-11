@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class EnemyStateIdle<T> : State<T>
@@ -10,6 +11,11 @@ public class EnemyStateIdle<T> : State<T>
     {
         _LOS = LOS;
         _attackInput = attackInput;
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
     }
 
     public override void Execute()

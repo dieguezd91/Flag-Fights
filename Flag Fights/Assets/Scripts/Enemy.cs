@@ -12,12 +12,17 @@ public class Enemy : MonoBehaviour
     protected Transform target;
     public LineOfSight _lineOfSight;
     public float speed;
+    public int life;
+    public bool isIdle;
+    public float attackRange;
+    ITreeNode _root;
 
     FSM<EnemyStatesEnum> _fsm;
 
     private void Awake()
     {
-        InitializeFSM();    
+        InitializeFSM(); 
+        InitializeTree(); 
     }
 
     protected virtual void Start()
@@ -30,7 +35,7 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         _fsm.OnUpdate();
-        Debug.Log(_lineOfSight);
+        _root.Execute();
     }
 
     void InitializeFSM()
@@ -52,4 +57,28 @@ public class Enemy : MonoBehaviour
         attack.AddTransition(EnemyStatesEnum.Chase, chase);
         attack.AddTransition(EnemyStatesEnum.Patrol, patrol);
     }
+
+    void InitializeTree()
+    {
+        //Actions
+        ITreeNode dead = new ActionNode(() => print("Tree: Dead"));
+        ITreeNode idle = new ActionNode(() => _fsm.Transition(EnemyStatesEnum.Idle));
+        ITreeNode patrol = new ActionNode(() => _fsm.Transition(EnemyStatesEnum.Patrol));
+        ITreeNode chase = new ActionNode(() => _fsm.Transition(EnemyStatesEnum.Chase));
+        ITreeNode attack = new ActionNode(() => _fsm.Transition(EnemyStatesEnum.Attack));
+
+        //Questions
+        ITreeNode qChase = new QuestionNode(QuestionIsOnRange, attack, chase);
+        ITreeNode qPatrol = new QuestionNode(QuestionLoS, qChase, patrol);
+        ITreeNode qIdle = new QuestionNode(QuestionIdle, idle, qPatrol);
+        ITreeNode qHasLife = new QuestionNode(QuestionHasLife, qIdle, dead);
+
+        _root = qHasLife;
+    }
+
+    public void ChangeTree(ITreeNode newTree) => _root = newTree;
+    public bool QuestionLoS() => _lineOfSight.HasLineOfSight();
+    public bool QuestionHasLife() => life > 0;
+    public bool QuestionIsOnRange() => _lineOfSight.HasLineOfSight(attackRange);
+    public bool QuestionIdle() => isIdle;
 }
