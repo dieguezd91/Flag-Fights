@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateWalk<T> : StateMono<T>
+public class PlayerStateWalk<T> : State<T>
 {
     float horizontalInput;
     float forwardInput;

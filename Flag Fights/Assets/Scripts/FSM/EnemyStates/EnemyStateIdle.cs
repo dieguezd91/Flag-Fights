@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStateIdle<T> : StateMono<T>
+public class EnemyStateIdle<T> : State<T>
 {
     LineOfSight _LOS;
     T _attackInput;

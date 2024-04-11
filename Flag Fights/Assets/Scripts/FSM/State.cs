@@ -14,19 +14,9 @@ public class State<T> : IState<T>
     {
         _transitions = transitions;
     }
-    public virtual void Enter()
-    {
-
-    }
-    public virtual void Execute()
-    {
-    }
-    public void LateExecute()
-    {
-    }
-    public virtual void Sleep()
-    {
-    }
+    public virtual void Enter() { }
+    public virtual void Execute() { }
+    public virtual void Sleep() { }
     public void AddTransition(T input, IState<T> state)
     {
         _transitions[input] = state;

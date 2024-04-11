@@ -6,18 +6,9 @@ public class StateMono<T> : MonoBehaviour, IState<T>
 {
     protected FSM<T> _fsm;
     Dictionary<T, IState<T>> _transitions = new Dictionary<T, IState<T>>();
-    public virtual void Enter()
-    {
-    }
-    public virtual void Execute()
-    {
-    }
-    public virtual void LateExecute()
-    {
-    }
-    public virtual void Sleep()
-    {
-    }
+    public virtual void Enter() { }
+    public virtual void Execute() { }
+    public virtual void Sleep() { }
     public void AddTransition(T input, IState<T> state)
     {
         _transitions[input] = state;

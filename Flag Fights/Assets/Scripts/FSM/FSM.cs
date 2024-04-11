@@ -5,11 +5,12 @@ using UnityEngine;
 public class FSM<T>
 {
     IState<T> _current;
+    public IState<T> CurrentState => _current;
     public FSM(IState<T> initState)
     {
-        SetInit(initState);
+        SetInitalState(initState);
     }
-    public void SetInit(IState<T> initState)
+    public void SetInitalState(IState<T> initState)
     {
         _current = initState;
         _current.SetFSM = this;
@@ -19,11 +20,6 @@ public class FSM<T>
     {
         if (_current != null)
             _current.Execute();
-    }
-    public void OnLateUpdate()
-    {
-        if (_current != null)
-            _current.LateExecute();
     }
 
     public void Transition(T input)
@@ -38,5 +34,4 @@ public class FSM<T>
             _current.Enter();
         }
     }
-    public IState<T> CurrentState => _current;
 }
