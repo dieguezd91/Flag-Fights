@@ -5,13 +5,19 @@ using UnityEngine;
 public class EnemyStateChase<T> : State<T>
 {
     Animator _animator;
-    public EnemyStateChase(Animator animator)
+    LineOfSight _LOS;
+    T _attackInput;
+
+    public EnemyStateChase(Animator animator, LineOfSight LOS, T attackInput)
     {
         _animator = animator;
+        _LOS = LOS;
+        _attackInput = attackInput;
+
     }
     public override void Enter()
     {
-        _animator.SetBool("Chase", true);
+        _animator.SetBool("Chasing", true);
     }
     public override void Execute()
     {
@@ -20,6 +26,6 @@ public class EnemyStateChase<T> : State<T>
     }
     public override void Sleep()
     {
-        _animator.SetBool("Chase", false);
+        _animator.SetBool("Chasing", false);
     }
 }

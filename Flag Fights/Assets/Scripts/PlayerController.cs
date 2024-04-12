@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     public bool hasFlag = false;
     public GameObject flag;
 
+    Animator _animator;
+
     //Stats
     [SerializeField] float speed;
     [SerializeField] float turnSpeed;
@@ -17,9 +19,17 @@ public class PlayerController : MonoBehaviour
     //FSM
     FSM<PlayerStatesEnum> _fsm;
 
-    private void Awake() => InitializeFSM();
+    private void Awake()
+    {
+        InitializeFSM();
+        _animator = GetComponent<Animator>();
+    }
 
-    void Update() => _fsm.OnUpdate();
+    void Update()
+    {
+        _fsm.OnUpdate();
+        //_animator.SetFloat("Speed", speed);
+    }
 
         //Check collision with flag
     private void OnCollisionEnter(Collision collision)
@@ -35,14 +45,14 @@ public class PlayerController : MonoBehaviour
     void InitializeFSM()
     {
         //States declarations
-        var idle = new PlayerStateIdle<PlayerStatesEnum>(PlayerStatesEnum.Walk);
-        var walk = new PlayerStateWalk<PlayerStatesEnum>(speed, turnSpeed, transform, PlayerStatesEnum.Idle);
+        var idle = new PlayerStateIdle<PlayerStatesEnum>(PlayerStatesEnum.Run);
+        var run = new PlayerStateRun<PlayerStatesEnum>(_animator, speed, turnSpeed, transform, PlayerStatesEnum.Idle);
 
         //Create Finite State Machine
         _fsm = new FSM<PlayerStatesEnum>(idle);
 
         //Create transitions between states
-        idle.AddTransition(PlayerStatesEnum.Walk, walk);
-        walk.AddTransition(PlayerStatesEnum.Idle, idle);
+        idle.AddTransition(PlayerStatesEnum.Run, run);
+        run.AddTransition(PlayerStatesEnum.Idle, idle);
     }
 }

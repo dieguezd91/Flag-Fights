@@ -2,19 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateWalk<T> : State<T>
+public class PlayerStateRun<T> : State<T>
 {
+    Animator _animator;
     float _speed;
     float _turnSpeed;
     Transform _transform;
     T _idleInput;
 
-    public PlayerStateWalk(float speed, float turnSpeed, Transform transform, T input)
+    public PlayerStateRun(Animator animator, float speed, float turnSpeed, Transform transform, T input)
     {
         _transform = transform;
         _idleInput = input;
         _speed = speed;
         _turnSpeed= turnSpeed;
+    }
+
+    public override void Enter()
+    {
+        _animator.SetBool("Running", true);
     }
 
     public override void Execute()
@@ -26,5 +32,11 @@ public class PlayerStateWalk<T> : State<T>
         _transform.Rotate(Vector3.up, _turnSpeed * hor * Time.deltaTime);
 
         if (hor == 0 && fwd == 0) _fsm.Transition(_idleInput);
+
     }
+
+    //public override void Sleep()
+    //{
+    //    _animator.SetBool("Running", false);
+    //}
 }

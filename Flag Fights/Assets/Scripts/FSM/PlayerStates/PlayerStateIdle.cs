@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class PlayerStateIdle<T> : State<T>
 {
-    T _walkInput;
+    T _runInput;
 
     public PlayerStateIdle(T input)
     {
-        _walkInput = input;
+        _runInput = input;
     }
+
     public override void Execute()
     {
         base.Execute();
@@ -17,6 +18,7 @@ public class PlayerStateIdle<T> : State<T>
         float hor = Input.GetAxis("Horizontal");
         float fwd = Input.GetAxis("Vertical");
 
-        if (hor != 0 || fwd != 0) _fsm.Transition(_walkInput);
+        if (hor != 0 || fwd != 0) _fsm.Transition(_runInput);
     }
+
 }

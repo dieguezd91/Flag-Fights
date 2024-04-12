@@ -9,7 +9,7 @@ public class LineOfSight : MonoBehaviour, ILineOfSight
     [SerializeField] LayerMask obstacles;           //Capa de obstaculos de vision
     Transform TargetLOS;                            //Jugador
     Vector3 directionToTarget;                      //Direccion hacia el objetivo
-    Vector3 Origin => transform.position;           //Posision
+    Vector3 Origin => transform.position;           //Posicion
     Vector3 Forward => transform.forward;
 
     //Obtener el transform del jugador
