@@ -1343,7 +1343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: {fileID: 2559783212744485571}
-  currentScore: {fileID: 0}
+  currentScore: {fileID: 2635604209444047046}
   timer: {fileID: 7709817844531540477}
   gameOverScreen: {fileID: 6830059865697115424}
   winScreen: {fileID: 254163680180017031}

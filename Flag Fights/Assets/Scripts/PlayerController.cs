@@ -21,15 +21,11 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        InitializeFSM();
         _animator = GetComponent<Animator>();
+        InitializeFSM();
     }
 
-    void Update()
-    {
-        _fsm.OnUpdate();
-        //_animator.SetFloat("Speed", speed);
-    }
+    void Update() => _fsm.OnUpdate();
 
         //Check collision with flag
     private void OnCollisionEnter(Collision collision)
@@ -45,7 +41,7 @@ public class PlayerController : MonoBehaviour
     void InitializeFSM()
     {
         //States declarations
-        var idle = new PlayerStateIdle<PlayerStatesEnum>(PlayerStatesEnum.Run);
+        var idle = new PlayerStateIdle<PlayerStatesEnum>(_animator, PlayerStatesEnum.Run);
         var run = new PlayerStateRun<PlayerStatesEnum>(_animator, speed, turnSpeed, transform, PlayerStatesEnum.Idle);
 
         //Create Finite State Machine

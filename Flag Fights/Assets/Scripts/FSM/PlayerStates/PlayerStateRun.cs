@@ -12,10 +12,11 @@ public class PlayerStateRun<T> : State<T>
 
     public PlayerStateRun(Animator animator, float speed, float turnSpeed, Transform transform, T input)
     {
-        _transform = transform;
-        _idleInput = input;
+        _animator = animator;
         _speed = speed;
         _turnSpeed= turnSpeed;
+        _transform = transform;
+        _idleInput = input;
     }
 
     public override void Enter()
@@ -35,8 +36,8 @@ public class PlayerStateRun<T> : State<T>
 
     }
 
-    //public override void Sleep()
-    //{
-    //    _animator.SetBool("Running", false);
-    //}
+    public override void Sleep()
+    {
+        _animator.SetBool("Running", false);
+    }
 }

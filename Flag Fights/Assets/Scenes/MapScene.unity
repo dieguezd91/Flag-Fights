@@ -1694,17 +1694,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 626471262}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &639191485 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2635604209444047046, guid: 43642501260a7384dbf5ef963815fcbf, type: 3}
-  m_PrefabInstance: {fileID: 8320384740446795578}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &657307625
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5004,10 +4993,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
-    - target: {fileID: 9057224653592550462, guid: 43642501260a7384dbf5ef963815fcbf, type: 3}
-      propertyPath: currentScore
-      value: 
-      objectReference: {fileID: 639191485}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
