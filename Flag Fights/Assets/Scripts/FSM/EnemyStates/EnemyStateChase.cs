@@ -28,36 +28,38 @@ public class EnemyStateChase<T> : State<T>
         _speed = speed;
         _timeToFind = timeToFind;
     }
+
     public override void Enter()
     {
         _animator.SetBool("Chasing", true);
     }
+
     public override void Execute()
     {
-        if (_LOS.HasLOS()) _lastCheck = Time.time;
-        if (_LOS.HasLOS(_attackRange)) _fsm.Transition(_attackInput);
-        else if (!_LOS.HasLOS() && Time.time >= _lastCheck + _timeToFind) _fsm.Transition(_patrolInput);
-        else
-        {
+        if (_LOS.HasLOS()) _lastCheck = Time.time;                                                          //Save last time it has seen the enemy
+        if (_LOS.HasLOS(_attackRange)) _fsm.Transition(_attackInput);                                       //If is close enought to the player, entry Attack State
+        else if (!_LOS.HasLOS() && Time.time >= _lastCheck + _timeToFind) _fsm.Transition(_patrolInput);    //If it has not LOS to the player and the last time it had LOS to them,
+        else                                                                                                //entry Patrol State
+        { 
             Vector3 dir = _LOS.TargetLOS.position - _transform.position;
-
             Move(dir.normalized);
             LookDir(dir.normalized);
         }
     }
+
     public override void Sleep()
     {
         _animator.SetBool("Chasing", false);
     }
 
-    void Move(Vector3 dirToMove)
+    void Move(Vector3 dirToMove)                    //Move to the wished direction
     {
         dirToMove *= _speed;
         dirToMove.y = _rb.velocity.y;
         _rb.velocity = dirToMove;
     }
 
-    void LookDir(Vector3 dirToLook)
+    void LookDir(Vector3 dirToLook)                 //Rotate to the wished direction
     {
         if (dirToLook.x == 0 && dirToLook.z == 0) return;
         _transform.forward = dirToLook;

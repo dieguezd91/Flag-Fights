@@ -21,14 +21,9 @@ public class SceneManagerScript : MonoBehaviour
     public void StartGame()
     {
         ChangeScene(1);
-        Debug.Log("Game Started");
     }
 
-    public void LoadMainMenu()
-    {
-        ChangeScene(0);
-        Debug.Log("Main Menu loaded");
-    }
+    public void LoadMainMenu() => ChangeScene(0);
 
     private void ChangeScene(int n)
     {
@@ -36,9 +31,5 @@ public class SceneManagerScript : MonoBehaviour
         currentScene = n;
     }
 
-    public void Quit()
-    {
-        Debug.Log("Quit");
-        Application.Quit();
-    }
+    public void Quit() => Application.Quit();
 }

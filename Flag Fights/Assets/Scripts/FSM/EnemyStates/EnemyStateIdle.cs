@@ -29,8 +29,8 @@ public class EnemyStateIdle<T> : State<T>
 
         Debug.Log("Enemy idle");
 
-        if (_LOS.HasLOS()) _fsm.Transition(_chaseInput);
-        else _fsm.Transition(_patrolInput);
+        if (_LOS.HasLOS()) _fsm.Transition(_chaseInput);            //If it has LOS to the player, entry Chase State
+        else _fsm.Transition(_patrolInput);                         // If it has not LOS to the player, entry Patrol State
     }
     
     public override void Sleep()

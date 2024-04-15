@@ -30,10 +30,8 @@ public class EnemyStatePatrol<T> : State<T>
         Debug.Log("Enemy patrol");
 
 
-         if (_LOS.HasLOS())
-            _fsm.Transition(_chaseInput);
-        else if (_LOS.HasLOS(_attackRange))
-            _fsm.Transition(_attackInput);
+         if (_LOS.HasLOS()) _fsm.Transition(_chaseInput);                           //If it has LOS to the player, entry Chase State
+        else if (_LOS.HasLOS(_attackRange)) _fsm.Transition(_attackInput);          //If it is close enought to the player, entry Attack State
     }
 
     public override void Sleep()

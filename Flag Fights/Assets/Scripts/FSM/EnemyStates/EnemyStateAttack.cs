@@ -16,23 +16,19 @@ public class EnemyStateAttack<T> : State<T>
         _animator = animator;
         _LOS = lOS;
         _chaseInput = chaseInput;
-        this._attackRange = attackRange;
-    }
-
-    public override void Enter()
-    {
-        
+        _attackRange = attackRange;
     }
 
     public override void Execute()
     {
         base.Execute();
 
-        if (Time.time - _lastAttackTime >= _cooldownTime)
+        if (Time.time - _lastAttackTime >= _cooldownTime)               //Attack the player
         {
             _animator.SetTrigger("Attack");
             _lastAttackTime = Time.time;
-            DealDamage();
+            Debug.Log("Game over");
+            //DealDamage();
         }
 
         if (!_LOS.HasLOS(_attackRange))
@@ -43,10 +39,5 @@ public class EnemyStateAttack<T> : State<T>
     {
         Debug.Log("Dañado");
         GameManager.instance.LoseRound();
-    }
-
-    public override void Sleep()
-    {
-        
     }
 }

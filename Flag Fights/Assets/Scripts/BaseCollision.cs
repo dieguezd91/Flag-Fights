@@ -6,16 +6,15 @@ public class BaseCollision : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<PlayerController>().hasFlag && GameManager.instance.points < GameManager.instance.totalPoints && GameManager.instance.currentTime <= GameManager.instance.lossTimer)
-        {
-            GameManager.instance.WinRound();
-            Debug.Log("WIN ROUND");                
-        }
-        else if (other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<PlayerController>().hasFlag && GameManager.instance.points >= GameManager.instance.totalPoints && GameManager.instance.currentTime <= GameManager.instance.lossTimer)
-        {
+        if (other.gameObject.CompareTag("Player") 
+            && other.gameObject.GetComponent<PlayerController>().hasFlag 
+            && GameManager.instance.points < GameManager.instance.totalPoints 
+            && GameManager.instance.currentTime <= GameManager.instance.lossTimer)
+            GameManager.instance.WinRound();    
+        else if (other.gameObject.CompareTag("Player") 
+                && other.gameObject.GetComponent<PlayerController>().hasFlag
+                && GameManager.instance.points >= GameManager.instance.totalPoints 
+                && GameManager.instance.currentTime <= GameManager.instance.lossTimer)
             GameManager.instance.Win();
-            Debug.Log("WIN");
-
-        }
     }
 }
