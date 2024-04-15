@@ -7,10 +7,12 @@ public class Enemy : MonoBehaviour
 {
     //COMPONENTS
     Animator _animator;
+    Rigidbody _rb;
     LineOfSight _lineOfSight;
 
     //STATS
     public float speed;
+    public float timeToFind;
     public bool isIdle;
     public float attackRange;
 
@@ -22,6 +24,7 @@ public class Enemy : MonoBehaviour
     {
         _lineOfSight = GetComponent<LineOfSight>();
         _animator = GetComponent<Animator>();
+        _rb= GetComponent<Rigidbody>();
         InitializeFSM(); 
         InitializeTree(); 
     }
@@ -37,7 +40,7 @@ public class Enemy : MonoBehaviour
             //Declarating states
         var idle = new EnemyStateIdle<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Chase, EnemyStatesEnum.Patrol);
         var patrol = new EnemyStatePatrol<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Chase, EnemyStatesEnum.Attack, attackRange);
-        var chase = new EnemyStateChase<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Patrol, EnemyStatesEnum.Attack, attackRange);
+        var chase = new EnemyStateChase<EnemyStatesEnum>(_animator, transform, _rb, _lineOfSight, EnemyStatesEnum.Patrol, EnemyStatesEnum.Attack, attackRange, speed, timeToFind);
         var attack = new EnemyStateAttack<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Chase, attackRange);
 
             //Create Finite State Machine

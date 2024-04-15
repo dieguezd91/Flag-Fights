@@ -1495,7 +1495,7 @@ GameObject:
   - component: {fileID: 576166267}
   - component: {fileID: 576166266}
   - component: {fileID: 576166265}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Exterior Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1796,7 +1796,7 @@ GameObject:
   - component: {fileID: 692168493}
   - component: {fileID: 692168492}
   - component: {fileID: 692168491}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Exterior Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2006,7 +2006,7 @@ GameObject:
   - component: {fileID: 856353610}
   - component: {fileID: 856353609}
   - component: {fileID: 856353608}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Exterior Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2507,7 +2507,7 @@ GameObject:
   - component: {fileID: 1068390577}
   - component: {fileID: 1068390576}
   - component: {fileID: 1068390575}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Exterior Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4734,6 +4734,22 @@ PrefabInstance:
     - target: {fileID: 1308749439099989600, guid: 116873805e121674cb4e85c600e0eb19, type: 3}
       propertyPath: m_Name
       value: EnemyPaladin
+      objectReference: {fileID: 0}
+    - target: {fileID: 5234550806230788080, guid: 116873805e121674cb4e85c600e0eb19, type: 3}
+      propertyPath: speed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5234550806230788080, guid: 116873805e121674cb4e85c600e0eb19, type: 3}
+      propertyPath: turnSpeed
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 5234550806230788080, guid: 116873805e121674cb4e85c600e0eb19, type: 3}
+      propertyPath: timeToFind
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6707915767971497464, guid: 116873805e121674cb4e85c600e0eb19, type: 3}
+      propertyPath: m_Constraints
+      value: 116
       objectReference: {fileID: 0}
     - target: {fileID: 7978902671587588785, guid: 116873805e121674cb4e85c600e0eb19, type: 3}
       propertyPath: m_LocalPosition.x

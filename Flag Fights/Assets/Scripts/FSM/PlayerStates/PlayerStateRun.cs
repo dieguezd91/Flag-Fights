@@ -19,12 +19,6 @@ public class PlayerStateRun<T> : State<T>
         _idleInput = input;
     }
 
-    public override void Enter()
-    {
-        //_animator.SetBool("Running", true);
-
-    }
-
     public override void Execute()
     {
         float hor = Input.GetAxis("Horizontal");
@@ -36,11 +30,5 @@ public class PlayerStateRun<T> : State<T>
         _transform.Rotate(Vector3.up, _turnSpeed * hor * Time.deltaTime);
 
         if (hor == 0 || fwd == 0) _fsm.Transition(_idleInput);
-
-    }
-
-    public override void Sleep()
-    {
-
     }
 }
