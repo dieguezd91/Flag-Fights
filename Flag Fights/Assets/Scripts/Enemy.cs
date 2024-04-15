@@ -35,10 +35,10 @@ public class Enemy : MonoBehaviour
     void InitializeFSM()
     {
             //Declarating states
-        var idle = new EnemyStateIdle<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Patrol);
-        var patrol = new EnemyStatePatrol<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Chase);
-        var chase = new EnemyStateChase<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Attack);
-        var attack = new EnemyStateAttack<EnemyStatesEnum>(_animator, _lineOfSight);
+        var idle = new EnemyStateIdle<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Chase, EnemyStatesEnum.Patrol);
+        var patrol = new EnemyStatePatrol<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Chase, EnemyStatesEnum.Attack, attackRange);
+        var chase = new EnemyStateChase<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Patrol, EnemyStatesEnum.Attack, attackRange);
+        var attack = new EnemyStateAttack<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Chase, attackRange);
 
             //Create Finite State Machine
         _fsm = new FSM<EnemyStatesEnum>(idle);

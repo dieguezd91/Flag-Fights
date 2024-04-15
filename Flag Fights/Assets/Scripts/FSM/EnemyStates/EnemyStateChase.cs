@@ -6,14 +6,17 @@ public class EnemyStateChase<T> : State<T>
 {
     Animator _animator;
     LineOfSight _LOS;
+    T _patrolInput;
     T _attackInput;
+    float _attackRange;
 
-    public EnemyStateChase(Animator animator, LineOfSight LOS, T attackInput)
+    public EnemyStateChase(Animator animator, LineOfSight LOS, T patrolInput, T attackInput, float attackRange)
     {
         _animator = animator;
         _LOS = LOS;
+        _patrolInput = patrolInput;
         _attackInput = attackInput;
-
+        _attackRange = attackRange;
     }
     public override void Enter()
     {
@@ -23,6 +26,12 @@ public class EnemyStateChase<T> : State<T>
     {
         base.Execute();
         Debug.Log("Enemy chase");
+
+        if (_LOS.HasLOS(_attackRange))
+            _fsm.Transition(_attackInput);
+        else if (!_LOS.HasLOS())
+            _fsm.Transition(_patrolInput);
+        
     }
     public override void Sleep()
     {

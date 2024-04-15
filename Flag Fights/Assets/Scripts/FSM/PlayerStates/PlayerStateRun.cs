@@ -21,7 +21,8 @@ public class PlayerStateRun<T> : State<T>
 
     public override void Enter()
     {
-        _animator.SetBool("Running", true);
+        //_animator.SetBool("Running", true);
+
     }
 
     public override void Execute()
@@ -29,15 +30,17 @@ public class PlayerStateRun<T> : State<T>
         float hor = Input.GetAxis("Horizontal");
         float fwd = Input.GetAxis("Vertical");
 
+        _animator.SetFloat("Speed", _speed);
+
         _transform.Translate(Vector3.forward * Time.deltaTime * _speed * fwd);
         _transform.Rotate(Vector3.up, _turnSpeed * hor * Time.deltaTime);
 
-        if (hor == 0 && fwd == 0) _fsm.Transition(_idleInput);
+        if (hor == 0 || fwd == 0) _fsm.Transition(_idleInput);
 
     }
 
     public override void Sleep()
     {
-        _animator.SetBool("Running", false);
+
     }
 }

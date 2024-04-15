@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     void InitializeFSM()
     {
         //States declarations
-        var idle = new PlayerStateIdle<PlayerStatesEnum>(_animator, PlayerStatesEnum.Run);
+        var idle = new PlayerStateIdle<PlayerStatesEnum>(_animator, speed, PlayerStatesEnum.Run);
         var run = new PlayerStateRun<PlayerStatesEnum>(_animator, speed, turnSpeed, transform, PlayerStatesEnum.Idle);
 
         //Create Finite State Machine

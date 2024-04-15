@@ -7,11 +7,13 @@ public class EnemyStateIdle<T> : State<T>
 {
     Animator _animator;
     LineOfSight _LOS;
+    T _chaseInput;
     T _patrolInput;
 
-    public EnemyStateIdle(Animator animator, LineOfSight LOS, T patrolInput)
+    public EnemyStateIdle(Animator animator, LineOfSight LOS, T chaseInput, T patrolInput)
     {
         _LOS = LOS;
+        _chaseInput = chaseInput;
         _patrolInput = patrolInput;
         _animator = animator;
     }
@@ -27,7 +29,8 @@ public class EnemyStateIdle<T> : State<T>
 
         Debug.Log("Enemy idle");
 
-        if (_LOS.HasLOS()) _fsm.Transition(_patrolInput);
+        if (_LOS.HasLOS()) _fsm.Transition(_chaseInput);
+        else _fsm.Transition(_patrolInput);
     }
     
     public override void Sleep()
