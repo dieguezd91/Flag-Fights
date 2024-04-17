@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -14,9 +15,11 @@ public class EnemyStateChase<T> : State<T>
     float _attackRange;
     float _speed;
     float _timeToFind;
+    float _checkCooldown;
     float _lastCheck;
+    Vector3 lastPosKnown;
 
-    public EnemyStateChase(Animator animator, Transform transform, Rigidbody rb, LineOfSight LOS, T patrolInput, T attackInput, float attackRange, float speed, float timeToFind)
+    public EnemyStateChase(Animator animator, Transform transform, Rigidbody rb, LineOfSight LOS, T patrolInput, T attackInput, float attackRange, float speed, float timeToFind, float checkCooldown)
     {
         _animator = animator;
         _transform = transform;
@@ -27,6 +30,7 @@ public class EnemyStateChase<T> : State<T>
         _attackRange = attackRange;
         _speed = speed;
         _timeToFind = timeToFind;
+        _checkCooldown = checkCooldown;
     }
 
     public override void Enter()
@@ -36,14 +40,18 @@ public class EnemyStateChase<T> : State<T>
 
     public override void Execute()
     {
-        if (_LOS.HasLOS()) _lastCheck = Time.time;                                                          //Save last time it has seen the enemy
+        if (_LOS.HasLOS() && Time.time >= _lastCheck + _checkCooldown)
+        {
+            lastPosKnown = _LOS.TargetLOS.position;
+            _lastCheck = Time.time;                                                          //Save last time it has seen the enemy
+        }
         if (_LOS.HasLOS(_attackRange)) _fsm.Transition(_attackInput);                                       //If is close enought to the player, entry Attack State
         else if (!_LOS.HasLOS() && Time.time >= _lastCheck + _timeToFind) _fsm.Transition(_patrolInput);    //If it has not LOS to the player and the last time it had LOS to them,
         else                                                                                                //entry Patrol State
         { 
-            Vector3 dir = _LOS.TargetLOS.position - _transform.position;
+            Vector3 dir = lastPosKnown - _transform.position;
             Move(dir.normalized);
-            LookDir(dir.normalized);
+            LookDir(new Vector3(dir.x, 0, dir.z).normalized);
         }
     }
 

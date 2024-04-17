@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     public float timeToFind;
     public bool isIdle;
     public float attackRange;
+    [SerializeField] float checkCooldown;
 
     //AI
     FSM<EnemyStatesEnum> _fsm;
@@ -40,7 +41,7 @@ public class Enemy : MonoBehaviour
             //Declarating states
         var idle = new EnemyStateIdle<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Chase, EnemyStatesEnum.Patrol);
         var patrol = new EnemyStatePatrol<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Chase, EnemyStatesEnum.Attack, attackRange);
-        var chase = new EnemyStateChase<EnemyStatesEnum>(_animator, transform, _rb, _lineOfSight, EnemyStatesEnum.Patrol, EnemyStatesEnum.Attack, attackRange, speed, timeToFind);
+        var chase = new EnemyStateChase<EnemyStatesEnum>(_animator, transform, _rb, _lineOfSight, EnemyStatesEnum.Patrol, EnemyStatesEnum.Attack, attackRange, speed, timeToFind, checkCooldown);
         var attack = new EnemyStateAttack<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Chase, attackRange);
 
             //Create Finite State Machine
