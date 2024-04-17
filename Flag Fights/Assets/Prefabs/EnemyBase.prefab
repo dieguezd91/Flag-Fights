@@ -41,9 +41,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6415803170981840411}
   - component: {fileID: 8943653853566005038}
-  - component: {fileID: 324171038160936343}
   m_Layer: 0
-  m_Name: Base
+  m_Name: EnemyBase
   m_TagString: Base
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,7 +57,7 @@ Transform:
   m_GameObject: {fileID: 5075182151921765901}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8, y: 1, z: -7.97}
+  m_LocalPosition: {x: 16.96, y: 1, z: 8.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -86,22 +85,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 3, y: 1, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &324171038160936343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5075182151921765901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bccaa242f9eb9124e95c3866bd5b8e95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemiesToSpawn: 2
-  enemyPrefab: {fileID: 1308749439099989600, guid: 116873805e121674cb4e85c600e0eb19, type: 3}
 --- !u!1 &7235687805315939530
 GameObject:
   m_ObjectHideFlags: 0

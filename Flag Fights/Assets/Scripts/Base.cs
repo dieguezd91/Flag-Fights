@@ -5,8 +5,8 @@ using UnityEngine;
 public class Base : MonoBehaviour
 {
     List<Transform> spawnPositions;
-    [SerializeField] int enemiesToSpawn;
-    [SerializeField] GameObject enemyPrefab;
+    [SerializeField] int charactersToSpawn;
+    [SerializeField] GameObject characterPrefab;
 
     private void Start()
     {
@@ -25,12 +25,12 @@ public class Base : MonoBehaviour
 
     void AsignPositions()
     {
-        if (enemiesToSpawn <= spawnPositions.Count)
+        if (charactersToSpawn <= spawnPositions.Count)
         {
-            for (int i = 0; i < enemiesToSpawn; i++)
+            for (int i = 0; i < charactersToSpawn; i++)
             {
                 int r = Random.Range(0, spawnPositions.Count);
-                Instantiate(enemyPrefab, spawnPositions[r].position, Quaternion.identity);
+                Instantiate(characterPrefab, spawnPositions[r].position, Quaternion.identity);
                 spawnPositions.Remove(spawnPositions[r]);
             }
         }

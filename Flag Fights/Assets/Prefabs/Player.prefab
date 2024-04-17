@@ -2698,7 +2698,7 @@ MonoBehaviour:
   hasFlag: 0
   flag: {fileID: 6922452443762921483}
   speed: 5
-  turnSpeed: 80
+  turnSpeed: 120
 --- !u!1 &8095303719496697850
 GameObject:
   m_ObjectHideFlags: 0
