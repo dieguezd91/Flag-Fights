@@ -1559,11 +1559,7 @@ GameObject:
   - component: {fileID: 3053336585031678046}
   - component: {fileID: 5185835240083043394}
   - component: {fileID: 241307180951569703}
-<<<<<<< Updated upstream:Flag Fights/Assets/Prefabs/Player.prefab
   - component: {fileID: 3181999157605946853}
-=======
-  - component: {fileID: 2919683457143543871}
->>>>>>> Stashed changes:Flag Fights/Assets/Materials/Prefabs/Player.prefab
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -1645,20 +1641,14 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4633257653657965403}
   m_Enabled: 1
-<<<<<<< Updated upstream:Flag Fights/Assets/Prefabs/Player.prefab
 --- !u!114 &3181999157605946853
 MonoBehaviour:
-=======
---- !u!45 &2919683457143543871
-Skybox:
->>>>>>> Stashed changes:Flag Fights/Assets/Materials/Prefabs/Player.prefab
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4633257653657965403}
   m_Enabled: 1
-<<<<<<< Updated upstream:Flag Fights/Assets/Prefabs/Player.prefab
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
   m_Name: 
@@ -1685,9 +1675,6 @@ Skybox:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
-=======
-  m_CustomSkybox: {fileID: 2100000, guid: 1cf6f4c6e6e0518419839d3f5448dd99, type: 2}
->>>>>>> Stashed changes:Flag Fights/Assets/Materials/Prefabs/Player.prefab
 --- !u!1 &4677712151715162771
 GameObject:
   m_ObjectHideFlags: 0
