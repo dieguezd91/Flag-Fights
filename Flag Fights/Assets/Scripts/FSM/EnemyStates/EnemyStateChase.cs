@@ -52,10 +52,10 @@ public class EnemyStateChase<T> : State<T>
         if (_LOS.HasLOS(_attackRange)) _fsm.Transition(_attackInput);                                       //If is close enought to the player, entry Attack State
         else if (!_LOS.HasLOS() && Time.time >= _lastCheck + _timeToFind) _fsm.Transition(_patrolInput);    //If it has not LOS to the player and the last time it had LOS to them,
         else                                                                                                //entry Patrol State
-        {;
-            Vector3 dirToPoint = _obs.GetNewDir(GetDir());
-            Move(dirToPoint);
-            LookDir(new Vector3(dirToPoint.x, 0, dirToPoint.z));
+        {
+            Vector3 dir = _obs.GetNewDir(GetDir());
+            Move(dir);
+            LookDir(new Vector3(dir.x, 0, dir.z));
         }
     }
 
@@ -67,9 +67,9 @@ public class EnemyStateChase<T> : State<T>
     private Vector3 GetDir()
     {
         Rigidbody target = _LOS.TargetLOS.GetComponent<Rigidbody>();
-        Vector3 point = target.position + target.transform.forward * 2 * _timePrediction;
+        Vector3 point = lastPosKnown + target.transform.forward * 2 * _timePrediction;
         Vector3 dirToPoint = (point - _transform.position).normalized;
-        Vector3 dirToTarget = (target.position - _transform.position).normalized;
+        Vector3 dirToTarget = (lastPosKnown - _transform.position).normalized;
         if (Vector3.Dot(dirToPoint, dirToTarget) < 0) dirToPoint = dirToTarget;
         return dirToPoint;
     }

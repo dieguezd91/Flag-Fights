@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _vision: 7.5
-  angle: 90
+  angle: 160
   obstacles:
     serializedVersion: 2
     m_Bits: 1024
@@ -138,15 +138,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  timeToFind: 5
+  timeToFind: 3
   angle: 250
-  radius: 6.07
+  radius: 5
   obstacleMask:
     serializedVersion: 2
     m_Bits: 1024
   isIdle: 1
   attackRange: 1.5
-  checkCooldown: 0.05
+  checkCooldown: 0.25
 --- !u!1 &8597781270859614874
 GameObject:
   m_ObjectHideFlags: 0
