@@ -25,10 +25,16 @@ public class GameManager : MonoBehaviour
     private GameObject[] enemies;
     private GameObject flag;
 
+    [SerializeField] Transform playerInitialTransform;
+
     void Start()
     {
         if (instance == null) instance = this;
         else Destroy(instance);
+
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        flag = GameObject.FindGameObjectWithTag("Flag");
 
         StartRound(); // Iniciar la primera ronda
     }
@@ -48,7 +54,8 @@ public class GameManager : MonoBehaviour
 
     private void SetRound()
     {
-        GetActors();            // Obtener las referencias del jugador, los enemigos, sus bases y la bandera
+        player.transform.SetPositionAndRotation(playerInitialTransform.position, playerInitialTransform.rotation);
+        GetActors();            // Obtener las referencias de los enemigos, sus bases y la bandera
         timer = Time.time;      // Iniciar el temporizador al inicio
         flag.SetActive(true);   // Activar bandera de mapa
     }
@@ -116,21 +123,14 @@ public class GameManager : MonoBehaviour
 
     void GetActors()
     {
-        playerBase = FindObjectOfType<PlayerBase>();
-        playerBase.InitializeBase();
-        player = FindObjectOfType<PlayerController>().gameObject;
         enemyBase = FindObjectOfType<EnemyBase>();
         enemyBase.InitializeBase();
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        flag = GameObject.FindGameObjectWithTag("Flag");
     }
+
     void DestroyPreviousActors()
     {
-        Destroy(player);
-        playerBase = null;
         enemyBase = null;
         for (int n = 0; n < enemies.Length; n++) Destroy(enemies[n]);
-        flag = null;
-
     }
 }
