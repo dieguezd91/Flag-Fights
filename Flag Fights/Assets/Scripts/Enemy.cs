@@ -9,10 +9,14 @@ public class Enemy : MonoBehaviour
     Animator _animator;
     Rigidbody _rb;
     LineOfSight _lineOfSight;
+    ObstacleAvoidance _obs;
 
     //STATS
     public float speed;
     public float timeToFind;
+    public float angle;
+    public float radius;
+    public LayerMask obstacleMask;
     public bool isIdle;
     public float attackRange;
     [SerializeField] float checkCooldown;
@@ -25,7 +29,8 @@ public class Enemy : MonoBehaviour
     {
         _lineOfSight = GetComponent<LineOfSight>();
         _animator = GetComponent<Animator>();
-        _rb= GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
+        _obs = new ObstacleAvoidance(transform, angle, radius, obstacleMask);
         InitializeFSM(); 
         InitializeTree(); 
     }
@@ -41,7 +46,7 @@ public class Enemy : MonoBehaviour
             //Declarating states
         var idle = new EnemyStateIdle<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Chase, EnemyStatesEnum.Patrol);
         var patrol = new EnemyStatePatrol<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Chase, EnemyStatesEnum.Attack, attackRange);
-        var chase = new EnemyStateChase<EnemyStatesEnum>(_animator, transform, _rb, _lineOfSight, EnemyStatesEnum.Patrol, EnemyStatesEnum.Attack, attackRange, speed, timeToFind, checkCooldown);
+        var chase = new EnemyStateChase<EnemyStatesEnum>(_animator, transform, _rb, _lineOfSight, _obs, EnemyStatesEnum.Patrol, EnemyStatesEnum.Attack, attackRange, speed, timeToFind, checkCooldown);
         var attack = new EnemyStateAttack<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Chase, attackRange);
 
             //Create Finite State Machine

@@ -18,7 +18,7 @@ public class LineOfSight : MonoBehaviour, ILineOfSight
 
 
     //Chequear que se cumplan todas las condiciones de deteccion en la linea de vision del enemigo
-    public bool HasLOS() => CheckRange(_targetLOS) && CheckAngle(_targetLOS) && CheckObstacles(_targetLOS);
+    public bool HasLOS() => CheckRange(_targetLOS) && CheckAngle(_targetLOS); //&& CheckObstacles(_targetLOS);
 
 
     //Chequear que se cumplan todas las condiciones de deteccion en la linea de vision del enemigo
