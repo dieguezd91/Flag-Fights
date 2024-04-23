@@ -6349,25 +6349,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 122
   m_CollisionDetection: 0
---- !u!1 &1268133299 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5075182151921765901, guid: 1c4fc2a1bb3b97846917c86467bf6766, type: 3}
-  m_PrefabInstance: {fileID: 6242863180034223841}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1268133303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1268133299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f6b982ee22ea6c4aa5ab1902f7ad776, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  charactersToSpawn: 3
-  characterPrefab: {fileID: 1308749439099989600, guid: 116873805e121674cb4e85c600e0eb19, type: 3}
 --- !u!1 &1324219331
 GameObject:
   m_ObjectHideFlags: 0
@@ -9746,10 +9727,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5075182151921765901, guid: 1c4fc2a1bb3b97846917c86467bf6766, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1268133303}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c4fc2a1bb3b97846917c86467bf6766, type: 3}
 --- !u!1001 &7639588460773002427
 PrefabInstance:
@@ -9798,14 +9776,6 @@ PrefabInstance:
     - target: {fileID: 2226190817494334003, guid: 6192be4aa13615b418f34094abd32705, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088566662761960787, guid: 6192be4aa13615b418f34094abd32705, type: 3}
-      propertyPath: characterPrefab
-      value: 
-      objectReference: {fileID: 7948579854925813094, guid: 7e69a3b21f211734bbfa161e5cac83c0, type: 3}
-    - target: {fileID: 6088566662761960787, guid: 6192be4aa13615b418f34094abd32705, type: 3}
-      propertyPath: charactersToSpawn
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8983444732810737342, guid: 6192be4aa13615b418f34094abd32705, type: 3}
       propertyPath: m_Name
@@ -10053,10 +10023,6 @@ PrefabInstance:
       propertyPath: flag
       value: 
       objectReference: {fileID: 1266296014}
-    - target: {fileID: 7355930627262628593, guid: 68bc3582bab6eef4fa3d1b2201b01469, type: 3}
-      propertyPath: lossTimer
-      value: 120
-      objectReference: {fileID: 0}
     - target: {fileID: 7642869937632075239, guid: 68bc3582bab6eef4fa3d1b2201b01469, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

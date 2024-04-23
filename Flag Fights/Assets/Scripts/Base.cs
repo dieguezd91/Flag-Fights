@@ -1,14 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Base : MonoBehaviour
 {
-    List<Transform> spawnPositions;
+    Dictionary<Transform, float> spawnPoints;
+    [SerializeField] List<SpawnpointInfo> posibleSpawns;
+
     [SerializeField] int charactersToSpawn;
     [SerializeField] GameObject characterPrefab;
 
-    private void Start()
+    public void InitializeBase()
     {
         GetSpawnpoints();
         AsignPositions();
@@ -16,24 +20,23 @@ public class Base : MonoBehaviour
 
     void GetSpawnpoints()
     {
-        spawnPositions = new List<Transform>();
-        foreach (Transform t in GetComponentsInChildren<Transform>())
-            if (t != transform)
-                spawnPositions.Add(t);
-
+        spawnPoints = new Dictionary<Transform, float>();
+        for (int n = 0; n < posibleSpawns.Count; n++)
+        {
+            var curr = posibleSpawns[n];
+            spawnPoints[curr.transform] = curr.weight;
+        }
     }
 
     void AsignPositions()
     {
-        if (charactersToSpawn <= spawnPositions.Count)
-        {
-            for (int i = 0; i < charactersToSpawn; i++)
+        if (charactersToSpawn <= posibleSpawns.Count)
+            for (int n = 0; n < charactersToSpawn; n++)
             {
-                int r = Random.Range(0, spawnPositions.Count);
-                Instantiate(characterPrefab, spawnPositions[r].position, Quaternion.identity);
-                spawnPositions.Remove(spawnPositions[r]);
+                var transformSelected = MyRandoms.Roulette(spawnPoints);
+                spawnPoints.Remove(transformSelected);
+                Instantiate(characterPrefab, transformSelected.position, transformSelected.rotation);
             }
-        }
-        else Debug.Log("Not enough positions");
+        else Debug.Log("Not enough spawnpoints");
     }
 }

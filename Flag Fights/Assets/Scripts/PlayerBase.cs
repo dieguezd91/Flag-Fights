@@ -9,7 +9,7 @@ public class PlayerBase : Base
         if (other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<PlayerController>().hasFlag && GameManager.instance.currentTime <= GameManager.instance.lossTimer)
         {
             if (GameManager.instance.points < GameManager.instance.totalPoints)
-                GameManager.instance.WinRound();
+                GameManager.instance.EndRound(true);
             else GameManager.instance.Win();
         }
     }

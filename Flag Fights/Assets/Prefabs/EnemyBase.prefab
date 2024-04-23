@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6415803170981840411}
   - component: {fileID: 8943653853566005038}
+  - component: {fileID: 362994403659254510}
   m_Layer: 0
   m_Name: EnemyBase
   m_TagString: Base
@@ -87,6 +88,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 1, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &362994403659254510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5075182151921765901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc782a840dcd49b45940d0af1592e66a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  posibleSpawns:
+  - transform: {fileID: 4773298271115097417}
+    weight: 20
+  - transform: {fileID: 1914225877417114413}
+    weight: 50
+  - transform: {fileID: 7090508340302173046}
+    weight: 30
+  charactersToSpawn: 3
+  characterPrefab: {fileID: 1308749439099989600, guid: 116873805e121674cb4e85c600e0eb19, type: 3}
 --- !u!1 &7235687805315939530
 GameObject:
   m_ObjectHideFlags: 0

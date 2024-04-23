@@ -51,8 +51,4 @@ MonoBehaviour:
   timer: 0
   currentTime: 0
   stopTimer: 0
-  lossTimer: 15
-  flag: {fileID: 0}
-  playerInitialPosition: {fileID: 0}
-  enemyInitialPosition: {fileID: 0}
-  flagInitialPosition: {fileID: 0}
+  lossTimer: 120

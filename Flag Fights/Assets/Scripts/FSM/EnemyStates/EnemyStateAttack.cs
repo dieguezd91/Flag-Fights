@@ -28,16 +28,9 @@ public class EnemyStateAttack<T> : State<T>
             _animator.SetTrigger("Attack");
             _lastAttackTime = Time.time;
             Debug.Log("Game over");
-            //DealDamage();
         }
 
         if (!_LOS.HasLOS(_attackRange))
             _fsm.Transition(_chaseInput);
-    }
-
-    void DealDamage()
-    {
-        Debug.Log("Dañado");
-        GameManager.instance.LoseRound();
     }
 }

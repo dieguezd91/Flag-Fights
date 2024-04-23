@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4473620186816725000}
   m_Layer: 0
-  m_Name: Pos1 (3)
+  m_Name: Pos4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7441012657206529205}
   m_Layer: 0
-  m_Name: Pos1 (2)
+  m_Name: Pos3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -103,7 +103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5989739756988124964}
   m_Layer: 0
-  m_Name: Pos1 (1)
+  m_Name: Pos2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -246,5 +246,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bccaa242f9eb9124e95c3866bd5b8e95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charactersToSpawn: 0
-  characterPrefab: {fileID: 0}
+  posibleSpawns:
+  - transform: {fileID: 2741865306252528295}
+    weight: 30
+  - transform: {fileID: 5989739756988124964}
+    weight: 15
+  - transform: {fileID: 7441012657206529205}
+    weight: 15
+  - transform: {fileID: 4473620186816725000}
+    weight: 40
+  charactersToSpawn: 1
+  characterPrefab: {fileID: 7948579854925813094, guid: 7e69a3b21f211734bbfa161e5cac83c0, type: 3}
