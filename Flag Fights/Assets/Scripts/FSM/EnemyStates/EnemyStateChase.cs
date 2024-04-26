@@ -71,7 +71,7 @@ public class EnemyStateChase<T> : State<T>
         Vector3 dirToPoint = (point - _transform.position).normalized;
         Vector3 dirToTarget = (lastPosKnown - _transform.position).normalized;
         if (Vector3.Dot(dirToPoint, dirToTarget) < 0) dirToPoint = dirToTarget;
-        return dirToPoint;
+        return dirToPoint.normalized;
     }
 
     void Move(Vector3 dirToMove)                    //Move to the wished direction

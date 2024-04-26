@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     public float timeToFind;
     public float angle;
     public float radius;
+    public float personalArea;
     public LayerMask obstacleMask;
     public bool isIdle;
     public float attackRange;
@@ -30,7 +31,7 @@ public class Enemy : MonoBehaviour
         _lineOfSight = GetComponent<LineOfSight>();
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
-        _obs = new ObstacleAvoidance(transform, angle, radius, obstacleMask);
+        _obs = new ObstacleAvoidance(transform, angle, radius, obstacleMask, personalArea);
         InitializeFSM(); 
         InitializeTree(); 
     }
@@ -83,4 +84,11 @@ public class Enemy : MonoBehaviour
     public bool QuestionIsOnRange() => _lineOfSight.HasLOS(attackRange);
     public bool QuestionLoS() => _lineOfSight.HasLOS();
     public bool QuestionIdle() => isIdle;
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, personalArea);
+        Gizmos.color = Color.blue;
+    }
 }

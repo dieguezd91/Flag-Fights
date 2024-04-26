@@ -141,6 +141,7 @@ MonoBehaviour:
   timeToFind: 3
   angle: 250
   radius: 5
+  personalArea: 0.5
   obstacleMask:
     serializedVersion: 2
     m_Bits: 1024

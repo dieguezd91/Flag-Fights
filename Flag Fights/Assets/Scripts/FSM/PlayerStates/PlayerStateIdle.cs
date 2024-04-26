@@ -17,13 +17,12 @@ public class PlayerStateIdle<T> : State<T>
 
     public override void Enter()
     {
-        
+        _animator.SetBool("Idle", true);
     }
 
     public override void Execute()
     {
         base.Execute();
-        _animator.SetFloat("Speed", _speed);
         float hor = Input.GetAxis("Horizontal");
         float fwd = Input.GetAxis("Vertical");
 
@@ -32,6 +31,6 @@ public class PlayerStateIdle<T> : State<T>
 
     public override void Sleep()
     {
-
+        _animator.SetBool("Idle", false);
     }
 }
