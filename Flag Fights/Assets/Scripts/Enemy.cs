@@ -12,7 +12,8 @@ public class Enemy : MonoBehaviour
     ObstacleAvoidance _obs;
 
     //STATS
-    public float speed;
+    public float chasingSpeed;
+    public float patrollingSpeed;
     public float timeToFind;
     public float angle;
     public float radius;
@@ -46,8 +47,8 @@ public class Enemy : MonoBehaviour
     {
             //Declarating states
         var idle = new EnemyStateIdle<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Chase, EnemyStatesEnum.Patrol);
-        var patrol = new EnemyStatePatrol<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Chase, EnemyStatesEnum.Attack, attackRange);
-        var chase = new EnemyStateChase<EnemyStatesEnum>(_animator, transform, _rb, _lineOfSight, _obs, EnemyStatesEnum.Patrol, EnemyStatesEnum.Attack, attackRange, speed, timeToFind, checkCooldown);
+        var patrol = new EnemyStatePatrol<EnemyStatesEnum>(_animator, transform, _rb, _lineOfSight, EnemyStatesEnum.Chase, EnemyStatesEnum.Attack, attackRange, patrollingSpeed);
+        var chase = new EnemyStateChase<EnemyStatesEnum>(_animator, transform, _rb, _lineOfSight, _obs, EnemyStatesEnum.Patrol, EnemyStatesEnum.Attack, attackRange, chasingSpeed, timeToFind, checkCooldown);
         var attack = new EnemyStateAttack<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Chase, attackRange);
 
             //Create Finite State Machine
@@ -84,11 +85,4 @@ public class Enemy : MonoBehaviour
     public bool QuestionIsOnRange() => _lineOfSight.HasLOS(attackRange);
     public bool QuestionLoS() => _lineOfSight.HasLOS();
     public bool QuestionIdle() => isIdle;
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, personalArea);
-        Gizmos.color = Color.blue;
-    }
 }

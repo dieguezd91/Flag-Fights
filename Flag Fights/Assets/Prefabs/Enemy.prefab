@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6124621482755426475}
   - component: {fileID: 5234550806230788080}
   m_Layer: 0
-  m_Name: EnemyPaladin
+  m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -137,8 +137,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a70df7366a329174094340e29b6762fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  timeToFind: 3
+  chasingSpeed: 3
+  patrollingSpeed: 1.5
+  timeToFind: 5
   angle: 250
   radius: 5
   personalArea: 0.5

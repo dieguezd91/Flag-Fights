@@ -51,14 +51,8 @@ public class ObstacleAvoidance
                 nearCollDistance = distance;
                 nearColl = currentColl;
             }
-            Debug.Log(nearColl);
-            Debug.DrawLine(_entity.position, closestPoint);
         }
-        if (nearColl == null)
-        {
-            Debug.Log(currentDir);
-            return currentDir;
-        }
+        if (nearColl == null) return currentDir;
         else
         {
             Vector3 relativePos = _entity.InverseTransformPoint(closestPoint);

@@ -58,14 +58,4 @@ public class LineOfSight : MonoBehaviour, ILineOfSight
         float distance = directionToTarget.magnitude;
         return !Physics.Raycast(Origin, directionToTarget, distance, obstacles);
     }
-
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(Origin, _vision);
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(Origin, Quaternion.Euler(0, angle / 2, 0) * Forward * _vision);
-        Gizmos.DrawRay(Origin, Quaternion.Euler(0, -(angle / 2), 0) * Forward * _vision);
-    }
 }
