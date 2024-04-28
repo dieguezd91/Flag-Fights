@@ -31,8 +31,8 @@ public class PlayerController : MonoBehaviour
 
     void Update() => _fsm.OnUpdate();
 
-        //Check collision with flag
-    private void OnCollisionEnter(Collision collision)
+    //Check collision with flag
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.CompareTag("Flag"))
         {

@@ -7,6 +7,9 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    AudioSource _audioSource;
+    public AudioSource AudioSource => _audioSource;
+
     public TextMeshProUGUI score;
     public TextMeshProUGUI currentScore;
     public TextMeshProUGUI timer;
@@ -18,10 +21,10 @@ public class UIManager : MonoBehaviour
 
     public void Start()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(Instance);
+        if (Instance == null) Instance = this;
+        else Destroy(Instance);
+
+        _audioSource = GetComponent<AudioSource>();
     }
 
     public void Update()

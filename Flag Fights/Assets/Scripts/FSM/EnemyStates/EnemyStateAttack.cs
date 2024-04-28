@@ -1,36 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyStateAttack<T> : State<T>
 {
-    Animator _animator;
-    LineOfSight _LOS;
+    Enemy _enemy;
     T _chaseInput;
-    float _attackRange;
-    float _cooldownTime = 3.0f;
     float _lastAttackTime;
 
-    public EnemyStateAttack(Animator animator, LineOfSight lOS, T chaseInput, float attackRange)
+    public EnemyStateAttack(Enemy enemy, T chaseInput)
     {
-        _animator = animator;
-        _LOS = lOS;
+        _enemy = enemy;
         _chaseInput = chaseInput;
-        _attackRange = attackRange;
     }
 
     public override void Execute()
     {
         base.Execute();
 
-        if (Time.time - _lastAttackTime >= _cooldownTime)               //Attack the player
+        if (Time.time - _lastAttackTime >= _enemy.attackCD)               //Attack the player
         {
-            _animator.SetTrigger("Attack");
+            _enemy.Animator.SetTrigger("Attack");
             _lastAttackTime = Time.time;
-            Debug.Log("Game over");
+            Collider[] collidersAhead = Physics.OverlapSphere(_enemy.transform.position + _enemy.transform.forward * .35f + _enemy.transform.up * .5f, 0.4f);
+            foreach(Collider col in collidersAhead)
+            {
+                Debug.Log(col.name);
+                Debug.Log("Colision");
+                if (col.tag == "Player")
+                {
+                    _enemy.AudioSource.PlayOneShot(_enemy.attackSFX);
+                    GameManager.instance.EndRound(false);
+                }
+                else _enemy.AudioSource.PlayOneShot(_enemy.swingSFX);
+            }   
         }
 
-        if (!_LOS.HasLOS(_attackRange))
+        if (!_enemy.LOS.HasLOS(_enemy.attackRange))
             _fsm.Transition(_chaseInput);
     }
 }

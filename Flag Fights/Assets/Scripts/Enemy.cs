@@ -7,21 +7,30 @@ public class Enemy : MonoBehaviour
 {
     //COMPONENTS
     Animator _animator;
+    public Animator Animator => _animator;
     Rigidbody _rb;
-    LineOfSight _lineOfSight;
+    public Rigidbody RB=> _rb;
+    LineOfSight _los;
+    public LineOfSight LOS=> _los;
     ObstacleAvoidance _obs;
+    public ObstacleAvoidance OBS => _obs;
+    AudioSource _audioSource;
+    public AudioSource AudioSource=> _audioSource;
 
     //STATS
     public float chasingSpeed;
     public float patrollingSpeed;
     public float timeToFind;
+    public float checkCooldown;
     public float angle;
     public float radius;
     public float personalArea;
-    public LayerMask obstacleMask;
+    public LayerMask obsMask;
     public bool isIdle;
     public float attackRange;
-    [SerializeField] float checkCooldown;
+    public float attackCD;
+    public AudioClip attackSFX;
+    public AudioClip swingSFX;
 
     //AI
     FSM<EnemyStatesEnum> _fsm;
@@ -29,10 +38,11 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        _lineOfSight = GetComponent<LineOfSight>();
+        _los = GetComponent<LineOfSight>();
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
-        _obs = new ObstacleAvoidance(transform, angle, radius, obstacleMask, personalArea);
+        _obs = new ObstacleAvoidance(transform, angle, radius, obsMask, personalArea);
+        _audioSource = GetComponent<AudioSource>();
         InitializeFSM(); 
         InitializeTree(); 
     }
@@ -46,10 +56,10 @@ public class Enemy : MonoBehaviour
     void InitializeFSM()
     {
             //Declarating states
-        var idle = new EnemyStateIdle<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Chase, EnemyStatesEnum.Patrol);
-        var patrol = new EnemyStatePatrol<EnemyStatesEnum>(_animator, transform, _rb, _lineOfSight, EnemyStatesEnum.Chase, EnemyStatesEnum.Attack, attackRange, patrollingSpeed);
-        var chase = new EnemyStateChase<EnemyStatesEnum>(_animator, transform, _rb, _lineOfSight, _obs, EnemyStatesEnum.Patrol, EnemyStatesEnum.Attack, attackRange, chasingSpeed, timeToFind, checkCooldown);
-        var attack = new EnemyStateAttack<EnemyStatesEnum>(_animator, _lineOfSight, EnemyStatesEnum.Chase, attackRange);
+        var idle = new EnemyStateIdle<EnemyStatesEnum>(this, EnemyStatesEnum.Chase, EnemyStatesEnum.Patrol);
+        var patrol = new EnemyStatePatrol<EnemyStatesEnum>(this, EnemyStatesEnum.Chase, EnemyStatesEnum.Attack);
+        var chase = new EnemyStateChase<EnemyStatesEnum>(this, EnemyStatesEnum.Patrol, EnemyStatesEnum.Attack);
+        var attack = new EnemyStateAttack<EnemyStatesEnum>(this, EnemyStatesEnum.Chase);
 
             //Create Finite State Machine
         _fsm = new FSM<EnemyStatesEnum>(idle);
@@ -82,7 +92,7 @@ public class Enemy : MonoBehaviour
         //First node to execute
         _root = qIdle;
     }
-    public bool QuestionIsOnRange() => _lineOfSight.HasLOS(attackRange);
-    public bool QuestionLoS() => _lineOfSight.HasLOS();
+    public bool QuestionIsOnRange() => _los.HasLOS(attackRange);
+    public bool QuestionLoS() => _los.HasLOS();
     public bool QuestionIdle() => isIdle;
 }

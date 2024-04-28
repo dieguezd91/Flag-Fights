@@ -19,13 +19,16 @@ public class GameManager : MonoBehaviour
     private bool timeElapsed = false; // Variable para controlar si ha transcurrido el tiempo
 
     //Actores
-    private PlayerBase playerBase;
     private EnemyBase enemyBase;
     private GameObject player;
     private GameObject[] enemies;
     private GameObject flag;
 
     [SerializeField] Transform playerInitialTransform;
+
+
+    [SerializeField] AudioClip victorySFX;
+    [SerializeField] AudioClip defeatSFX;
 
     void Start()
     {
@@ -83,8 +86,16 @@ public class GameManager : MonoBehaviour
 
     public void EndRound(bool playerWon)
     {
-        if (playerWon) points++;        //Asignar puntos
-        else enemyPoints++;
+        if (playerWon)
+        {
+            points++;        //Asignar puntos
+            UIManager.Instance.AudioSource.PlayOneShot(victorySFX);     //Reproducir sfx de victoria
+        }
+        else
+        {
+            enemyPoints++;
+            UIManager.Instance.AudioSource.PlayOneShot(defeatSFX);     //Reproducir sfx de derrota
+        }
 
         //Se desactiva el hud
         UIManager.Instance.HUD.SetActive(false);
