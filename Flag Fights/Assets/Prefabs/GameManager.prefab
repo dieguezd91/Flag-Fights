@@ -52,3 +52,4 @@ MonoBehaviour:
   currentTime: 0
   stopTimer: 0
   lossTimer: 120
+  playerInitialTransform: {fileID: 0}
