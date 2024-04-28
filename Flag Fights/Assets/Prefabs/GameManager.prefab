@@ -51,7 +51,7 @@ MonoBehaviour:
   timer: 0
   currentTime: 0
   stopTimer: 0
-  lossTimer: 120
+  lossTimer: 45
   playerInitialTransform: {fileID: 0}
   victorySFX: {fileID: 8300000, guid: d9fe834b3e53bae4c87db2fc37ec1a1f, type: 3}
-  defeatSFX: {fileID: 0}
+  defeatSFX: {fileID: 8300000, guid: ccfe813586c84ef468cd8281bf2a3cfa, type: 3}
