@@ -1,10 +1,4 @@
-using Palmmedia.ReportGenerator.Core.CodeAnalysis;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
-using Cinemachine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,7 +7,6 @@ public class PlayerController : MonoBehaviour
     public GameObject flag;
 
     Animator _animator;
-    Rigidbody _rb;
 
     //Stats
     [SerializeField] float speed;
@@ -25,7 +18,6 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        _rb = GetComponent<Rigidbody>();
         InitializeFSM();
     }
 
