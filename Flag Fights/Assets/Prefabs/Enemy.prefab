@@ -142,8 +142,8 @@ MonoBehaviour:
   patrollingSpeed: 1.5
   timeToFind: 5
   checkCooldown: 0.25
-  angle: 250
-  radius: 5
+  angle: 180
+  radius: 2
   personalArea: 0.5
   obsMask:
     serializedVersion: 2
