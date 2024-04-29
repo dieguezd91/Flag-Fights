@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     //Actores
     private EnemyBase enemyBase;
-    private GameObject player;
+    public GameObject player;
     private GameObject[] enemies;
     private GameObject flag;
 
@@ -32,8 +32,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        if (instance == null) instance = this;
-        else Destroy(instance);
+        instance = this;
 
         player = GameObject.FindGameObjectWithTag("Player");
 
@@ -42,17 +41,15 @@ public class GameManager : MonoBehaviour
         StartRound(); // Iniciar la primera ronda
     }
 
-    void Update()
+    private void Update()
     {
-        if(gameActive) CheckRoundStatus();
+        CheckRoundStatus();
     }
 
     public void CheckRoundStatus()
     {
-        currentTime = Time.time - timer; // Calcular el tiempo transcurrido desde el inicio
-
-        if (currentTime >= lossTimer && !timeElapsed) EndRound(false);
-        else if (enemyPoints >= totalPoints) Lose();        
+        currentTime = Time.time - timer;        //Calcular el tiempo transcurrido desde el inicio
+        if (currentTime >= lossTimer && !timeElapsed) EndRound(false);  
     }
 
     private void SetRound()
@@ -79,9 +76,13 @@ public class GameManager : MonoBehaviour
     public void NextRound()
     {
         DestroyPreviousActors();
-        round++;
-        UIManager.Instance.scoreScreen.SetActive(false);
-        StartRound();
+        if (enemyPoints > totalPoints) Lose();
+        else
+        {
+            round++;
+            UIManager.Instance.scoreScreen.SetActive(false);
+            StartRound();
+        }
     }
 
     public void EndRound(bool playerWon)
@@ -124,16 +125,18 @@ public class GameManager : MonoBehaviour
 
     public void Lose()
     {
-        //Mostrar pantalla de derrota
-        UIManager.Instance.gameOverScreen.SetActive(true);
-        //Se desactiva el hud
-        UIManager.Instance.HUD.SetActive(false);
         //Se para el tiempo
         Time.timeScale = 0;
+        UIManager.Instance.scoreScreen.SetActive(false);
+        //Se desactiva el hud
+        UIManager.Instance.HUD.SetActive(false);
+        //Mostrar pantalla de derrota
+        UIManager.Instance.gameOverScreen.SetActive(true);
     }
 
     void GetActors()
     {
+        if(enemyBase != null) DestroyPreviousActors();
         enemyBase = FindObjectOfType<EnemyBase>();
         enemyBase.InitializeBase();
         enemies = GameObject.FindGameObjectsWithTag("Enemy");

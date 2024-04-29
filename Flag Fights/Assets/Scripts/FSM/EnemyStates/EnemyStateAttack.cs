@@ -26,8 +26,6 @@ public class EnemyStateAttack<T> : State<T>
             Collider[] collidersAhead = Physics.OverlapSphere(_enemy.transform.position + _enemy.transform.forward * .35f + _enemy.transform.up * .5f, 0.4f);
             foreach(Collider col in collidersAhead)
             {
-                Debug.Log(col.name);
-                Debug.Log("Colision");
                 if (col.tag == "Player")
                 {
                     _enemy.AudioSource.PlayOneShot(_enemy.attackSFX);

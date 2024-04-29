@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44181997, g: 0.4835493, b: 0.53186315, a: 1}
+  m_IndirectSpecularColor: {r: 0.44181696, g: 0.48354512, b: 0.5318524, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -14461,10 +14461,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CloudRing
       objectReference: {fileID: 0}
-    - target: {fileID: 1996182709073382, guid: 280053154239720458c4b6093bfea66a, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     - target: {fileID: 4174052520163144, guid: 280053154239720458c4b6093bfea66a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.745001
@@ -20634,10 +20630,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CloudRing2
       objectReference: {fileID: 0}
-    - target: {fileID: 1996182709073382, guid: 280053154239720458c4b6093bfea66a, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     - target: {fileID: 4174052520163144, guid: 280053154239720458c4b6093bfea66a, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.06994901
@@ -25915,8 +25907,8 @@ Transform:
   m_Children:
   - {fileID: 34830324046608080}
   - {fileID: 622046879}
-  - {fileID: 1266296023}
   - {fileID: 1576475717}
+  - {fileID: 1266296023}
   m_Father: {fileID: 2137474604}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1824404879
@@ -29333,10 +29325,6 @@ PrefabInstance:
     - target: {fileID: 1996182709073382, guid: 280053154239720458c4b6093bfea66a, type: 3}
       propertyPath: m_Name
       value: CloudRing3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1996182709073382, guid: 280053154239720458c4b6093bfea66a, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 4174052520163144, guid: 280053154239720458c4b6093bfea66a, type: 3}
       propertyPath: m_LocalScale.x
