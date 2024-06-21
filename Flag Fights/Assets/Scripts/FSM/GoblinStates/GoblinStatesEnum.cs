@@ -2,11 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EnemyStatesEnum
+public enum GoblinStatesEnum
 {
     Idle,
-    Patrol,
-    Chase,
-    Attack,
     Evade,
 }

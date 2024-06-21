@@ -19,7 +19,7 @@ public class EnemyStateChase<T> : State<T>
 
     public override void Enter()
     {
-        _enemy.Animator.SetBool("Chasing", true);
+        _enemy.Animator.SetBool("Running", true);
     }
 
     public override void Execute()
@@ -39,7 +39,7 @@ public class EnemyStateChase<T> : State<T>
 
     public override void Sleep()
     {
-        _enemy.Animator.SetBool("Chasing", false);
+        _enemy.Animator.SetBool("Running", false);
     }
 
     private Vector3 GetDir()
