@@ -4,39 +4,24 @@ using UnityEngine;
 
 public class PlayerStateRun<T> : State<T>
 {
-    Animator _animator;
-    float _speed;
-    float _turnSpeed;
-    Transform _transform;
-    T _idleInput;
+    PlayerController _player;
 
-    public PlayerStateRun(Animator animator, float speed, float turnSpeed, Transform transform, T input)
+    public PlayerStateRun(PlayerController player)
     {
-        _animator = animator;
-        _speed = speed;
-        _turnSpeed= turnSpeed;
-        _transform = transform;
-        _idleInput = input;
+        _player = player;
     }
 
     public override void Enter()
     {
-        _animator.SetBool("Running", true);
+        _player.Animator.SetBool("Running", true);
     }
     public override void Execute()
     {
-        float hor = Input.GetAxis("Horizontal");
-        float fwd = Input.GetAxis("Vertical");
-
-        if (hor == 0 && fwd == 0) _fsm.Transition(_idleInput);
-        else
-        {
-            _transform.Translate(Vector3.forward * Time.deltaTime * _speed * fwd);
-            _transform.Rotate(Vector3.up, _turnSpeed * hor * Time.deltaTime);
-        }
+        _player.transform.Translate(Vector3.forward * Time.deltaTime * _player.Speed * _player.MovementInput.y);
+        _player.transform.Rotate(Vector3.up, _player.TurnSpeed * _player.MovementInput.x * Time.deltaTime);
     }
     public override void Sleep()
     {
-        _animator.SetBool("Running", false);
+        _player.Animator.SetBool("Running", false);
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LineOfSight : MonoBehaviour, ILineOfSight
 {
+    public float Vision => _vision;
     [SerializeField] float _vision;                 //Rango de vision
     [Range(1, 360)] [SerializeField] float angle;   //Angulo de vision
     [SerializeField] LayerMask obstacles;           //Capa de obstaculos de vision

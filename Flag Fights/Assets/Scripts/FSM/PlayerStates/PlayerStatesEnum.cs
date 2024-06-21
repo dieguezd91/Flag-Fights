@@ -6,6 +6,4 @@ public enum PlayerStatesEnum
 {
     Idle,
     Run,
-    Chase,
-    Attacking,
 }

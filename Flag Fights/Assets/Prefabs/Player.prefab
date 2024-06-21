@@ -2774,8 +2774,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hasFlag: 0
   flag: {fileID: 6922452443762921483}
-  speed: 5
-  turnSpeed: 120
+  _speed: 5
+  _turnSpeed: 75
 --- !u!1 &8095303719496697850
 GameObject:
   m_ObjectHideFlags: 0

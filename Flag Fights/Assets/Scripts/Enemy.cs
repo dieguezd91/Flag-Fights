@@ -56,18 +56,14 @@ public class Enemy : MonoBehaviour
     void InitializeFSM()
     {
             //Declarating states
-        var idle = new EnemyStateIdle<EnemyStatesEnum>(this, EnemyStatesEnum.Chase, EnemyStatesEnum.Patrol);
-        var patrol = new EnemyStatePatrol<EnemyStatesEnum>(this, EnemyStatesEnum.Chase, EnemyStatesEnum.Attack);
-        var chase = new EnemyStateChase<EnemyStatesEnum>(this, EnemyStatesEnum.Patrol, EnemyStatesEnum.Attack);
-        var attack = new EnemyStateAttack<EnemyStatesEnum>(this, EnemyStatesEnum.Chase);
+        var patrol = new EnemyStatePatrol<EnemyStatesEnum>(this);
+        var chase = new EnemyStateChase<EnemyStatesEnum>(this);
+        var attack = new EnemyStateAttack<EnemyStatesEnum>(this);
 
             //Create Finite State Machine
-        _fsm = new FSM<EnemyStatesEnum>(idle);
+        _fsm = new FSM<EnemyStatesEnum>(patrol);
 
             //Creating transition between states
-        idle.AddTransition(EnemyStatesEnum.Patrol, patrol);
-        idle.AddTransition(EnemyStatesEnum.Chase, chase);
-        idle.AddTransition(EnemyStatesEnum.Attack, attack);
         patrol.AddTransition(EnemyStatesEnum.Chase, chase);
         patrol.AddTransition(EnemyStatesEnum.Attack, attack);
         chase.AddTransition(EnemyStatesEnum.Patrol, patrol);
@@ -79,20 +75,31 @@ public class Enemy : MonoBehaviour
     void InitializeTree()
     {
         //Actions
-        ITreeNode idle = new ActionNode(() => _fsm.Transition(EnemyStatesEnum.Idle));
         ITreeNode patrol = new ActionNode(() => _fsm.Transition(EnemyStatesEnum.Patrol));
         ITreeNode chase = new ActionNode(() => _fsm.Transition(EnemyStatesEnum.Chase));
         ITreeNode attack = new ActionNode(() => _fsm.Transition(EnemyStatesEnum.Attack));
 
         //Questions
-        ITreeNode qChase = new QuestionNode(QuestionIsOnRange, attack, chase);
-        ITreeNode qPatrol = new QuestionNode(QuestionLoS, qChase, patrol);
-        ITreeNode qIdle = new QuestionNode(QuestionIdle, idle, qPatrol);
+        ITreeNode qChase = new QuestionNode(QChase, chase, patrol);
+        ITreeNode qAttack = new QuestionNode(QAttack, attack, qChase);
 
         //First node to execute
-        _root = qIdle;
+        _root = qAttack;
     }
-    public bool QuestionIsOnRange() => _los.HasLOS(attackRange);
-    public bool QuestionLoS() => _los.HasLOS();
-    public bool QuestionIdle() => isIdle;
+
+    public bool QAttack() => _los.HasLOS(attackRange);
+    public bool QChase() => _los.HasLOS(_los.Vision);
+
+    public void Move(Vector3 dirToMove)                    //Move to the wished direction
+    {
+        dirToMove *= chasingSpeed;
+        dirToMove.y = RB.velocity.y;
+        RB.velocity = dirToMove;
+    }
+
+    public void LookDir(Vector3 dirToLook)                 //Rotate to the wished direction
+    {
+        if (dirToLook.x == 0 && dirToLook.z == 0) return;
+        transform.forward = dirToLook;
+    }
 }
