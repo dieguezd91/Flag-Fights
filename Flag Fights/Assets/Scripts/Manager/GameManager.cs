@@ -8,9 +8,12 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     bool gameActive;
-    [SerializeField] public int totalPoints;
-    [SerializeField] public int points;
-    [SerializeField] public int enemyPoints;
+    public int TotalPoints => _totalPoints;
+    [SerializeField] int _totalPoints;
+    public int Points => _points;
+    int _points;
+    public int EnemyPoints => _enemyPoints;
+    int _enemyPoints;
     [SerializeField] public int round;
     public float timer;
     public float currentTime;
@@ -22,10 +25,10 @@ public class GameManager : MonoBehaviour
     private EnemyBase enemyBase;
     public GameObject player;
     private GameObject[] enemies;
-    private GameObject flag;
+    public GameObject Flag;
+    [SerializeField] FlagSpawner flagSpawner;
 
     [SerializeField] Transform playerInitialTransform;
-
 
     [SerializeField] AudioClip victorySFX;
     [SerializeField] AudioClip defeatSFX;
@@ -35,9 +38,6 @@ public class GameManager : MonoBehaviour
         instance = this;
 
         player = GameObject.FindGameObjectWithTag("Player");
-
-        flag = GameObject.FindGameObjectWithTag("Flag");
-
         StartRound(); // Iniciar la primera ronda
     }
 
@@ -55,9 +55,10 @@ public class GameManager : MonoBehaviour
     private void SetRound()
     {
         player.transform.SetPositionAndRotation(playerInitialTransform.position, playerInitialTransform.rotation);
+        flagSpawner.InitializeSpawner();
         GetActors();            // Obtener las referencias de los enemigos, sus bases y la bandera
         timer = Time.time;      // Iniciar el temporizador al inicio
-        flag.SetActive(true);   // Activar bandera de mapa
+        Flag.SetActive(true);   // Activar bandera de mapa
     }
 
     public void StartRound()
@@ -76,7 +77,7 @@ public class GameManager : MonoBehaviour
     public void NextRound()
     {
         DestroyPreviousActors();
-        if (enemyPoints > totalPoints) Lose();
+        if (EnemyPoints > _totalPoints) Lose();
         else
         {
             round++;
@@ -89,12 +90,12 @@ public class GameManager : MonoBehaviour
     {
         if (playerWon)
         {
-            points++;        //Asignar puntos
+            _points++;        //Asignar puntos
             UIManager.Instance.AudioSource.PlayOneShot(victorySFX);     //Reproducir sfx de victoria
         }
         else
         {
-            enemyPoints++;
+            _enemyPoints++;
             UIManager.Instance.AudioSource.PlayOneShot(defeatSFX);     //Reproducir sfx de derrota
         }
 

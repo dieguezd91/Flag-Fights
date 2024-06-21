@@ -2,10 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GoblinStatesEnum
+public interface ISteering
 {
-    Idle,
-    Evade,
-    Attack,
-    Chase,
+    Vector3 GetDir();
 }

@@ -10,7 +10,7 @@ public class PlayerBase : MonoBehaviour
         {
             other.GetComponent<PlayerController>().hasFlag = false;
             other.GetComponent<PlayerController>().flag.SetActive(false);
-            if (GameManager.instance.points < GameManager.instance.totalPoints)
+            if (GameManager.instance.Points < GameManager.instance.TotalPoints)
                 GameManager.instance.EndRound(true);
             else GameManager.instance.Win();
         }

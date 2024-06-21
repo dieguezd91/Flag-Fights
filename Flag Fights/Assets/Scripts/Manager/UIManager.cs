@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdateScore()
     {
-        score.text = GameManager.instance.points.ToString() + " - " + GameManager.instance.enemyPoints.ToString();
+        score.text = GameManager.instance.Points.ToString() + " - " + GameManager.instance.EnemyPoints.ToString();
     }
 
     public void UpdateTimer()
@@ -50,7 +50,7 @@ public class UIManager : MonoBehaviour
     public void ShowScore()
     {
         scoreScreen.SetActive(true);
-        currentScore.text = GameManager.instance.points.ToString() + " - " + GameManager.instance.enemyPoints.ToString();
+        currentScore.text = GameManager.instance.Points.ToString() + " - " + GameManager.instance.EnemyPoints.ToString();
     }
 
     public void RestartScore()

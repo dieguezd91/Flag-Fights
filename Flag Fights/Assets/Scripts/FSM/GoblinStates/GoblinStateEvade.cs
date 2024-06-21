@@ -1,16 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
-using static Cinemachine.CinemachineTargetGroup;
-using static UnityEngine.GraphicsBuffer;
 
 public class GoblinStateEvade<T> : State<T>
 {
     Goblin _enemy;
     float _timePrediction;
 
-    public GoblinStateEvade(Goblin enemy, float timePrediction = 1)
+    public GoblinStateEvade(Goblin enemy, float timePrediction = 2)
     {
         _enemy = enemy;
         _timePrediction = timePrediction;
@@ -25,13 +23,14 @@ public class GoblinStateEvade<T> : State<T>
     {
         Vector3 dir = _enemy.OBS.GetNewDir(GetDir());
         _enemy.Move(dir);
-        _enemy.LookDir(new Vector3(dir.x, 0, dir.z));
+        _enemy.LookDir(dir);
     }
 
     public override void Sleep()
     {
         _enemy.Animator.SetBool("Running", false);
     }
+
 
     private Vector3 GetDir()
     {

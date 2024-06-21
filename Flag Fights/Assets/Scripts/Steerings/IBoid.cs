@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GoblinStatesEnum
+public interface IBoid
 {
-    Idle,
-    Evade,
-    Attack,
-    Chase,
+    Vector3 Position { get; }
+    Vector3 Front { get; }
 }

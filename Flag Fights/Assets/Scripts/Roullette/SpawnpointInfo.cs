@@ -7,4 +7,5 @@ public class SpawnpointInfo
 {
     public Transform transform;
     public float weight;
+    public bool closeToPlayerSpawn;
 }
