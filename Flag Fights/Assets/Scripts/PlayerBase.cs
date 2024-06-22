@@ -6,10 +6,10 @@ public class PlayerBase : MonoBehaviour
 { 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<PlayerController>().hasFlag && GameManager.instance.currentTime <= GameManager.instance.lossTimer)
+        if (other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<PlayerModel>().HasFlag && GameManager.instance.currentTime <= GameManager.instance.lossTimer)
         {
-            other.GetComponent<PlayerController>().hasFlag = false;
-            other.GetComponent<PlayerController>().flag.SetActive(false);
+            other.GetComponent<PlayerModel>().HasFlag = false;
+            other.GetComponent<PlayerView>().flag.SetActive(false);
             if (GameManager.instance.Points < GameManager.instance.TotalPoints)
                 GameManager.instance.EndRound(true);
             else GameManager.instance.Win();

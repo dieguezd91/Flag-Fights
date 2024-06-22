@@ -39,9 +39,4 @@ public class FlockingManager : MonoBehaviour, ISteering
         //Debug.DrawRay(transform.position, dir.normalized);
         return dir.normalized;
     }
-    private void OnDrawGizmosSelected()
-    {
-        //Gizmos.color = Color.yellow;
-        //Gizmos.DrawWireSphere(transform.position, radius);
-    }
 }

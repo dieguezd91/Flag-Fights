@@ -1,27 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStateRun<T> : State<T>
 {
-    PlayerController _player;
+    private PlayerView _view;
+    private PlayerModel _model;
+    private Transform _transform;
 
-    public PlayerStateRun(PlayerController player)
+    public PlayerStateRun(PlayerView view, PlayerModel model, Transform transform)
     {
-        _player = player;
+        _view = view;
+        _model = model;
+        _transform = transform;
     }
 
     public override void Enter()
     {
-        _player.Animator.SetBool("Running", true);
+        _view.Animator.SetBool("Running", true);
     }
+
     public override void Execute()
     {
-        _player.transform.Translate(Vector3.forward * Time.deltaTime * _player.Speed * _player.MovementInput.y);
-        _player.transform.Rotate(Vector3.up, _player.TurnSpeed * _player.MovementInput.x * Time.deltaTime);
+        _transform.Translate(Vector3.forward * Time.deltaTime * _model.Speed * _model.MovementInput.y);
+        _transform.Rotate(Vector3.up, _model.TurnSpeed * _model.MovementInput.x * Time.deltaTime);
     }
+
     public override void Sleep()
     {
-        _player.Animator.SetBool("Running", false);
+        _view.Animator.SetBool("Running", false);
     }
 }

@@ -27,14 +27,10 @@ public class Goblin : MonoBehaviour, IBoid
     public LayerMask obsMask;
     public LayerMask boidMask;
 
-
-
     public float attackRange;
     public float attackCD;
     public AudioClip attackSFX;
     public AudioClip swingSFX;
-
-
 
     //AI
     FSM<GoblinStatesEnum> _fsm;
