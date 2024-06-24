@@ -41,10 +41,10 @@ public class UIManager : MonoBehaviour
 
     public void UpdateTimer()
     {
-        int minutes = Mathf.FloorToInt(GameManager.instance.currentTime / 60.0f);
-        int seconds = Mathf.FloorToInt(GameManager.instance.currentTime % 60.0f);
+        int minutesLeft = Mathf.FloorToInt((GameManager.instance.lossTimer - GameManager.instance.currentTime) / 60.0f);
+        int secondsLeft = Mathf.FloorToInt((GameManager.instance.lossTimer - GameManager.instance.currentTime) % 60.0f);
 
-        timer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        timer.text = string.Format("{0:00}:{1:00}", minutesLeft, secondsLeft);
     }
 
     public void ShowScore()

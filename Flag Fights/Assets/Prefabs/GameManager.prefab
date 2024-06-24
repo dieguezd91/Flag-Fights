@@ -44,14 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7adb5aeb417543f41a9998d69628ffc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalPoints: 2
-  points: 0
-  enemyPoints: 0
+  _totalPoints: 3
   round: 0
   timer: 0
   currentTime: 0
   stopTimer: 0
   lossTimer: 45
+  player: {fileID: 0}
+  Flag: {fileID: 0}
+  flagSpawner: {fileID: 0}
   playerInitialTransform: {fileID: 0}
   victorySFX: {fileID: 8300000, guid: d9fe834b3e53bae4c87db2fc37ec1a1f, type: 3}
   defeatSFX: {fileID: 8300000, guid: ccfe813586c84ef468cd8281bf2a3cfa, type: 3}
