@@ -60,6 +60,4 @@ public class PlayerController : MonoBehaviour
     }
 
     bool QRun() => _model.MovementInput != Vector2.zero;
-
-
 }

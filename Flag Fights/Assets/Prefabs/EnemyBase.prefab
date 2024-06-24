@@ -243,24 +243,34 @@ MonoBehaviour:
   posibleSpawns:
   - transform: {fileID: 4773298271115097417}
     weight: 15
+    closeToPlayerSpawn: 0
   - transform: {fileID: 1914225877417114413}
     weight: 10
+    closeToPlayerSpawn: 0
   - transform: {fileID: 7090508340302173046}
     weight: 10
+    closeToPlayerSpawn: 0
   - transform: {fileID: 4129215336822724131}
     weight: 5
+    closeToPlayerSpawn: 0
   - transform: {fileID: 451943138693188038}
     weight: 5
+    closeToPlayerSpawn: 0
   - transform: {fileID: 5850287629886153667}
     weight: 10
+    closeToPlayerSpawn: 0
   - transform: {fileID: 2962813424039091719}
     weight: 15
+    closeToPlayerSpawn: 0
   - transform: {fileID: 220369907205825731}
     weight: 15
+    closeToPlayerSpawn: 0
   - transform: {fileID: 8774889067906453146}
     weight: 5
+    closeToPlayerSpawn: 0
   - transform: {fileID: 6369105035238899648}
     weight: 5
+    closeToPlayerSpawn: 0
   charactersToSpawn: 10
   characterPrefab: {fileID: 1308749439099989600, guid: 116873805e121674cb4e85c600e0eb19, type: 3}
 --- !u!1 &5464478929173981360

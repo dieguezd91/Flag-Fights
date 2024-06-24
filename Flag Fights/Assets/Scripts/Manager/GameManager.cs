@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -33,12 +34,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioClip victorySFX;
     [SerializeField] AudioClip defeatSFX;
 
+    List<Node> _nodes;
+    public List<Node> Nodes => _nodes;
+
+
     void Start()
     {
         instance = this;
 
         player = GameObject.FindGameObjectWithTag("Player");
         StartRound(); // Iniciar la primera ronda
+        
+        _nodes = FindObjectsOfType<Node>().ToList();
     }
 
     private void Update()

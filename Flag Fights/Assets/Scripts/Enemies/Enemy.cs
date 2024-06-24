@@ -32,9 +32,18 @@ public class Enemy : MonoBehaviour
     public AudioClip attackSFX;
     public AudioClip swingSFX;
 
+    public float restingTime;
+
     //AI
     FSM<EnemyStatesEnum> _fsm;
     ITreeNode _root;
+
+    AgentController agentController;
+    public AgentController AgentController => agentController;
+
+    public bool _isFinishPath = true;
+
+    EnemyStatePatrol<EnemyStatesEnum> _enemyPatrol;
 
     private void Awake()
     {
@@ -43,6 +52,7 @@ public class Enemy : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _obs = new ObstacleAvoidance(transform, angle, radius, obsMask, personalArea);
         _audioSource = GetComponent<AudioSource>();
+        agentController = GetComponent<AgentController>();
         InitializeFSM(); 
         InitializeTree(); 
     }
@@ -56,20 +66,28 @@ public class Enemy : MonoBehaviour
     void InitializeFSM()
     {
             //Declarating states
-        var patrol = new EnemyStatePatrol<EnemyStatesEnum>(this);
+        _enemyPatrol = new EnemyStatePatrol<EnemyStatesEnum>(this);
         var chase = new EnemyStateChase<EnemyStatesEnum>(this);
         var attack = new EnemyStateAttack<EnemyStatesEnum>(this);
+        var idle = new EnemyStateIdle<EnemyStatesEnum>(this);
+
 
             //Create Finite State Machine
-        _fsm = new FSM<EnemyStatesEnum>(patrol);
+        _fsm = new FSM<EnemyStatesEnum>(idle);
 
-            //Creating transition between states
-        patrol.AddTransition(EnemyStatesEnum.Chase, chase);
-        patrol.AddTransition(EnemyStatesEnum.Attack, attack);
-        chase.AddTransition(EnemyStatesEnum.Patrol, patrol);
+        //Creating transition between states
+        _enemyPatrol.AddTransition(EnemyStatesEnum.Chase, chase);
+        _enemyPatrol.AddTransition(EnemyStatesEnum.Attack, attack);
+        _enemyPatrol.AddTransition(EnemyStatesEnum.Idle, idle);
+        chase.AddTransition(EnemyStatesEnum.Patrol, _enemyPatrol);
+        chase.AddTransition(EnemyStatesEnum.Idle, idle);
         chase.AddTransition(EnemyStatesEnum.Attack, attack);
         attack.AddTransition(EnemyStatesEnum.Chase, chase);
-        attack.AddTransition(EnemyStatesEnum.Patrol, patrol);
+        attack.AddTransition(EnemyStatesEnum.Patrol, _enemyPatrol);
+        attack.AddTransition(EnemyStatesEnum.Idle, idle);
+        idle.AddTransition(EnemyStatesEnum.Chase, chase);
+        idle.AddTransition(EnemyStatesEnum.Patrol, _enemyPatrol);
+        idle.AddTransition(EnemyStatesEnum.Attack, attack);
     }
 
     void InitializeTree()
@@ -78,9 +96,11 @@ public class Enemy : MonoBehaviour
         ITreeNode patrol = new ActionNode(() => _fsm.Transition(EnemyStatesEnum.Patrol));
         ITreeNode chase = new ActionNode(() => _fsm.Transition(EnemyStatesEnum.Chase));
         ITreeNode attack = new ActionNode(() => _fsm.Transition(EnemyStatesEnum.Attack));
+        ITreeNode idle = new ActionNode(() => _fsm.Transition(EnemyStatesEnum.Idle));
 
         //Questions
-        ITreeNode qChase = new QuestionNode(QChase, chase, patrol);
+        ITreeNode qPatrol = new QuestionNode(QPatrol, patrol, idle);
+        ITreeNode qChase = new QuestionNode(QChase, chase, qPatrol);
         ITreeNode qAttack = new QuestionNode(QAttack, attack, qChase);
 
         //First node to execute
@@ -89,6 +109,7 @@ public class Enemy : MonoBehaviour
 
     public bool QAttack() => _los.HasLOS(attackRange);
     public bool QChase() => _los.HasLOS(_los.Vision);
+    public bool QPatrol() => !_isFinishPath;
 
     public void Move(Vector3 dirToMove)                    //Move to the wished direction
     {
@@ -102,4 +123,11 @@ public class Enemy : MonoBehaviour
         if (dirToLook.x == 0 && dirToLook.z == 0) return;
         transform.forward = dirToLook;
     }
+
+    public void SetPosition(Vector3 pos)
+    {
+        transform.position = pos;
+    }
+
+    public IPoints GetStateWaypoints => _enemyPatrol;
 }

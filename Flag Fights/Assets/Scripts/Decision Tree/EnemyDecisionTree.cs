@@ -36,7 +36,6 @@ public class EnemyDecisionTree : MonoBehaviour
     public bool QuestionIsOnRange() => isOnRange;
     public bool QuestionIdle() => isIdle;
 
-
     public void StateIdle() { }
     public void StatePatrol() { }
     public void StateChase() { }

@@ -6,31 +6,31 @@ using UnityEngine;
 public class EnemyStateIdle<T> : State<T>
 {
     Enemy _enemy;
-    T _chaseInput;
-    T _patrolInput;
 
-    public EnemyStateIdle(Enemy enemy, T chaseInput, T patrolInput)
+    public float restStartTime;
+
+    public EnemyStateIdle(Enemy enemy)
     {
-        _chaseInput = chaseInput;
-        _patrolInput = patrolInput;
         _enemy = enemy;
     }
 
     public override void Enter()
     {
         _enemy.Animator.SetBool("Idle", true);
+        restStartTime = Time.time;
+       
     }
 
     public override void Execute()
     {
         base.Execute();
-
-        if (_enemy.LOS.HasLOS()) _fsm.Transition(_chaseInput);            //If it has LOS to the player, entry Chase State
-        else _fsm.Transition(_patrolInput);                         // If it has not LOS to the player, entry Patrol State
+        if (Time.time >= _enemy.restingTime + restStartTime)
+            _enemy._isFinishPath = false;
     }
     
     public override void Sleep()
     {
         _enemy.Animator.SetBool("Idle", false);
+
     }
 }
