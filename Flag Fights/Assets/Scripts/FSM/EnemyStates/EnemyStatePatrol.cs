@@ -29,6 +29,7 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
     {
         _enemy.Animator.SetBool("Patrolling", true);
         _enemy.AgentController.target = GetNewTarget();
+        _nextPoint = 0;
         _enemy.AgentController.RunThetaStar();
     }
 
@@ -36,13 +37,6 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
     {
         base.Execute();
         Run();
-
-
-        //if (Physics.Raycast(_enemy.transform.position + Vector3.up * 1.25f, dir, 2f, _enemy.obsMask) || Time.time >= lastChange + changeCD) dir = SetNewDir();
-        //Move(dir);
-        //LookDir(dir);
-
-        //Debug.DrawRay(_enemy.transform.position + Vector3.up * 1.25f, dir * 2f);
     }
 
     public override void Sleep()

@@ -65,7 +65,8 @@ public class GameManager : MonoBehaviour
         flagSpawner.InitializeSpawner();
         GetActors();            // Obtener las referencias de los enemigos, sus bases y la bandera
         timer = Time.time;      // Iniciar el temporizador al inicio
-        Flag.SetActive(true);   // Activar bandera de mapa
+        player.GetComponent<PlayerView>().SetFlagVisibility(false);
+        player.GetComponent<PlayerModel>().HasFlag = false;
     }
 
     public void StartRound()
@@ -84,7 +85,8 @@ public class GameManager : MonoBehaviour
     public void NextRound()
     {
         DestroyPreviousActors();
-        if (EnemyPoints > _totalPoints) Lose();
+        if (EnemyPoints >= _totalPoints) Lose();
+        else if(Points >= _totalPoints) Win();
         else
         {
             round++;

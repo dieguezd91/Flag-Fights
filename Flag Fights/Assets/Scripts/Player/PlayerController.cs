@@ -5,16 +5,13 @@ public class PlayerController : MonoBehaviour
     private PlayerModel _model;
     private PlayerView _view;
 
-    [SerializeField] private float _speed;
-    [SerializeField] private float _turnSpeed;
-
     //FSM
     private FSM<PlayerStatesEnum> _fsm;
     private ITreeNode _root;
 
     private void Awake()
     {
-        _model = new PlayerModel(_speed, _turnSpeed);
+        _model = GetComponent<PlayerModel>();
         _view = GetComponent<PlayerView>();
         InitializeFSM();
         InitializeTree();

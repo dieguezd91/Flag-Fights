@@ -8,11 +8,12 @@ public class PlayerBase : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<PlayerModel>().HasFlag && GameManager.instance.currentTime <= GameManager.instance.lossTimer)
         {
+            Debug.Log("A");
             other.GetComponent<PlayerModel>().HasFlag = false;
             other.GetComponent<PlayerView>().flag.SetActive(false);
-            if (GameManager.instance.Points < GameManager.instance.TotalPoints)
-                GameManager.instance.EndRound(true);
-            else GameManager.instance.Win();
+            if (GameManager.instance.Points +1 >= GameManager.instance.TotalPoints)
+                    GameManager.instance.Win();
+            else GameManager.instance.EndRound(true);
         }
     }
 }
