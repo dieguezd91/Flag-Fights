@@ -11,9 +11,7 @@ public class PlayerBase : MonoBehaviour
             Debug.Log("A");
             other.GetComponent<PlayerModel>().HasFlag = false;
             other.GetComponent<PlayerView>().flag.SetActive(false);
-            if (GameManager.instance.Points +1 >= GameManager.instance.TotalPoints)
-                    GameManager.instance.Win();
-            else GameManager.instance.EndRound(true);
+            GameManager.instance.EndRound(true);
         }
     }
 }
