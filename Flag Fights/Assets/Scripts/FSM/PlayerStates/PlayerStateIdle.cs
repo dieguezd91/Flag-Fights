@@ -18,7 +18,10 @@ public class PlayerStateIdle<T> : State<T>
 
     public override void Enter()
     {
-        _view.Animator.SetBool("Idle", true);
+        if (_view.Animator != null)
+        {
+            _view.Animator.SetBool("Idle", true);
+        }
     }
 
     public override void Execute()
@@ -32,6 +35,9 @@ public class PlayerStateIdle<T> : State<T>
 
     public override void Sleep()
     {
-        _view.Animator.SetBool("Idle", false);
+        if (_view.Animator != null)
+        {
+            _view.Animator.SetBool("Idle", false);
+        }
     }
 }

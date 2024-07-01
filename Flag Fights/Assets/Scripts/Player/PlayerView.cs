@@ -10,10 +10,23 @@ public class PlayerView : MonoBehaviour
     private void Awake()
     {
         Animator = GetComponent<Animator>();
+
+        if (Animator == null)
+        {
+            Debug.LogError("Animator null");
+        }
+
+        if (flag == null)
+        {
+            Debug.LogError("Flag null");
+        }
     }
 
     public void SetFlagVisibility(bool isVisible)
     {
-        flag.SetActive(isVisible);
+        if (flag != null)
+        {
+            flag.SetActive(isVisible);
+        }
     }
 }

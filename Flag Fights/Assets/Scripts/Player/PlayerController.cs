@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour
     private PlayerModel _model;
     private PlayerView _view;
 
-    //FSM
+    // FSM
     private FSM<PlayerStatesEnum> _fsm;
     private ITreeNode _root;
 
@@ -13,14 +13,20 @@ public class PlayerController : MonoBehaviour
     {
         _model = GetComponent<PlayerModel>();
         _view = GetComponent<PlayerView>();
+
+        if (_model == null || _view == null)
+        {
+            return;
+        }
+
         InitializeFSM();
         InitializeTree();
     }
 
     void Update()
     {
-        _fsm.OnUpdate();
-        _root.Execute();
+        if (_fsm != null) _fsm.OnUpdate();
+        if (_root != null) _root.Execute();
         UpdateMovementInput();
     }
 

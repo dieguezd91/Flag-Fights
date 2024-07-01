@@ -8,6 +8,4 @@ public class PlayerModel : MonoBehaviour
     public float Speed;
     public float TurnSpeed;
     public Vector2 MovementInput;
-
-
 }
