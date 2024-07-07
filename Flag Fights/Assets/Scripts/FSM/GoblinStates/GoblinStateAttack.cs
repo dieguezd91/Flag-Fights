@@ -6,31 +6,35 @@ using UnityEngine;
 
 public class GoblinStateAttack<T> : State<T>
 {
-    GoblinController _enemy;
+    GoblinController _controller;
+    GoblinModel _model;
+    GoblinView _view;
     float _lastAttackTime;
 
-    public GoblinStateAttack(GoblinController enemy)
+    public GoblinStateAttack(GoblinController controller, GoblinView view, GoblinModel model)
     {
-        _enemy = enemy;
+        _controller = controller;
+        _view = view;
+        _model = model;
     }
 
     public override void Execute()
     {
-        Vector3 dir = (_enemy.View.LOS.TargetLOS.position - _enemy.transform.position).normalized;
-        _enemy.View.LookDir(dir);
-        if (Time.time - _lastAttackTime >= _enemy.Model.attackCD)               //Attack the player
+        Vector3 dir = (_view.LOS.TargetLOS.position - _controller.transform.position).normalized;
+        _view.LookDir(dir);
+        if (Time.time - _lastAttackTime >= _model.attackCD)               //Attack the player
         {
-            _enemy.View._animator.SetTrigger("Attack");
+            _view._animator.SetTrigger("Attack");
             _lastAttackTime = Time.time;
-            Collider[] collidersAhead = Physics.OverlapSphere(_enemy.transform.position + _enemy.transform.forward * .25f + _enemy.transform.up * .25f, .2f);
+            Collider[] collidersAhead = Physics.OverlapSphere(_controller.transform.position + _controller.transform.forward * .25f + _controller.transform.up * .25f, .2f);
             foreach (Collider col in collidersAhead)
             {
                 if (col.CompareTag("Player"))
                 {
-                    _enemy.View.AudioSource.PlayOneShot(_enemy.Model.attackSFX);
+                    _view.AudioSource.PlayOneShot(_model.attackSFX);
                     GameManager.instance.EndRound(false);
                 }
-                else _enemy.View.AudioSource.PlayOneShot(_enemy.Model.swingSFX);
+                else _view.AudioSource.PlayOneShot(_model.swingSFX);
             }
         }
     }

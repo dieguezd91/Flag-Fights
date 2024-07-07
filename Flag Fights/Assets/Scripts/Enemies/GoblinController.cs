@@ -6,9 +6,8 @@ using UnityEngine;
 
 public class GoblinController : MonoBehaviour, IBoid
 {
-    public GoblinModel Model { get; private set; }
-    public GoblinView View { get; private set; }
-
+    public GoblinModel Model;
+    public GoblinView View;
     //AI
     FSM<GoblinStatesEnum> _fsm;
     ITreeNode _root;
@@ -46,10 +45,10 @@ public class GoblinController : MonoBehaviour, IBoid
     void InitializeFSM()
     {
         //Declarating states
-        var idle = new GoblinStateIdle<GoblinStatesEnum>(this);
-        var chase = new GoblinStateChase<GoblinStatesEnum>(this);
-        var evade = new GoblinStateEvade<GoblinStatesEnum>(this);
-        var attack = new GoblinStateAttack<GoblinStatesEnum>(this);
+        var idle = new GoblinStateIdle<GoblinStatesEnum>(this, View, Model);
+        var chase = new GoblinStateChase<GoblinStatesEnum>(this, View, Model);
+        var evade = new GoblinStateEvade<GoblinStatesEnum>(this, View, Model);
+        var attack = new GoblinStateAttack<GoblinStatesEnum>(this, View, Model);
 
         //Create Finite State Machine
         _fsm = new FSM<GoblinStatesEnum>(idle);

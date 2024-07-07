@@ -2,32 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using static Cinemachine.CinemachineTargetGroup;
-using static UnityEngine.GraphicsBuffer;
 
 public class GoblinStateChase<T> : State<T>
 {
-    GoblinController _enemy;
+    GoblinController _controller;
+    GoblinModel _model;
+    GoblinView _view;
 
-    public GoblinStateChase(GoblinController enemy)
+    public GoblinStateChase(GoblinController controller, GoblinView view, GoblinModel model)
     {
-        _enemy = enemy;
+        _controller = controller;
+        _view = view;
+        _model = model;
     }
 
     public override void Enter()
     {
-        _enemy.View._animator.SetBool("Running", true);
+        _view._animator.SetBool("Running", true);
     }
 
     public override void Execute()
     {
-        Vector3 dir = _enemy.View.OBS.GetNewDir(_enemy.Steering.GetDir());
-        _enemy.View.Move(dir, _enemy.Model.Speed);
-        _enemy.View.LookDir(new Vector3(dir.x, 0, dir.z));
+        Vector3 dir = _view.OBS.GetNewDir(_controller.Steering.GetDir());
+        _view.Move(dir, _model.Speed);
+        _view.LookDir(new Vector3(dir.x, 0, dir.z));
     }
 
     public override void Sleep()
     {
-        _enemy.View._animator.SetBool("Running", false);
+        _view._animator.SetBool("Running", false);
     }
 }

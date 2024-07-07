@@ -8,9 +8,9 @@ public class GoblinView : MonoBehaviour
 
     //COMPONENTS
     public Animator _animator;
-    public Rigidbody RB { get; set; }
-    public LineOfSight LOS { get; set; }
-    public ObstacleAvoidance OBS { get; set; }
+    public Rigidbody RB;
+    public LineOfSight LOS;
+    public ObstacleAvoidance OBS;
     AudioSource _audioSource;
     public AudioSource AudioSource => _audioSource;
 

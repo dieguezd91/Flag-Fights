@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public EnemyModel Model { get; private set; }
-    public EnemyView View { get; private set; }
+    public EnemyModel Model;
+    public EnemyView View;
 
     private FSM<EnemyStatesEnum> fsm;
     private ITreeNode root;
