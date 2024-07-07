@@ -15,9 +15,6 @@ public class EnemyController : MonoBehaviour
 
     private void Awake()
     {
-        Model = GetComponent<EnemyModel>();
-        View = GetComponent<EnemyView>();
-
         InitializeFSM();
         InitializeTree();
     }
@@ -66,7 +63,20 @@ public class EnemyController : MonoBehaviour
     }
 
     public bool QAttack() => View.LineOfSight.HasLOS(Model.AttackRange);
-    public bool QChase() => View.LineOfSight.HasLOS(View.LineOfSight.Vision);
+    public bool QChase()
+    {
+        if (View.LineOfSight.HasLOS(View.LineOfSight.Vision) || View.LineOfSight.HasLOS(View.LineOfSight.Vision, Model.LastTargetPosKnown))
+        {
+            if (Time.time >= Model.lastCheck + Model.CheckCooldown)
+            {
+                Model.LastTargetPosKnown = View.LineOfSight.TargetLOS.position;
+                Model.lastCheck = Time.time;
+            }
+            return true;
+        }
+        else return false;
+
+    }
     public bool QPatrol() => !Model.IsFinishPath;
 
     public IPoints GetStateWaypoints => _enemyPatrol;

@@ -257,6 +257,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd5418b5baf3412428d71307ab981263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Model: {fileID: 668916682465512537}
+  View: {fileID: 4787379910016128926}
 --- !u!114 &668916682465512537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,6 +283,8 @@ MonoBehaviour:
   RestingTime: 5
   IsIdle: 1
   IsFinishPath: 1
+  LastTargetPosKnown: {fileID: 0}
+  lastCheck: 0
   AttackSFX: {fileID: 8300000, guid: 308f81c9f79b57645b65ae590bd9f6b2, type: 3}
   SwingSFX: {fileID: 8300000, guid: 2609c6f925116994f84291e2f815ac81, type: 3}
 --- !u!114 &4787379910016128926

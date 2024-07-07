@@ -4,10 +4,10 @@ using UnityEngine;
 
 public interface ILineOfSight
 {
-    bool CheckRange(Transform target);
-    bool CheckRange(Transform target, float range);
-    bool CheckAngle(Transform target);
-    bool CheckObstacles(Transform target);
+    bool CheckRange(Vector3 target);
+    bool CheckRange(Vector3 target, float range);
+    bool CheckAngle(Vector3 target);
+    bool CheckObstacles(Vector3 target);
 
     bool HasLOS();
     bool HasLOS(float range);

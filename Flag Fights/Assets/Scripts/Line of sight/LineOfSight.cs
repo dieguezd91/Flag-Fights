@@ -16,43 +16,44 @@ public class LineOfSight : MonoBehaviour, ILineOfSight
 
 
     //Chequear que se cumplan todas las condiciones de deteccion en la linea de vision del enemigo
-    public bool HasLOS() => CheckRange(GameManager.instance.player.transform) && CheckAngle(GameManager.instance.player.transform) && CheckObstacles(GameManager.instance.player.transform);
+    public bool HasLOS() => CheckRange(GameManager.instance.player.transform.position) && CheckAngle(GameManager.instance.player.transform.position) && CheckObstacles(GameManager.instance.player.transform.position);
 
 
     //Chequear que se cumplan todas las condiciones de deteccion en la linea de vision del enemigo
-    public bool HasLOS(float range) => CheckRange(GameManager.instance.player.transform, range) && CheckAngle(GameManager.instance.player.transform) && CheckObstacles(GameManager.instance.player.transform);
+    public bool HasLOS(float range) => CheckRange(GameManager.instance.player.transform.position, range) && CheckAngle(GameManager.instance.player.transform.position) && CheckObstacles(GameManager.instance.player.transform.position);
+    public bool HasLOS(float range, Vector3 target) => CheckRange(target, range) && CheckAngle(target) && CheckObstacles(target);
 
 
     //Chequear que la distancia hacia el objetivo sea menor al rango de vision
-    public bool CheckRange(Transform target)
+    public bool CheckRange(Vector3 target)
     {
-        float distance = Vector3.Distance(target.position, Origin);
+        float distance = Vector3.Distance(target, Origin);
         return distance <= _vision;
     }
 
 
     //Chequear que la distancia hacia el objetivo sea menor al parametro dado
-    public bool CheckRange(Transform target, float range)
+    public bool CheckRange(Vector3 target, float range)
     {
-        float distance = Vector3.Distance(target.position, Origin);
+        float distance = Vector3.Distance(target, Origin);
         return distance <= range;
 
     }
 
 
     //Chequear que la direccion hacia el objetivo este dentro del angulo de vision
-    public bool CheckAngle(Transform target)
+    public bool CheckAngle(Vector3 target)
     {
-        directionToTarget = target.position - Origin;
+        directionToTarget = target - Origin;
         float angleToTarget = Vector3.Angle(Forward, directionToTarget);
         return angleToTarget <= angle / 2;
     }
 
 
     //Chequear que no haya obstaculos entre el objetivo y self
-    public bool CheckObstacles(Transform target)
+    public bool CheckObstacles(Vector3 target)
     {
-        directionToTarget = target.position - Origin;
+        directionToTarget = target - Origin;
         float distance = directionToTarget.magnitude;
         return !Physics.Raycast(Origin, directionToTarget, distance, obstacles);
     }
