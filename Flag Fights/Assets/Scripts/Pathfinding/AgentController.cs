@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AgentController : MonoBehaviour
 {
-    KnightController enemy;
+    EnemyController enemy;
     public float radius;
     public LayerMask maskNodes;
     public LayerMask maskObs;
@@ -11,7 +11,7 @@ public class AgentController : MonoBehaviour
 
     private void Start()
     {
-        enemy = GetComponent<KnightController>();
+        enemy = GetComponent<EnemyController>();
     }
 
     public void RunThetaStar()
@@ -38,10 +38,8 @@ public class AgentController : MonoBehaviour
     float Heuristic(Node current)
     {
         float heuristic = 0;
-        float multiplierDistance = 2;
-        float playerMultiplier = 5;
+        float multiplierDistance = 1;
         heuristic += Vector3.Distance(current.transform.position, target.transform.position) * multiplierDistance;
-        heuristic += Vector3.Distance(transform.position, GameManager.instance.player.transform.position) * playerMultiplier;
         return heuristic;
     } 
 
