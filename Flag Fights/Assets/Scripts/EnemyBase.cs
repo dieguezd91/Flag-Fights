@@ -29,12 +29,13 @@ public class EnemyBase : MonoBehaviour
     void AsignPositions()
     {
         if (charactersToSpawn <= posibleSpawns.Count)
+        {
             for (int n = 0; n < charactersToSpawn; n++)
             {
                 var transformSelected = MyRandoms.Roulette(spawnPoints);
                 spawnPoints.Remove(transformSelected);
                 Instantiate(characterPrefab, transformSelected.position, transformSelected.rotation);
             }
-        else Debug.Log("Not enough spawnpoints");
+        }
     }
 }

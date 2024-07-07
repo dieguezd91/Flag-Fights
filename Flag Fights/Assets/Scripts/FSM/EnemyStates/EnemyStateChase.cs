@@ -5,48 +5,48 @@ using UnityEngine;
 
 public class EnemyStateChase<T> : State<T>
 {
-    Enemy _enemy;
-    float _lastCheck;
-    float _timePrediction;
-    Vector3 lastPosKnown;
+    private EnemyController controller;
+    private float lastCheck;
+    private float timePrediction;
+    private Vector3 lastPosKnown;
 
-    public EnemyStateChase(Enemy enemy, float timePrediction = 1)
+    public EnemyStateChase(EnemyController controller, float timePrediction = 1)
     {
-        _enemy = enemy;
-        _timePrediction = timePrediction;
+        this.controller = controller;
+        this.timePrediction = timePrediction;
     }
 
     public override void Enter()
     {
-        _enemy.Animator.SetBool("Running", true);
+        controller.View.Animator.SetBool("Running", true);
     }
 
     public override void Execute()
     {
-        if (_enemy.LOS.HasLOS() && Time.time >= _lastCheck + _enemy.checkCooldown)
+        if (controller.View.LineOfSight.HasLOS() && Time.time >= lastCheck + controller.Model.CheckCooldown)
         {
-            lastPosKnown = _enemy.LOS.TargetLOS.position;
-            _lastCheck = Time.time;                                                                         //Save last time it has seen the enemy
+            lastPosKnown = controller.View.LineOfSight.TargetLOS.position;
+            lastCheck = Time.time;
         }
-        else                                                                                //entry Patrol State
+        else
         {
-            Vector3 dir = _enemy.OBS.GetNewDir(GetDir());
-            _enemy.Move(dir);
-            _enemy.LookDir(new Vector3(dir.x, 0, dir.z));
+            Vector3 dir = controller.View.ObstacleAvoidance.GetNewDir(GetDir());
+            controller.View.Move(dir, controller.Model.ChasingSpeed);
+            controller.View.LookDir(new Vector3(dir.x, 0, dir.z));
         }
     }
 
     public override void Sleep()
     {
-        _enemy.Animator.SetBool("Running", false);
+        controller.View.Animator.SetBool("Running", false);
     }
 
     private Vector3 GetDir()
     {
-        Rigidbody target = _enemy.LOS.TargetLOS.GetComponent<Rigidbody>();
-        Vector3 point = lastPosKnown + target.transform.forward * 2 * _timePrediction;
-        Vector3 dirToPoint = (point - _enemy.transform.position).normalized;
-        Vector3 dirToTarget = (lastPosKnown - _enemy.transform.position).normalized;
+        Rigidbody target = controller.View.LineOfSight.TargetLOS.GetComponent<Rigidbody>();
+        Vector3 point = lastPosKnown + target.transform.forward * 2 * timePrediction;
+        Vector3 dirToPoint = (point - controller.View.transform.position).normalized;
+        Vector3 dirToTarget = (lastPosKnown - controller.View.transform.position).normalized;
         if (Vector3.Dot(dirToPoint, dirToTarget) < 0) dirToPoint = dirToTarget;
         return dirToPoint.normalized;
     }

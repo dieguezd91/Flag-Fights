@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AgentController : MonoBehaviour
 {
-    Enemy enemy;
+    EnemyController enemy;
     public float radius;
     public LayerMask maskNodes;
     public LayerMask maskObs;
@@ -11,7 +11,7 @@ public class AgentController : MonoBehaviour
 
     private void Start()
     {
-        enemy = GetComponent<Enemy>();
+        enemy = GetComponent<EnemyController>();
     }
 
     public void RunThetaStar()

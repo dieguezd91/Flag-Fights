@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyStatePatrol<T> : State<T>, IPoints
 {
-    Enemy _enemy;
+    EnemyController _enemyController;
     float changeCD = 7.5f;
     float lastChange;
     Vector3 dir;
@@ -11,19 +11,17 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
     List<Vector3> _waypoints;
     int _nextPoint = 0;
 
-
-
-    public EnemyStatePatrol(Enemy enemy)
+    public EnemyStatePatrol(EnemyController enemyController)
     {
-        _enemy = enemy;
+        _enemyController = enemyController;
     }
 
     public override void Enter()
     {
-        _enemy.Animator.SetBool("Patrolling", true);
-        _enemy.AgentController.target = GetNewTarget();
+        _enemyController.View.Animator.SetBool("Patrolling", true);
+        _enemyController.View.AgentController.target = GetNewTarget();
         _nextPoint = 0;
-        _enemy.AgentController.RunThetaStar();
+        _enemyController.View.AgentController.RunThetaStar();
     }
 
     public override void Execute()
@@ -34,21 +32,20 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
 
     public override void Sleep()
     {
-        _enemy.Animator.SetBool("Patrolling", false);
+        _enemyController.View.Animator.SetBool("Patrolling", false);
     }
 
     void Move(Vector3 dirToMove)                    //Move to the wished direction
     {
-        dirToMove *= _enemy.patrollingSpeed;
-        dirToMove.y = _enemy.RB.velocity.y;
-        _enemy.RB.velocity = dirToMove;
-        
+        dirToMove *= _enemyController.Model.PatrollingSpeed;
+        dirToMove.y = _enemyController.View.RB.velocity.y;
+        _enemyController.View.RB.velocity = dirToMove;
     }
 
     void LookDir(Vector3 dirToLook)                 //Rotate to the wished direction
     {
         if (dirToLook.x == 0 && dirToLook.z == 0) return;
-        _enemy.transform.forward = dirToLook;
+        _enemyController.transform.forward = dirToLook;
     }
 
     Node GetNewTarget()
@@ -70,38 +67,35 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
 
     public void SetWayPoints(List<Vector3> newPoints)
     {
-        //_nextPoint = 0;
         if (newPoints.Count == 0) return;
         _waypoints = newPoints;
         var pos = _waypoints[_nextPoint];
-        pos.y = _enemy.transform.position.y;
-        //_enemy.SetPosition(pos);
-        _enemy._isFinishPath = false;
+        pos.y = _enemyController.transform.position.y;
+        _enemyController.Model.IsFinishPath = false;
     }
 
     void Run()
     {
-        if (_enemy._isFinishPath) return;
+        if (_enemyController.Model.IsFinishPath) return;
         var point = _waypoints[_nextPoint];
         var posPoint = point;
-        posPoint.y = _enemy.transform.position.y;
-        Vector3 dir = posPoint - _enemy.transform.position;
+        posPoint.y = _enemyController.transform.position.y;
+        Vector3 dir = posPoint - _enemyController.transform.position;
         if (dir.magnitude < 0.2f)
         {
             if (_nextPoint + 1 < _waypoints.Count)
             {
                 _nextPoint++;
-
             }
             else
             {
-                _enemy._isFinishPath = true;
-                _enemy.AgentController.target = GetNewTarget();
+                _enemyController.Model.IsFinishPath = true;
+                _enemyController.View.AgentController.target = GetNewTarget();
                 return;
             }
         }
-        Move(_enemy.OBS.GetNewDir(dir.normalized));
-        LookDir(_enemy.OBS.GetNewDir(dir));
+        Move(_enemyController.View.ObstacleAvoidance.GetNewDir(dir.normalized));
+        LookDir(_enemyController.View.ObstacleAvoidance.GetNewDir(dir));
     }
-
 }
+

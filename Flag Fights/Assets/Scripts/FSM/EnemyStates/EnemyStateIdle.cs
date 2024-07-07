@@ -5,32 +5,44 @@ using UnityEngine;
 
 public class EnemyStateIdle<T> : State<T>
 {
-    Enemy _enemy;
+    EnemyController _enemyController;
+    float restStartTime;
 
-    public float restStartTime;
-
-    public EnemyStateIdle(Enemy enemy)
+    public EnemyStateIdle(EnemyController enemyController)
     {
-        _enemy = enemy;
+        _enemyController = enemyController;
     }
 
     public override void Enter()
     {
-        _enemy.Animator.SetBool("Idle", true);
+        // Verificar que _enemyController no sea nulo
+        if (_enemyController == null)
+        {
+            Debug.LogError("_enemyController no está inicializado.");
+            return;
+        }
+
+        // Verificar que _enemyController.View.Animator no sea nulo
+        if (_enemyController.View.Animator == null)
+        {
+            Debug.LogError("_enemyController.View.Animator no está inicializado.");
+            return;
+        }
+
+        _enemyController.View.Animator.SetBool("Idle", true);
         restStartTime = Time.time;
-       
     }
 
     public override void Execute()
     {
         base.Execute();
-        if (Time.time >= _enemy.restingTime + restStartTime)
-            _enemy._isFinishPath = false;
+        if (Time.time >= _enemyController.Model.RestingTime + restStartTime)
+            _enemyController.Model.IsFinishPath = false;
     }
-    
+
     public override void Sleep()
     {
-        _enemy.Animator.SetBool("Idle", false);
-
+        _enemyController.View.Animator.SetBool("Idle", false);
     }
 }
+

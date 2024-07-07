@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class EnemyStateAttack<T> : State<T>
 {
-    Enemy _enemy;
-    float _lastAttackTime;
+    private EnemyController controller;
+    private float lastAttackTime;
 
-    public EnemyStateAttack(Enemy enemy)
+    public EnemyStateAttack(EnemyController controller)
     {
-        _enemy = enemy;
+        this.controller = controller;
     }
 
     public override void Execute()
@@ -21,20 +21,24 @@ public class EnemyStateAttack<T> : State<T>
 
     private void TryAttack()
     {
-        if (Time.time - _lastAttackTime >= _enemy.attackCD)               //Attack the player
+        if (Time.time - lastAttackTime >= controller.Model.AttackCD)
         {
-            _enemy.Animator.SetTrigger("Attack");
-            _lastAttackTime = Time.time;
-            Collider[] collidersAhead = Physics.OverlapSphere(_enemy.transform.position + _enemy.transform.forward * .35f + _enemy.transform.up * .5f, 0.4f);
+            controller.View.PlayAttackAnimation();
+            lastAttackTime = Time.time;
+            Collider[] collidersAhead = Physics.OverlapSphere(controller.View.transform.position + controller.View.transform.forward * 0.35f + controller.View.transform.up * 0.5f, 0.4f);
             foreach (Collider col in collidersAhead)
             {
-                if (col.tag == "Player")
+                if (col.CompareTag("Player"))
                 {
-                    _enemy.AudioSource.PlayOneShot(_enemy.attackSFX);
+                    controller.View.PlaySound(controller.Model.AttackSFX);
                     GameManager.instance.EndRound(false);
                 }
-                else _enemy.AudioSource.PlayOneShot(_enemy.swingSFX);
+                else
+                {
+                    controller.View.PlaySound(controller.Model.SwingSFX);
+                }
             }
         }
     }
 }
+

@@ -13,9 +13,11 @@ GameObject:
   - component: {fileID: 6707915767971497464}
   - component: {fileID: 1361675287777111289}
   - component: {fileID: 6124621482755426475}
-  - component: {fileID: 5234550806230788080}
   - component: {fileID: 8145489167420897153}
   - component: {fileID: 8491441794973347553}
+  - component: {fileID: 626648081710857590}
+  - component: {fileID: 668916682465512537}
+  - component: {fileID: 4787379910016128926}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Enemy
@@ -127,35 +129,6 @@ MonoBehaviour:
   obstacles:
     serializedVersion: 2
     m_Bits: 1024
---- !u!114 &5234550806230788080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1308749439099989600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a70df7366a329174094340e29b6762fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chasingSpeed: 3
-  patrollingSpeed: 1.5
-  timeToFind: 5
-  checkCooldown: 0.25
-  angle: 180
-  radius: 2
-  personalArea: 0.5
-  obsMask:
-    serializedVersion: 2
-    m_Bits: 1024
-  isIdle: 1
-  attackRange: 0.9
-  attackCD: 2.4
-  attackSFX: {fileID: 8300000, guid: 308f81c9f79b57645b65ae590bd9f6b2, type: 3}
-  swingSFX: {fileID: 8300000, guid: 2609c6f925116994f84291e2f815ac81, type: 3}
-  restingTime: 5
-  _isFinishPath: 1
 --- !u!82 &8145489167420897153
 AudioSource:
   m_ObjectHideFlags: 0
@@ -272,6 +245,55 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   target: {fileID: 0}
+--- !u!114 &626648081710857590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308749439099989600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd5418b5baf3412428d71307ab981263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &668916682465512537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308749439099989600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d6bac093e9daf245a40928cd6f87f5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChasingSpeed: 5
+  PatrollingSpeed: 3
+  TimeToFind: 2
+  CheckCooldown: 1
+  Angle: 90
+  Radius: 10
+  PersonalArea: 2
+  AttackRange: 1.5
+  AttackCD: 1
+  RestingTime: 5
+  IsIdle: 1
+  IsFinishPath: 1
+--- !u!114 &4787379910016128926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308749439099989600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb1cbe42d96bd504892b407e1d5e1692, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 8319995001502734271}
 --- !u!1 &8597781270859614874
 GameObject:
   m_ObjectHideFlags: 0
