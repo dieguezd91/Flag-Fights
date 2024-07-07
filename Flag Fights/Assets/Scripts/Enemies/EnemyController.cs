@@ -7,8 +7,10 @@ public class EnemyController : MonoBehaviour
 {
     public EnemyModel Model { get; private set; }
     public EnemyView View { get; private set; }
+
     private FSM<EnemyStatesEnum> fsm;
     private ITreeNode root;
+
     private EnemyStatePatrol<EnemyStatesEnum> _enemyPatrol;
 
     private void Awake()

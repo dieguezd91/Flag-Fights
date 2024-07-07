@@ -5,39 +5,39 @@ using UnityEngine;
 
 public class GoblinStateEvade<T> : State<T>
 {
-    Goblin _enemy;
+    GoblinController _controller;
     float _timePrediction;
 
-    public GoblinStateEvade(Goblin enemy, float timePrediction = 2)
+    public GoblinStateEvade(GoblinController enemy, float timePrediction = 2)
     {
-        _enemy = enemy;
+        _controller = enemy;
         _timePrediction = timePrediction;
     }
 
     public override void Enter()
     {
-        _enemy.Animator.SetBool("Running", true);
+        _controller.View._animator.SetBool("Running", true);
     }
 
     public override void Execute()
     {
-        Vector3 dir = _enemy.OBS.GetNewDir(GetDir());
-        _enemy.Move(dir);
-        _enemy.LookDir(dir);
+        Vector3 dir = _controller.View.OBS.GetNewDir(GetDir());
+        _controller.View.Move(dir, _controller.Model.Speed);
+        _controller.View.LookDir(dir);
     }
 
     public override void Sleep()
     {
-        _enemy.Animator.SetBool("Running", false);
+        _controller.View._animator.SetBool("Running", false);
     }
 
 
     private Vector3 GetDir()
     {
-        Transform target = _enemy.LOS.TargetLOS;
+        Transform target = _controller.View.LOS.TargetLOS;
         Vector3 point = target.position + target.forward * 2 * _timePrediction;
-        Vector3 dirToPoint = (point - _enemy.transform.position).normalized;
-        Vector3 dirToTarget = (target.position - _enemy.transform.position).normalized;
+        Vector3 dirToPoint = (point - _controller.transform.position).normalized;
+        Vector3 dirToTarget = (target.position - _controller.transform.position).normalized;
         if (Vector3.Dot(dirToPoint, dirToTarget) < 0) dirToPoint = dirToTarget;
         return -dirToPoint;
     }

@@ -15,21 +15,16 @@ public class EnemyStateIdle<T> : State<T>
 
     public override void Enter()
     {
-        // Verificar que _enemyController no sea nulo
         if (_enemyController == null)
         {
-            Debug.LogError("_enemyController no está inicializado.");
             return;
         }
-
-        // Verificar que _enemyController.View.Animator no sea nulo
-        if (_enemyController.View.Animator == null)
+        if (_enemyController.View._animator == null)
         {
-            Debug.LogError("_enemyController.View.Animator no está inicializado.");
             return;
         }
 
-        _enemyController.View.Animator.SetBool("Idle", true);
+        _enemyController.View._animator.SetBool("Idle", true);
         restStartTime = Time.time;
     }
 
@@ -42,7 +37,7 @@ public class EnemyStateIdle<T> : State<T>
 
     public override void Sleep()
     {
-        _enemyController.View.Animator.SetBool("Idle", false);
+        _enemyController.View._animator.SetBool("Idle", false);
     }
 }
 

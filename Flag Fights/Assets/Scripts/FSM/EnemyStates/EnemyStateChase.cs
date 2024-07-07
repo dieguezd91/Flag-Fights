@@ -18,7 +18,7 @@ public class EnemyStateChase<T> : State<T>
 
     public override void Enter()
     {
-        controller.View.Animator.SetBool("Running", true);
+        controller.View._animator.SetBool("Running", true);
     }
 
     public override void Execute()
@@ -38,7 +38,7 @@ public class EnemyStateChase<T> : State<T>
 
     public override void Sleep()
     {
-        controller.View.Animator.SetBool("Running", false);
+        controller.View._animator.SetBool("Running", false);
     }
 
     private Vector3 GetDir()

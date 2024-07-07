@@ -6,31 +6,31 @@ using UnityEngine;
 
 public class GoblinStateAttack<T> : State<T>
 {
-    Goblin _enemy;
+    GoblinController _enemy;
     float _lastAttackTime;
 
-    public GoblinStateAttack(Goblin enemy)
+    public GoblinStateAttack(GoblinController enemy)
     {
         _enemy = enemy;
     }
 
     public override void Execute()
     {
-        Vector3 dir = (_enemy.LOS.TargetLOS.position - _enemy.transform.position).normalized;
-        _enemy.LookDir(dir);
-        if (Time.time - _lastAttackTime >= _enemy.attackCD)               //Attack the player
+        Vector3 dir = (_enemy.View.LOS.TargetLOS.position - _enemy.transform.position).normalized;
+        _enemy.View.LookDir(dir);
+        if (Time.time - _lastAttackTime >= _enemy.Model.attackCD)               //Attack the player
         {
-            _enemy.Animator.SetTrigger("Attack");
+            _enemy.View._animator.SetTrigger("Attack");
             _lastAttackTime = Time.time;
             Collider[] collidersAhead = Physics.OverlapSphere(_enemy.transform.position + _enemy.transform.forward * .25f + _enemy.transform.up * .25f, .2f);
             foreach (Collider col in collidersAhead)
             {
-                if (col.tag == "Player")
+                if (col.CompareTag("Player"))
                 {
-                    _enemy.AudioSource.PlayOneShot(_enemy.attackSFX);
+                    _enemy.View.AudioSource.PlayOneShot(_enemy.Model.attackSFX);
                     GameManager.instance.EndRound(false);
                 }
-                else _enemy.AudioSource.PlayOneShot(_enemy.swingSFX);
+                else _enemy.View.AudioSource.PlayOneShot(_enemy.Model.swingSFX);
             }
         }
     }

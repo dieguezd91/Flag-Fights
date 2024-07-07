@@ -2,28 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyView : MonoBehaviour
+public class GoblinView : MonoBehaviour
 {
+    GoblinController goblinController;
+
+    //COMPONENTS
     public Animator _animator;
-    private Rigidbody _rb;
-    public Rigidbody RB => _rb;
-    private LineOfSight _los;
-    public LineOfSight LineOfSight => _los;
-    private ObstacleAvoidance _obs;
-    public ObstacleAvoidance ObstacleAvoidance => _obs;
-    private AudioSource _audioSource;
+    public Rigidbody RB { get; set; }
+    public LineOfSight LOS { get; set; }
+    public ObstacleAvoidance OBS { get; set; }
+    AudioSource _audioSource;
     public AudioSource AudioSource => _audioSource;
-    private AgentController _agentController;
-    public AgentController AgentController => _agentController;
 
     private void Awake()
     {
+        LOS = GetComponent<LineOfSight>();
         _animator = GetComponent<Animator>();
-        _rb = GetComponent<Rigidbody>();
-        _los = GetComponent<LineOfSight>();
-        _obs = new ObstacleAvoidance(transform, 90f, 10f, LayerMask.GetMask("Obstacles"), 2f);
+        RB = GetComponent<Rigidbody>();
         _audioSource = GetComponent<AudioSource>();
-        _agentController = GetComponent<AgentController>();
     }
 
     public void PlayAttackAnimation()

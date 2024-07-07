@@ -18,7 +18,7 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
 
     public override void Enter()
     {
-        _enemyController.View.Animator.SetBool("Patrolling", true);
+        _enemyController.View._animator.SetBool("Patrolling", true);
         _enemyController.View.AgentController.target = GetNewTarget();
         _nextPoint = 0;
         _enemyController.View.AgentController.RunThetaStar();
@@ -32,7 +32,7 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
 
     public override void Sleep()
     {
-        _enemyController.View.Animator.SetBool("Patrolling", false);
+        _enemyController.View._animator.SetBool("Patrolling", false);
     }
 
     void Move(Vector3 dirToMove)                    //Move to the wished direction

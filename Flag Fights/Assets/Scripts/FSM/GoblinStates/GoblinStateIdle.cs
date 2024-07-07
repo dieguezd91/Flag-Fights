@@ -5,20 +5,31 @@ using UnityEngine;
 
 public class GoblinStateIdle<T> : State<T>
 {
-    Goblin _enemy;
+    GoblinController _controller;
 
-    public GoblinStateIdle(Goblin enemy)
+    public GoblinStateIdle(GoblinController enemy)
     {
-        _enemy = enemy;
+        _controller = enemy;
     }
 
     public override void Enter()
     {
-        _enemy.Animator.SetBool("Idle", true);
+        if (_controller == null)
+        {
+            Debug.LogError("_enemyController no está inicializado.");
+            return;
+        }
+        if (_controller.View._animator == null)
+        {
+            Debug.LogError("_enemyController.View.Animator no está inicializado.");
+            return;
+        }
+
+        _controller.View._animator.SetBool("Idle", true);
     }
     
     public override void Sleep()
     {
-        _enemy.Animator.SetBool("Idle", false);
+        _controller.View._animator.SetBool("Idle", false);
     }
 }

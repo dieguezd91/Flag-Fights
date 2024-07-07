@@ -13,12 +13,12 @@ public class PlayerView : MonoBehaviour
 
         if (Animator == null)
         {
-            Debug.LogError("Animator null");
+            Debug.Log("Animator null");
         }
 
         if (flag == null)
         {
-            Debug.LogError("Flag null");
+            Debug.Log("Flag null");
         }
     }
 

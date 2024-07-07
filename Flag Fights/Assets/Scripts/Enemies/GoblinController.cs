@@ -4,52 +4,27 @@ using System.ComponentModel.Design;
 using System.Linq;
 using UnityEngine;
 
-public class Goblin : MonoBehaviour, IBoid
+public class GoblinController : MonoBehaviour, IBoid
 {
-    //COMPONENTS
-    Animator _animator;
-    public Animator Animator => _animator;
-    Rigidbody _rb;
-    public Rigidbody RB=> _rb;
-    LineOfSight _los;
-    public LineOfSight LOS=> _los;
-    ObstacleAvoidance _obs;
-    public ObstacleAvoidance OBS => _obs;
-    AudioSource _audioSource;
-    public AudioSource AudioSource=> _audioSource;
-
-    //STATS
-    [SerializeField] float _attackRange;
-    public float Speed;
-    public float angle;
-    public float radius;
-    public float personalArea;
-    public LayerMask obsMask;
-    public LayerMask boidMask;
-
-    public float attackRange;
-    public float attackCD;
-    public AudioClip attackSFX;
-    public AudioClip swingSFX;
+    public GoblinModel Model { get; private set; }
+    public GoblinView View { get; private set; }
 
     //AI
     FSM<GoblinStatesEnum> _fsm;
     ITreeNode _root;
-    public ISteering Steering => _steering;
-    public Vector3 Position => transform.position;
-    public Vector3 Front => transform.forward;
+
     ISteering _steering;
+
     bool _isAlone;
     [SerializeField] int minBoids;
     [SerializeField] float boidDetectionRadius;
+
     public bool atacking;
 
     private void Awake()
     {
-        _los = GetComponent<LineOfSight>();
-        _animator = GetComponent<Animator>();
-        _rb = GetComponent<Rigidbody>();
-        _audioSource = GetComponent<AudioSource>();
+        Model = GetComponent<GoblinModel>();
+        View = GetComponent<GoblinView>();
         InitializeFSM(); 
         InitializeTree(); 
         InitializeSteerings();
@@ -57,7 +32,7 @@ public class Goblin : MonoBehaviour, IBoid
 
     void InitializeSteerings()
     {
-        _obs = new ObstacleAvoidance(transform, angle, radius, obsMask, personalArea);
+        View.OBS = new ObstacleAvoidance(transform, Model.angle, Model.radius, Model.obsMask, Model.personalArea);
         _steering = GetComponent<FlockingManager>();
     }
 
@@ -65,7 +40,7 @@ public class Goblin : MonoBehaviour, IBoid
     {
         _fsm.OnUpdate();
         _root.Execute();
-        _isAlone = Physics.OverlapSphere(transform.position, boidDetectionRadius, boidMask).Count() < minBoids;
+        _isAlone = Physics.OverlapSphere(transform.position, boidDetectionRadius, Model.boidMask).Count() < minBoids;
     }
 
     void InitializeFSM()
@@ -111,20 +86,11 @@ public class Goblin : MonoBehaviour, IBoid
         _root = qAttack;
     }
 
-    public bool QChase() => !_isAlone && !_los.HasLOS(_attackRange) && _los.HasLOS(_los.Vision);
-    public bool QAttack() => !_isAlone && _los.HasLOS(_attackRange);
-    public bool QEvade() => _isAlone && _los.HasLOS(_los.Vision);
+    public bool QChase() => !_isAlone && !View.LOS.HasLOS(Model._attackRange) && View.LOS.HasLOS(View.LOS.Vision);
+    public bool QAttack() => !_isAlone && View.LOS.HasLOS(Model._attackRange);
+    public bool QEvade() => _isAlone && View.LOS.HasLOS(View.LOS.Vision);
 
-    public void Move(Vector3 dirToMove)                    //Move to the wished direction
-    {
-        dirToMove *= Speed;
-        dirToMove.y = RB.velocity.y;
-        RB.velocity = dirToMove;
-    }
-
-    public void LookDir(Vector3 dirToLook)                 //Rotate to the wished direction
-    {
-        if (dirToLook.x == 0 && dirToLook.z == 0) return;
-        transform.forward = dirToLook;
-    }
+    public ISteering Steering => _steering;
+    public Vector3 Position => transform.position;
+    public Vector3 Front => transform.forward;
 }
