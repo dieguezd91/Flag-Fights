@@ -38,8 +38,10 @@ public class AgentController : MonoBehaviour
     float Heuristic(Node current)
     {
         float heuristic = 0;
-        float multiplierDistance = 1;
+        float multiplierDistance = 2;
+        float playerDistanceMultiplier = 1.5f;
         heuristic += Vector3.Distance(current.transform.position, target.transform.position) * multiplierDistance;
+        heuristic += Vector3.Distance(current.transform.position, GameManager.instance.player.transform.position) * playerDistanceMultiplier;
         return heuristic;
     } 
 
