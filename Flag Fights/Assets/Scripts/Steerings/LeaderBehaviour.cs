@@ -5,12 +5,12 @@ using UnityEngine;
 public class LeaderBehaviour : MonoBehaviour, IFlockingBehaviour
 {
     public float multiplier;
-    public Transform target;
+    Transform target;
     public bool isActive;
 
     private void Awake()
     {
-        target = GameObject.FindWithTag("Player").transform;
+        target = GameManager.instance.player.transform;
     }
 
     public Vector3 GetDir(List<IBoid> boids, IBoid self)

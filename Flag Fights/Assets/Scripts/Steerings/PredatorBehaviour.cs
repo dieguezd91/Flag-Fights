@@ -10,8 +10,9 @@ public class PredatorBehaviour : MonoBehaviour, IFlockingBehaviour
 
     private void Awake()
     {
-        target = GameObject.FindWithTag("Player").transform;
+        target = GameManager.instance.player.transform;
     }
+
 
     public Vector3 GetDir(List<IBoid> boids, IBoid self)
     {

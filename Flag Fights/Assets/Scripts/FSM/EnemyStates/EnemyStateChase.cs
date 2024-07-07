@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Apple;
 
 public class EnemyStateChase<T> : State<T>
 {
     private EnemyController controller;
     private float timePrediction;
-
     public EnemyStateChase(EnemyController controller, float timePrediction = 1)
     {
         this.controller = controller;

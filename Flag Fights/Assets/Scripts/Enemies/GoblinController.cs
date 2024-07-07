@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class GoblinController : MonoBehaviour, IBoid
 {
-    public GoblinModel Model;
-    public GoblinView View;
+    [HideInInspector] public GoblinModel Model;
+    [HideInInspector] public GoblinView View;
     //AI
     FSM<GoblinStatesEnum> _fsm;
     ITreeNode _root;
