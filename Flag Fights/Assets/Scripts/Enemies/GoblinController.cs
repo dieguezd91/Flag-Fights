@@ -4,23 +4,20 @@ using System.ComponentModel.Design;
 using System.Linq;
 using UnityEngine;
 
-public class GoblinController : MonoBehaviour, IBoid
+public class GoblinController : EnemyController, IBoid
 {
     [HideInInspector] public GoblinModel Model;
     [HideInInspector] public GoblinView View;
+
     //AI
     FSM<GoblinStatesEnum> _fsm;
-    ITreeNode _root;
-
-    ISteering _steering;
-
     bool _isAlone;
     [SerializeField] int minBoids;
     [SerializeField] float boidDetectionRadius;
 
     public bool atacking;
 
-    private void Awake()
+    public override void Awake()
     {
         Model = GetComponent<GoblinModel>();
         View = GetComponent<GoblinView>();
@@ -29,26 +26,26 @@ public class GoblinController : MonoBehaviour, IBoid
         InitializeSteerings();
     }
 
-    void InitializeSteerings()
+    public override void InitializeSteerings()
     {
         View.OBS = new ObstacleAvoidance(transform, Model.angle, Model.radius, Model.obsMask, Model.personalArea);
         _steering = GetComponent<FlockingManager>();
     }
 
-    private void Update()
+    public override void Update()
     {
         _fsm.OnUpdate();
         _root.Execute();
         _isAlone = Physics.OverlapSphere(transform.position, boidDetectionRadius, Model.boidMask).Count() < minBoids;
     }
 
-    void InitializeFSM()
+    public override void InitializeFSM()
     {
         //Declarating states
-        var idle = new GoblinStateIdle<GoblinStatesEnum>(this, View, Model);
-        var chase = new GoblinStateChase<GoblinStatesEnum>(this, View, Model);
-        var evade = new GoblinStateEvade<GoblinStatesEnum>(this, View, Model);
-        var attack = new GoblinStateAttack<GoblinStatesEnum>(this, View, Model);
+        var idle = new GoblinStateIdle<GoblinStatesEnum>(this, Model, View);
+        var chase = new GoblinStateChase<GoblinStatesEnum>(this, Model, View);
+        var evade = new GoblinStateEvade<GoblinStatesEnum>(this, Model, View);
+        var attack = new GoblinStateAttack<GoblinStatesEnum>(this, Model, View);
 
         //Create Finite State Machine
         _fsm = new FSM<GoblinStatesEnum>(idle);
@@ -68,7 +65,7 @@ public class GoblinController : MonoBehaviour, IBoid
         attack.AddTransition(GoblinStatesEnum.Evade, evade);
     }
 
-    void InitializeTree()
+    public override void InitializeTree()
     {
         //Actions
         ITreeNode idle = new ActionNode(() => _fsm.Transition(GoblinStatesEnum.Idle));
@@ -85,8 +82,8 @@ public class GoblinController : MonoBehaviour, IBoid
         _root = qAttack;
     }
 
-    public bool QChase() => !_isAlone && !View.LOS.HasLOS(Model._attackRange) && View.LOS.HasLOS(View.LOS.Vision);
-    public bool QAttack() => !_isAlone && View.LOS.HasLOS(Model._attackRange);
+    public bool QChase() => !_isAlone && !View.LOS.HasLOS(Model.attackRange) && View.LOS.HasLOS(View.LOS.Vision);
+    public bool QAttack() => !_isAlone && View.LOS.HasLOS(Model.attackRange);
     public bool QEvade() => _isAlone && View.LOS.HasLOS(View.LOS.Vision);
 
     public ISteering Steering => _steering;

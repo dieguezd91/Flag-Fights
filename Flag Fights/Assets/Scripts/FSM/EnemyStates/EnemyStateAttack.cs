@@ -5,12 +5,16 @@ using UnityEngine;
 
 public class EnemyStateAttack<T> : State<T>
 {
-    private EnemyController controller;
+    KnightController controller;
+    KnightView _view;
+    KnightModel _model;
     private float lastAttackTime;
 
-    public EnemyStateAttack(EnemyController controller)
+    public EnemyStateAttack(KnightController controller, KnightModel model, KnightView view)
     {
         this.controller = controller;
+        _model = model;
+        _view = view;
     }
 
     public override void Execute()
@@ -21,21 +25,21 @@ public class EnemyStateAttack<T> : State<T>
 
     private void TryAttack()
     {
-        if (Time.time - lastAttackTime >= controller.Model.AttackCD)
+        if (Time.time - lastAttackTime >= _model.attackCD)
         {
-            controller.View.PlayAttackAnimation();
+            _view.PlayAttackAnimation();
             lastAttackTime = Time.time;
-            Collider[] collidersAhead = Physics.OverlapSphere(controller.View.transform.position + controller.View.transform.forward * 0.35f + controller.View.transform.up * 0.5f, 0.4f);
+            Collider[] collidersAhead = Physics.OverlapSphere(_view.transform.position + _view.transform.forward * 0.35f + _view.transform.up * 0.5f, 0.4f);
             foreach (Collider col in collidersAhead)
             {
                 if (col.CompareTag("Player"))
                 {
-                    controller.View.PlaySound(controller.Model.AttackSFX);
+                    _view.PlaySound(_model.attackSFX);
                     GameManager.instance.EndRound(false);
                 }
                 else
                 {
-                    controller.View.PlaySound(controller.Model.SwingSFX);
+                    _view.PlaySound(_model.swingSFX);
                 }
             }
         }

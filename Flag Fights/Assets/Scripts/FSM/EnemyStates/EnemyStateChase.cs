@@ -6,12 +6,17 @@ using UnityEngine.Apple;
 
 public class EnemyStateChase<T> : State<T>
 {
-    private EnemyController controller;
+    private KnightController controller;
+    private KnightModel model;
+    private KnightView view;
     private float timePrediction;
-    public EnemyStateChase(EnemyController controller, float timePrediction = 1)
+
+    public EnemyStateChase(KnightController controller, KnightModel model, KnightView view, float timePrediction = 1)
     {
         this.controller = controller;
         this.timePrediction = timePrediction;
+        this.model = model;
+        this.view = view;
     }
 
     public override void Enter()
@@ -22,8 +27,8 @@ public class EnemyStateChase<T> : State<T>
     public override void Execute()
     {
         Vector3 dir = controller.View.ObstacleAvoidance.GetNewDir(GetDir());
-        controller.View.Move(dir, controller.Model.ChasingSpeed);
-        controller.View.LookDir(new Vector3(dir.x, 0, dir.z));
+        view.Move(dir, controller.Model.chasingSpeed);
+        view.LookDir(new Vector3(dir.x, 0, dir.z));
     }
 
     public override void Sleep()
@@ -34,9 +39,9 @@ public class EnemyStateChase<T> : State<T>
     private Vector3 GetDir()
     {
         Rigidbody target = controller.View.LineOfSight.TargetLOS.GetComponent<Rigidbody>();
-        Vector3 point = controller.Model.LastTargetPosKnown + target.transform.forward * 2 * timePrediction;
+        Vector3 point = controller.Model.lastTargetPosKnown + target.transform.forward * 2 * timePrediction;
         Vector3 dirToPoint = (point - controller.View.transform.position).normalized;
-        Vector3 dirToTarget = (controller.Model.LastTargetPosKnown - controller.View.transform.position).normalized;
+        Vector3 dirToTarget = (controller.Model.lastTargetPosKnown - controller.View.transform.position).normalized;
         if (Vector3.Dot(dirToPoint, dirToTarget) < 0) dirToPoint = dirToTarget;
         return dirToPoint.normalized;
     }

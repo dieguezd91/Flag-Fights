@@ -5,12 +5,16 @@ using UnityEngine;
 
 public class EnemyStateIdle<T> : State<T>
 {
-    EnemyController _enemyController;
+    KnightController _enemyController;
+    KnightView _view;
+    KnightModel _model;
     float restStartTime;
 
-    public EnemyStateIdle(EnemyController enemyController)
+    public EnemyStateIdle(KnightController enemyController, KnightModel model, KnightView view)
     {
         _enemyController = enemyController;
+        _model = model; 
+        _view = view;
     }
 
     public override void Enter()
@@ -19,25 +23,25 @@ public class EnemyStateIdle<T> : State<T>
         {
             return;
         }
-        if (_enemyController.View._animator == null)
+        if (_view._animator == null)
         {
             return;
         }
 
-        _enemyController.View._animator.SetBool("Idle", true);
+        _view._animator.SetBool("Idle", true);
         restStartTime = Time.time;
     }
 
     public override void Execute()
     {
         base.Execute();
-        if (Time.time >= _enemyController.Model.RestingTime + restStartTime)
-            _enemyController.Model.IsFinishPath = false;
+        if (Time.time >= _model.restingTime + restStartTime)
+            _model.isFinishPath = false;
     }
 
     public override void Sleep()
     {
-        _enemyController.View._animator.SetBool("Idle", false);
+        _view._animator.SetBool("Idle", false);
     }
 }
 

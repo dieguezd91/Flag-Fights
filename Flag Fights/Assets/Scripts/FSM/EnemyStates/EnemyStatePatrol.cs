@@ -3,25 +3,29 @@ using UnityEngine;
 
 public class EnemyStatePatrol<T> : State<T>, IPoints
 {
-    EnemyController _enemyController;
-    float changeCD = 7.5f;
+    KnightController _enemyController;
+    KnightView _view;
+    KnightModel _model;
+    //float changeCD = 7.5f;
     float lastChange;
     Vector3 dir;
 
     List<Vector3> _waypoints;
     int _nextPoint = 0;
 
-    public EnemyStatePatrol(EnemyController enemyController)
+    public EnemyStatePatrol(KnightController enemyController, KnightModel model, KnightView view)
     {
         _enemyController = enemyController;
+        _view = view;
+        _model = model;
     }
 
     public override void Enter()
     {
-        _enemyController.View._animator.SetBool("Patrolling", true);
-        _enemyController.View.AgentController.target = GetNewTarget();
+        _view._animator.SetBool("Patrolling", true);
+        _view.AgentController.target = GetNewTarget();
         _nextPoint = 0;
-        _enemyController.View.AgentController.RunThetaStar();
+        _view.AgentController.RunThetaStar();
     }
 
     public override void Execute()
@@ -32,14 +36,14 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
 
     public override void Sleep()
     {
-        _enemyController.View._animator.SetBool("Patrolling", false);
+        _view._animator.SetBool("Patrolling", false);
     }
 
     void Move(Vector3 dirToMove)                    //Move to the wished direction
     {
-        dirToMove *= _enemyController.Model.PatrollingSpeed;
-        dirToMove.y = _enemyController.View.RB.velocity.y;
-        _enemyController.View.RB.velocity = dirToMove;
+        dirToMove *= _model.patrollingSpeed;
+        dirToMove.y = _view.RB.velocity.y;
+        _view.RB.velocity = dirToMove;
     }
 
     void LookDir(Vector3 dirToLook)                 //Rotate to the wished direction
@@ -71,12 +75,12 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
         _waypoints = newPoints;
         var pos = _waypoints[_nextPoint];
         pos.y = _enemyController.transform.position.y;
-        _enemyController.Model.IsFinishPath = false;
+        _enemyController.Model.isFinishPath = false;
     }
 
     void Run()
     {
-        if (_enemyController.Model.IsFinishPath) return;
+        if (_model.isFinishPath) return;
         var point = _waypoints[_nextPoint];
         var posPoint = point;
         posPoint.y = _enemyController.transform.position.y;
@@ -89,13 +93,13 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
             }
             else
             {
-                _enemyController.Model.IsFinishPath = true;
-                _enemyController.View.AgentController.target = GetNewTarget();
+                _model.isFinishPath = true;
+                _view.AgentController.target = GetNewTarget();
                 return;
             }
         }
-        Move(_enemyController.View.ObstacleAvoidance.GetNewDir(dir.normalized));
-        LookDir(_enemyController.View.ObstacleAvoidance.GetNewDir(dir));
+        Move(_view.ObstacleAvoidance.GetNewDir(dir.normalized));
+        LookDir(_view.ObstacleAvoidance.GetNewDir(dir));
     }
 }
 

@@ -11,11 +11,11 @@ public class GoblinStateAttack<T> : State<T>
     GoblinView _view;
     float _lastAttackTime;
 
-    public GoblinStateAttack(GoblinController controller, GoblinView view, GoblinModel model)
+    public GoblinStateAttack(GoblinController controller, GoblinModel model, GoblinView view)
     {
         _controller = controller;
-        _view = view;
         _model = model;
+        _view = view;
     }
 
     public override void Execute()

@@ -9,11 +9,11 @@ public class GoblinStateIdle<T> : State<T>
     GoblinView _view;
     GoblinModel _model;
 
-    public GoblinStateIdle(GoblinController controller, GoblinView view, GoblinModel model)
+    public GoblinStateIdle(GoblinController controller, GoblinModel model, GoblinView view)
     {
         _controller = controller;
-        _view = view;
         _model = model;
+        _view = view;
     }
 
     public override void Enter()

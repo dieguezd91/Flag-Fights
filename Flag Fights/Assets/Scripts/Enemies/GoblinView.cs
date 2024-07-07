@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoblinView : MonoBehaviour
+public class GoblinView : MonoBehaviour, IView
 {
     GoblinController goblinController;
 
     //COMPONENTS
-    public Animator _animator;
-    public Rigidbody RB;
-    public LineOfSight LOS;
-    public ObstacleAvoidance OBS;
+    [HideInInspector] public Animator _animator;
+    [HideInInspector] public Rigidbody RB;
+    [HideInInspector] public LineOfSight LOS;
+    [HideInInspector] public ObstacleAvoidance OBS;
     AudioSource _audioSource;
     public AudioSource AudioSource => _audioSource;
 

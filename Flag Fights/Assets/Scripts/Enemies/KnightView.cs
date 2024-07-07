@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyView : MonoBehaviour
+public class KnightView : MonoBehaviour, IView
 {
     public Animator _animator;
     private Rigidbody _rb;

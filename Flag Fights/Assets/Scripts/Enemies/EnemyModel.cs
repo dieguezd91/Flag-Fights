@@ -4,21 +4,10 @@ using UnityEngine;
 
 public class EnemyModel : MonoBehaviour
 {
-    public float ChasingSpeed;
-    public float PatrollingSpeed;
-    public float TimeToFind;
-    public float CheckCooldown;
-    public float Angle;
-    public float Radius;
-    public float PersonalArea;
-    public float AttackRange;
-    public float AttackCD;
-    public float RestingTime;
-    public bool IsIdle = true;
-    public bool IsFinishPath = true;
-    public Vector3 LastTargetPosKnown;
-    public float lastCheck;
-
-    public AudioClip AttackSFX;
-    public AudioClip SwingSFX;
+    public float chasingSpeed;
+    public float angle;
+    public float radius;
+    public float personalArea;
+    public float attackRange;
+    public float attackCD;
 }

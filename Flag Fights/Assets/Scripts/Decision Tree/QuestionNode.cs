@@ -8,6 +8,7 @@ public class QuestionNode : ITreeNode
     Func<bool> _question;
     ITreeNode _fNode;
     ITreeNode _tNode;
+
     public QuestionNode(Func<bool> question, ITreeNode tNode, ITreeNode fNode)
     {
         _question = question;

@@ -1,83 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public EnemyModel Model;
-    public EnemyView View;
+    public ITreeNode _root;
 
-    private FSM<EnemyStatesEnum> fsm;
-    private ITreeNode root;
+    public ISteering _steering;
 
-    private EnemyStatePatrol<EnemyStatesEnum> _enemyPatrol;
+    public virtual void Awake() { }
 
-    private void Awake()
-    {
-        InitializeFSM();
-        InitializeTree();
-    }
+    public virtual void Start() { }
 
-    private void Update()
-    {
-        fsm.OnUpdate();
-        root.Execute();
-    }
+    public virtual void Update() { }
 
-    public void InitializeFSM()
-    {
-        _enemyPatrol = new EnemyStatePatrol<EnemyStatesEnum>(this);
-        var chase = new EnemyStateChase<EnemyStatesEnum>(this);
-        var attack = new EnemyStateAttack<EnemyStatesEnum>(this);
-        var idle = new EnemyStateIdle<EnemyStatesEnum>(this);
+    public virtual void InitializeSteerings() { }
 
-        fsm = new FSM<EnemyStatesEnum>(idle);
+    public virtual void InitializeTree() { }
 
-        _enemyPatrol.AddTransition(EnemyStatesEnum.Chase, chase);
-        _enemyPatrol.AddTransition(EnemyStatesEnum.Attack, attack);
-        _enemyPatrol.AddTransition(EnemyStatesEnum.Idle, idle);
-        chase.AddTransition(EnemyStatesEnum.Patrol, _enemyPatrol);
-        chase.AddTransition(EnemyStatesEnum.Idle, idle);
-        chase.AddTransition(EnemyStatesEnum.Attack, attack);
-        attack.AddTransition(EnemyStatesEnum.Chase, chase);
-        attack.AddTransition(EnemyStatesEnum.Patrol, _enemyPatrol);
-        attack.AddTransition(EnemyStatesEnum.Idle, idle);
-        idle.AddTransition(EnemyStatesEnum.Chase, chase);
-        idle.AddTransition(EnemyStatesEnum.Patrol, _enemyPatrol);
-        idle.AddTransition(EnemyStatesEnum.Attack, attack);
-    }
+    public virtual void InitializeFSM() { }
 
-    private void InitializeTree()
-    {
-        ITreeNode patrol = new ActionNode(() => fsm.Transition(EnemyStatesEnum.Patrol));
-        ITreeNode chase = new ActionNode(() => fsm.Transition(EnemyStatesEnum.Chase));
-        ITreeNode attack = new ActionNode(() => fsm.Transition(EnemyStatesEnum.Attack));
-        ITreeNode idle = new ActionNode(() => fsm.Transition(EnemyStatesEnum.Idle));
-
-        ITreeNode qPatrol = new QuestionNode(QPatrol, patrol, idle);
-        ITreeNode qChase = new QuestionNode(QChase, chase, qPatrol);
-        ITreeNode qAttack = new QuestionNode(QAttack, attack, qChase);
-
-        root = qAttack;
-    }
-
-    public bool QAttack() => View.LineOfSight.HasLOS(Model.AttackRange);
-    public bool QChase()
-    {
-        if (View.LineOfSight.HasLOS(View.LineOfSight.Vision) || View.LineOfSight.HasLOS(View.LineOfSight.Vision, Model.LastTargetPosKnown))
-        {
-            if (Time.time >= Model.lastCheck + Model.CheckCooldown)
-            {
-                Model.LastTargetPosKnown = View.LineOfSight.TargetLOS.position;
-                Model.lastCheck = Time.time;
-            }
-            return true;
-        }
-        else return false;
-
-    }
-    public bool QPatrol() => !Model.IsFinishPath;
-
-    public IPoints GetStateWaypoints => _enemyPatrol;
 }

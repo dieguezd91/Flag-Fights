@@ -10,11 +10,11 @@ public class GoblinStateEvade<T> : State<T>
     GoblinModel _model;
     float _timePrediction;
 
-    public GoblinStateEvade(GoblinController enemy, GoblinView view, GoblinModel model, float timePrediction = 2)
+    public GoblinStateEvade(GoblinController enemy, GoblinModel model, GoblinView view, float timePrediction = 2)
     {
         _controller = enemy;
-        _view = view;
         _model = model;
+        _view = view;
         _timePrediction = timePrediction;
     }
 
@@ -26,7 +26,7 @@ public class GoblinStateEvade<T> : State<T>
     public override void Execute()
     {
         Vector3 dir = _view.OBS.GetNewDir(GetDir());
-        _view.Move(dir, _model.Speed);
+        _view.Move(dir, _model.chasingSpeed);
         _view.LookDir(dir);
     }
 

@@ -9,11 +9,11 @@ public class GoblinStateChase<T> : State<T>
     GoblinModel _model;
     GoblinView _view;
 
-    public GoblinStateChase(GoblinController controller, GoblinView view, GoblinModel model)
+    public GoblinStateChase(GoblinController controller, GoblinModel model, GoblinView view)
     {
         _controller = controller;
-        _view = view;
         _model = model;
+        _view = view;
     }
 
     public override void Enter()
@@ -24,7 +24,7 @@ public class GoblinStateChase<T> : State<T>
     public override void Execute()
     {
         Vector3 dir = _view.OBS.GetNewDir(_controller.Steering.GetDir());
-        _view.Move(dir, _model.Speed);
+        _view.Move(dir, _model.chasingSpeed);
         _view.LookDir(new Vector3(dir.x, 0, dir.z));
     }
 
