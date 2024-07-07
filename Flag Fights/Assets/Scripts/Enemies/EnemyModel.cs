@@ -17,6 +17,6 @@ public class EnemyModel : MonoBehaviour
     public bool IsIdle = true;
     public bool IsFinishPath = true;
 
-    public AudioClip AttackSFX { get; set; }
-    public AudioClip SwingSFX { get; set; }
+    public AudioClip AttackSFX;
+    public AudioClip SwingSFX;
 }

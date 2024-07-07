@@ -269,18 +269,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d6bac093e9daf245a40928cd6f87f5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChasingSpeed: 5
-  PatrollingSpeed: 3
-  TimeToFind: 2
-  CheckCooldown: 1
-  Angle: 90
-  Radius: 10
-  PersonalArea: 2
-  AttackRange: 1.5
-  AttackCD: 1
+  ChasingSpeed: 3
+  PatrollingSpeed: 1.5
+  TimeToFind: 5
+  CheckCooldown: 0.25
+  Angle: 180
+  Radius: 2
+  PersonalArea: 0.5
+  AttackRange: 0.9
+  AttackCD: 2.4
   RestingTime: 5
   IsIdle: 1
   IsFinishPath: 1
+  AttackSFX: {fileID: 8300000, guid: 308f81c9f79b57645b65ae590bd9f6b2, type: 3}
+  SwingSFX: {fileID: 8300000, guid: 2609c6f925116994f84291e2f815ac81, type: 3}
 --- !u!114 &4787379910016128926
 MonoBehaviour:
   m_ObjectHideFlags: 0
