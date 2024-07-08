@@ -90,18 +90,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d6bac093e9daf245a40928cd6f87f5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chasingSpeed: 0
-  angle: 0
-  radius: 0
-  personalArea: 0
-  attackRange: 0
-  attackCD: 0
-  patrollingSpeed: 0
-  timeToFind: 0
-  checkCooldown: 0
-  restingTime: 0
-  isIdle: 1
-  isFinishPath: 1
+  chasingSpeed: 3
+  angle: 180
+  radius: 1
+  personalArea: 0.5
+  attackRange: 0.9
+  attackCD: 2.4
+  patrollingSpeed: 1.5
+  timeToFind: 5
+  checkCooldown: 0.25
+  restingTime: 5
+  isIdle: 0
+  isFinishPath: 0
   lastCheck: 0
   lastTargetPosKnown: {x: 0, y: 0, z: 0}
   attackSFX: {fileID: 8300000, guid: 308f81c9f79b57645b65ae590bd9f6b2, type: 3}

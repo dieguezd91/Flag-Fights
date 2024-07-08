@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class KnightView : MonoBehaviour, IView
 {
+    KnightController knightController;
     public Animator _animator;
     private Rigidbody _rb;
     public Rigidbody RB => _rb;
@@ -18,10 +19,11 @@ public class KnightView : MonoBehaviour, IView
 
     private void Awake()
     {
+        knightController = GetComponent<KnightController>();
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         _los = GetComponent<LineOfSight>();
-        _obs = new ObstacleAvoidance(transform, 90f, 10f, LayerMask.GetMask("Obstacles"), 2f);
+        _obs = new ObstacleAvoidance(transform, knightController.Model.angle, knightController.Model.radius, _los.obstacles, knightController.Model.personalArea);
         _audioSource = GetComponent<AudioSource>();
         _agentController = GetComponent<AgentController>();
     }
@@ -49,5 +51,13 @@ public class KnightView : MonoBehaviour, IView
         {
             transform.forward = direction;
         }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, knightController.Model.radius);        
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, knightController.Model.personalArea);
     }
 }

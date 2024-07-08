@@ -6,7 +6,6 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
     KnightController _enemyController;
     KnightView _view;
     KnightModel _model;
-    //float changeCD = 7.5f;
     float lastChange;
     Vector3 dir;
 
@@ -39,14 +38,14 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
         _view._animator.SetBool("Patrolling", false);
     }
 
-    void Move(Vector3 dirToMove)                    //Move to the wished direction
+    void Move(Vector3 dirToMove)
     {
         dirToMove *= _model.patrollingSpeed;
         dirToMove.y = _view.RB.velocity.y;
         _view.RB.velocity = dirToMove;
     }
 
-    void LookDir(Vector3 dirToLook)                 //Rotate to the wished direction
+    void LookDir(Vector3 dirToLook)
     {
         if (dirToLook.x == 0 && dirToLook.z == 0) return;
         _enemyController.transform.forward = dirToLook;
@@ -102,4 +101,6 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
         LookDir(_view.ObstacleAvoidance.GetNewDir(dir));
     }
 }
+
+
 

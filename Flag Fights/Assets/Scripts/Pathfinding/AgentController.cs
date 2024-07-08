@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AgentController : MonoBehaviour
@@ -17,10 +18,20 @@ public class AgentController : MonoBehaviour
     public void RunThetaStar()
     {
         var start = GetNearNode(transform.position);
-        if (start == null) return;
+        if (start == null)
+        {
+            Debug.Log("No se encontro un nodo cercano");
+            return;
+        }
+
         List<Node> path = ThetaStar.Run(start, GetConnections, IsSatiesfies, GetCost, Heuristic, InView);
+        if (path.Count == 0)
+        {
+            return;
+        }
 
         enemy.GetStateWaypoints.SetWayPoints(path);
+        Debug.Log("Camino encontrado");
     }
 
     bool InView(Node grandParent, Node child)
@@ -30,7 +41,6 @@ public class AgentController : MonoBehaviour
 
     bool InView(Vector3 a, Vector3 b)
     {
-        //a->b  b-a
         Vector3 dir = b - a;
         return !Physics.Raycast(a, dir.normalized, dir.magnitude, maskObs);
     }
@@ -43,7 +53,7 @@ public class AgentController : MonoBehaviour
         heuristic += Vector3.Distance(current.transform.position, target.transform.position) * multiplierDistance;
         heuristic += Vector3.Distance(current.transform.position, GameManager.instance.player.transform.position) * playerDistanceMultiplier;
         return heuristic;
-    } 
+    }
 
     float GetCost(Node parent, Node child)
     {
@@ -55,14 +65,6 @@ public class AgentController : MonoBehaviour
         {
             cost += multiplierTrap;
         }
-        return cost;
-    }
-
-    float GetCost(Vector3 parent, Vector3 child)
-    {
-        float cost = 0;
-        float multiplierDistance = 1;
-        cost += Vector3.Distance(parent, child) * multiplierDistance;
         return cost;
     }
 
@@ -85,6 +87,10 @@ public class AgentController : MonoBehaviour
                 }
             }
         }
+        if (nearNode == null)
+        {
+            Debug.Log("No se encontro un nodo cercano");
+        }
         return nearNode;
     }
 
@@ -98,3 +104,4 @@ public class AgentController : MonoBehaviour
         return current == target;
     }
 }
+
