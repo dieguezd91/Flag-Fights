@@ -500,6 +500,10 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -7764487651825262745, guid: db30c4107988e1344b2f1789204afb20, type: 3}
+      propertyPath: m_Name
+      value: Paladin_J_Nordstrom
+      objectReference: {fileID: 0}
+    - target: {fileID: -7764487651825262745, guid: db30c4107988e1344b2f1789204afb20, type: 3}
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
@@ -648,8 +652,16 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1051571768989249988, guid: db30c4107988e1344b2f1789204afb20, type: 3}
+      propertyPath: m_Name
+      value: Paladin_J_Nordstrom_Helmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 1051571768989249988, guid: db30c4107988e1344b2f1789204afb20, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1051571768989249988, guid: db30c4107988e1344b2f1789204afb20, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1082271958561512970, guid: db30c4107988e1344b2f1789204afb20, type: 3}
       propertyPath: m_Layer

@@ -11435,37 +11435,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 988788854}
     m_Modifications:
-    - target: {fileID: 666854394757219372, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: multiplier
+    - target: {fileID: 1215150815875966088, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1308749439099989600, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: m_Icon
-      value: 
+    - target: {fileID: 1215150815875966090, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1308749439099989600, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
       propertyPath: m_Name
       value: Goblin (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1308749439099989600, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1723628949260941036, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: _attackRange
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1723628949260941036, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: personalArea
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5642266455780329622, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: personalArea
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826469450386260653, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: multiplier
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7978902671587588785, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13522,37 +13502,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 988788854}
     m_Modifications:
-    - target: {fileID: 666854394757219372, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: multiplier
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1308749439099989600, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: m_Icon
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 1308749439099989600, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
       propertyPath: m_Name
       value: Goblin (5)
       objectReference: {fileID: 0}
-    - target: {fileID: 1308749439099989600, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+    - target: {fileID: 1654845515165755378, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
+      propertyPath: m_Bones.Array.data[7]
+      value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 1723628949260941036, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: _attackRange
-      value: 0.5
+    - target: {fileID: 1654845515165755378, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
+      propertyPath: m_Bones.Array.data[8]
+      value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 1723628949260941036, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: personalArea
-      value: 0.1
+    - target: {fileID: 4048978662008753704, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
+      propertyPath: m_Bones.Array.data[7]
+      value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 5642266455780329622, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: personalArea
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826469450386260653, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: multiplier
-      value: 2
+    - target: {fileID: 4048978662008753704, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
+      propertyPath: m_Bones.Array.data[8]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7978902671587588785, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -44856,6 +44824,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 101.021
       objectReference: {fileID: 0}
+    - target: {fileID: 362994403659254510, guid: 1c4fc2a1bb3b97846917c86467bf6766, type: 3}
+      propertyPath: charactersToSpawn
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 451943138693188038, guid: 1c4fc2a1bb3b97846917c86467bf6766, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12.03
@@ -45357,7 +45329,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7355930627262628593, guid: 68bc3582bab6eef4fa3d1b2201b01469, type: 3}
       propertyPath: lossTimer
-      value: 28
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 7355930627262628593, guid: 68bc3582bab6eef4fa3d1b2201b01469, type: 3}
       propertyPath: flagSpawner

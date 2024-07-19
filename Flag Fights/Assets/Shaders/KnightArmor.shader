@@ -42,8 +42,8 @@ Shader "KnightArmor"
 }
 /*ASEBEGIN
 Version=18900
-651;612;803;379;851.532;49.85896;1.785539;False;False
-Node;AmplifyShaderEditor.SamplerNode;1;-455.5713,-7.598191;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;0;False;0;False;-1;d0e8743120ea0d14595a0a80b46a7749;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+482;627;1095;412;1112.221;79.32035;1.785539;False;False
+Node;AmplifyShaderEditor.SamplerNode;1;-455.5713,-7.598191;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;0;False;0;False;-1;d0e8743120ea0d14595a0a80b46a7749;d0e8743120ea0d14595a0a80b46a7749;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RangedFloatNode;4;-379.1005,183.0767;Inherit;False;Constant;_Float2;Float 2;1;0;Create;True;0;0;0;False;0;False;0.1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;2;-366.3895,270.9731;Inherit;False;Constant;_Float0;Float 0;1;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;3;-375.6039,362.5442;Inherit;False;Constant;_Float1;Float 1;1;0;Create;True;0;0;0;False;0;False;0.75;0;0;0;0;1;FLOAT;0
@@ -53,4 +53,4 @@ WireConnection;0;2;4;0
 WireConnection;0;3;2;0
 WireConnection;0;4;3;0
 ASEEND*/
-//CHKSM=F0FE741BB7A225082B5D5CC8B7B6AB0251DBBAED
+//CHKSM=5D01265DD5B15CDD95B6269BA3CC45E192B8A3B6
