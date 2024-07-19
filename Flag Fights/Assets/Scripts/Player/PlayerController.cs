@@ -1,8 +1,10 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     private PlayerModel _model;
+    public PlayerModel Model => _model;
     private PlayerView _view;
 
     // FSM
@@ -28,6 +30,11 @@ public class PlayerController : MonoBehaviour
         if (_fsm != null) _fsm.OnUpdate();
         if (_root != null) _root.Execute();
         UpdateMovementInput();
+
+        if (Input.GetKeyDown(KeyCode.I) && !_model.HasUsedInvisibility)
+        {
+            StartCoroutine(ActivateInvisibility());
+        }
     }
 
     private void UpdateMovementInput()
@@ -63,4 +70,16 @@ public class PlayerController : MonoBehaviour
     }
 
     bool QRun() => _model.MovementInput != Vector2.zero;
+
+    IEnumerator ActivateInvisibility()
+    {
+        _model.IsInvisible = true;
+        _model.HasUsedInvisibility = true;
+        _view.SetVisibility(false);
+
+        yield return new WaitForSeconds(3);
+
+        _model.IsInvisible = false;
+        _view.SetVisibility(true);
+    }
 }

@@ -29,18 +29,32 @@ public class UIManager : MonoBehaviour
 
     public void Update()
     {
-        
+        if (GameManager.instance == null)
+        {
+            return;
+        }
+
         UpdateTimer();
         UpdateScore();
     }
 
     public void UpdateScore()
     {
+        if (GameManager.instance == null)
+        {
+            return;
+        }
+
         score.text = GameManager.instance.Points.ToString() + " - " + GameManager.instance.EnemyPoints.ToString();
     }
 
     public void UpdateTimer()
     {
+        if (GameManager.instance == null)
+        {
+            return;
+        }
+
         int minutesLeft = Mathf.FloorToInt((GameManager.instance.lossTimer - GameManager.instance.currentTime) / 60.0f);
         int secondsLeft = Mathf.FloorToInt((GameManager.instance.lossTimer - GameManager.instance.currentTime) % 60.0f);
 
@@ -49,12 +63,13 @@ public class UIManager : MonoBehaviour
 
     public void ShowScore()
     {
+        if (GameManager.instance == null)
+        {
+            return;
+        }
+
         scoreScreen.SetActive(true);
         currentScore.text = GameManager.instance.Points.ToString() + " - " + GameManager.instance.EnemyPoints.ToString();
     }
-
-    public void RestartScore()
-    {
-
-    }
 }
+

@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour
             player.transform.SetPositionAndRotation(playerInitialTransform.position, playerInitialTransform.rotation);
             player.GetComponent<PlayerView>().SetFlagVisibility(false);
             player.GetComponent<PlayerModel>().HasFlag = false;
+            player.GetComponent<PlayerModel>().HasUsedInvisibility = false;
         }
 
         if (flagSpawner != null)

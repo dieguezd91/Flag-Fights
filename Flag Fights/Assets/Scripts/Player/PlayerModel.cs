@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerModel : MonoBehaviour 
+public class PlayerModel : MonoBehaviour
 {
     public bool HasFlag = false;
     public float Speed;
     public float TurnSpeed;
     public Vector2 MovementInput;
+    public bool IsInvisible = false;
+    public bool HasUsedInvisibility = false;
 }

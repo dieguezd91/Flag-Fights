@@ -7,9 +7,12 @@ public class PlayerView : MonoBehaviour
     public Animator Animator { get; private set; }
     public GameObject flag;
 
+    private Renderer[] renderers;
+
     private void Awake()
     {
         Animator = GetComponent<Animator>();
+        renderers = GetComponentsInChildren<Renderer>();
 
         if (Animator == null)
         {
@@ -20,6 +23,11 @@ public class PlayerView : MonoBehaviour
         {
             Debug.Log("Flag null");
         }
+
+        if (renderers == null || renderers.Length == 0)
+        {
+            Debug.Log("No renderers found");
+        }
     }
 
     public void SetFlagVisibility(bool isVisible)
@@ -29,4 +37,16 @@ public class PlayerView : MonoBehaviour
             flag.SetActive(isVisible);
         }
     }
+
+    public void SetVisibility(bool isVisible)
+    {
+        foreach (var renderer in renderers)
+        {
+            if (renderer != null)
+            {
+                renderer.enabled = isVisible;
+            }
+        }
+    }
 }
+

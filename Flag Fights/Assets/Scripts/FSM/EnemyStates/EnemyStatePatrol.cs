@@ -21,11 +21,27 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
 
     public override void Enter()
     {
+        if (_view == null || _view._animator == null || _view.AgentController == null)
+        {
+            return;
+        }
+
         _view._animator.SetBool("Patrolling", true);
-        _view.AgentController.target = GetNewTarget();
+
+        var newTarget = GetNewTarget();
+        if (newTarget == null)
+        {
+            Debug.Log("No se encontro un nuevo objetivo");
+            return;
+        }
+
+        _view.AgentController.target = newTarget;
+
         _nextPoint = 0;
+
         _view.AgentController.RunThetaStar();
     }
+
 
     public override void Execute()
     {
@@ -35,11 +51,21 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
 
     public override void Sleep()
     {
+        if (_view == null || _view._animator == null)
+        {
+            return;
+        }
+
         _view._animator.SetBool("Patrolling", false);
     }
 
     void Move(Vector3 dirToMove)
     {
+        if (_view == null || _view.RB == null)
+        {
+            return;
+        }
+
         dirToMove *= _model.patrollingSpeed;
         dirToMove.y = _view.RB.velocity.y;
         _view.RB.velocity = dirToMove;
@@ -47,6 +73,11 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
 
     void LookDir(Vector3 dirToLook)
     {
+        if (_view == null)
+        {
+            return;
+        }
+
         if (dirToLook.x == 0 && dirToLook.z == 0) return;
         _enemyController.transform.forward = dirToLook;
     }
@@ -70,7 +101,11 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
 
     public void SetWayPoints(List<Vector3> newPoints)
     {
-        if (newPoints.Count == 0) return;
+        if (newPoints == null || newPoints.Count == 0)
+        {
+            return;
+        }
+
         _waypoints = newPoints;
         var pos = _waypoints[_nextPoint];
         pos.y = _enemyController.transform.position.y;
@@ -79,7 +114,8 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
 
     void Run()
     {
-        if (_model.isFinishPath) return;
+        if (_model.isFinishPath || _waypoints == null || _waypoints.Count == 0) return;
+
         var point = _waypoints[_nextPoint];
         var posPoint = point;
         posPoint.y = _enemyController.transform.position.y;
@@ -97,10 +133,12 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
                 return;
             }
         }
+
         Move(_view.ObstacleAvoidance.GetNewDir(dir.normalized));
         LookDir(_view.ObstacleAvoidance.GetNewDir(dir));
     }
 }
+
 
 
 

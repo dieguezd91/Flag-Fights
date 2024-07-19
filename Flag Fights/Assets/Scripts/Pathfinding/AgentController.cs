@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class AgentController : MonoBehaviour
@@ -17,21 +16,44 @@ public class AgentController : MonoBehaviour
 
     public void RunThetaStar()
     {
+        if (target == null)
+        {
+            return;
+        }
+
         var start = GetNearNode(transform.position);
         if (start == null)
         {
-            Debug.Log("No se encontro un nodo cercano");
+            return;
+        }
+
+        if (GameManager.instance == null)
+        {
+            return;
+        }
+
+        if (GameManager.instance.player == null)
+        {
             return;
         }
 
         List<Node> path = ThetaStar.Run(start, GetConnections, IsSatiesfies, GetCost, Heuristic, InView);
+        if (path == null)
+        {
+            return;
+        }
+
         if (path.Count == 0)
         {
             return;
         }
 
+        if (enemy == null)
+        {
+            return;
+        }
+
         enemy.GetStateWaypoints.SetWayPoints(path);
-        Debug.Log("Camino encontrado");
     }
 
     bool InView(Node grandParent, Node child)
