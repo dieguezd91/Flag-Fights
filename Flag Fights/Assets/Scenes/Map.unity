@@ -45357,7 +45357,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7355930627262628593, guid: 68bc3582bab6eef4fa3d1b2201b01469, type: 3}
       propertyPath: lossTimer
-      value: 200
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 7355930627262628593, guid: 68bc3582bab6eef4fa3d1b2201b01469, type: 3}
       propertyPath: flagSpawner

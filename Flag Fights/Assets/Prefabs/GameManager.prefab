@@ -49,7 +49,7 @@ MonoBehaviour:
   timer: 0
   currentTime: 0
   stopTimer: 0
-  lossTimer: 45
+  lossTimer: 28
   player: {fileID: 0}
   Flag: {fileID: 0}
   flagSpawner: {fileID: 0}
