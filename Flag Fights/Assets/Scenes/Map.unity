@@ -380,37 +380,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 988788854}
     m_Modifications:
-    - target: {fileID: 666854394757219372, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: multiplier
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1308749439099989600, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: m_Icon
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 1308749439099989600, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
       propertyPath: m_Name
       value: Goblin (6)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1308749439099989600, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1723628949260941036, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: _attackRange
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1723628949260941036, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: personalArea
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5642266455780329622, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: personalArea
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5826469450386260653, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
-      propertyPath: multiplier
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7978902671587588785, guid: 4cbd81e07d5c201498dbefe0ee7749e5, type: 3}
       propertyPath: m_LocalPosition.x
