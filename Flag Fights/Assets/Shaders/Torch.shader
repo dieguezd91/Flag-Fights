@@ -46,8 +46,8 @@ Shader "Torch"
 }
 /*ASEBEGIN
 Version=18900
-651;612;803;379;758.0391;-76.52159;1;True;False
-Node;AmplifyShaderEditor.SamplerNode;1;-361.1018,-34.01122;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;0;False;0;False;-1;370214d29559d094bbd95faa22ad92b7;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+963;688;614;351;443.5391;38.47841;1;False;False
+Node;AmplifyShaderEditor.SamplerNode;1;-361.1018,-34.01122;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;0;False;0;False;-1;370214d29559d094bbd95faa22ad92b7;370214d29559d094bbd95faa22ad92b7;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RangedFloatNode;2;-263.3843,175.1082;Inherit;False;Constant;_Float0;Float 0;1;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;3;-265.999,284.0641;Inherit;False;Property;_Roughness;Roughness;1;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;4;-406.8054,222.3153;Inherit;False;Property;_Emissive;Emissive;2;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
@@ -57,4 +57,4 @@ WireConnection;0;2;4;0
 WireConnection;0;3;2;0
 WireConnection;0;4;3;0
 ASEEND*/
-//CHKSM=A1BF21EA394605927544855B85F8D41F45440FC3
+//CHKSM=D9CA16F922EC24BC9550489E90BCF97CDADE7E0D
