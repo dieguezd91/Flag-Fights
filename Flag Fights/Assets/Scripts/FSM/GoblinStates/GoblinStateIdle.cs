@@ -28,6 +28,7 @@ public class GoblinStateIdle<T> : State<T>
         }
 
         _view._animator.SetBool("Idle", true);
+        _view.RB.velocity = new Vector3(0, _view.RB.velocity.y, 0);
     }
     
     public override void Sleep()

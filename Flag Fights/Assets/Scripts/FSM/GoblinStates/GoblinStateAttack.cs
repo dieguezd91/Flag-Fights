@@ -18,6 +18,18 @@ public class GoblinStateAttack<T> : State<T>
         _view = view;
     }
 
+    public override void Enter()
+    {
+        _view.RB.velocity = new Vector3(0, _view.RB.velocity.y, 0);
+        _view._animator.SetTrigger("Attack");
+        _lastAttackTime = Time.time;
+    }
+
+    public override void Sleep()
+    {
+        _view._animator.ResetTrigger("Attack");
+    }
+
     public override void Execute()
     {
         Vector3 dirToTarget = _view.LOS.TargetLOS.position - _controller.transform.position;
