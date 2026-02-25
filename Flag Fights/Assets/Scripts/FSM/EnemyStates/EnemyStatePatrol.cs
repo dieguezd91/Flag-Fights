@@ -80,6 +80,11 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
     void Run()
     {
         if (_model.isFinishPath) return;
+        if (_waypoints == null || _waypoints.Count == 0)
+        {
+            _view.AgentController.RunThetaStar();
+            return;
+        }
         var point = _waypoints[_nextPoint];
         var posPoint = point;
         posPoint.y = _enemyController.transform.position.y;

@@ -36,6 +36,7 @@ public class FlockingManager : MonoBehaviour, ISteering
 
             dir += flockBehaviour.GetDir(_boids, _self);
         }
+        dir = Vector3.ProjectOnPlane(dir, Vector3.up);
         //Debug.DrawRay(transform.position, dir.normalized);
         return dir.normalized;
     }

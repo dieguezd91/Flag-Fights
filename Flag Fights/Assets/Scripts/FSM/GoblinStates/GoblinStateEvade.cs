@@ -25,9 +25,9 @@ public class GoblinStateEvade<T> : State<T>
 
     public override void Execute()
     {
-        Vector3 dir = _view.OBS.GetNewDir(GetDir());
+        Vector3 dir = _view.OBS.GetNewDir(GetDir(), false);
         _view.Move(dir, _model.chasingSpeed);
-        _view.LookDir(dir);
+        _view.LookDir(new Vector3(dir.x, 0, dir.z));
     }
 
     public override void Sleep()

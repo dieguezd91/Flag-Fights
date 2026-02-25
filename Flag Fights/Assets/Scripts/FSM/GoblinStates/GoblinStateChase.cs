@@ -23,7 +23,7 @@ public class GoblinStateChase<T> : State<T>
 
     public override void Execute()
     {
-        Vector3 dir = _view.OBS.GetNewDir(_controller.Steering.GetDir());
+        Vector3 dir = _view.OBS.GetNewDir(_controller.Steering.GetDir(), false);
         _view.Move(dir, _model.chasingSpeed);
         _view.LookDir(new Vector3(dir.x, 0, dir.z));
     }

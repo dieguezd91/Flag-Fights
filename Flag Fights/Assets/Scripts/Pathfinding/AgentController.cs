@@ -10,13 +10,18 @@ public class AgentController : MonoBehaviour
     public LayerMask maskObs;
     public Node target;
 
-    private void Start()
+    private void Awake()
     {
         enemy = GetComponent<KnightController>();
     }
 
     public void RunThetaStar()
     {
+        if (enemy == null)
+        {
+            Debug.LogError("AgentController: KnightController no encontrado en este GameObject.", gameObject);
+            return;
+        }
         var start = GetNearNode(transform.position);
         if (start == null)
         {

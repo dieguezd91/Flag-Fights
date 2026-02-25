@@ -20,7 +20,9 @@ public class GoblinStateAttack<T> : State<T>
 
     public override void Execute()
     {
-        Vector3 dir = (_view.LOS.TargetLOS.position - _controller.transform.position).normalized;
+        Vector3 dirToTarget = _view.LOS.TargetLOS.position - _controller.transform.position;
+        dirToTarget.y = 0;
+        Vector3 dir = dirToTarget.normalized;
         _view.LookDir(dir);
         if (Time.time - _lastAttackTime >= _model.attackCD)               //Attack the player
         {

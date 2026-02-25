@@ -19,6 +19,7 @@ public class GoblinView : MonoBehaviour, IView
         LOS = GetComponent<LineOfSight>();
         _animator = GetComponent<Animator>();
         RB = GetComponent<Rigidbody>();
+        RB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         _audioSource = GetComponent<AudioSource>();
     }
 
@@ -41,6 +42,7 @@ public class GoblinView : MonoBehaviour, IView
 
     public void LookDir(Vector3 direction)
     {
+        direction.y = 0;
         if (direction.x != 0 || direction.z != 0)
         {
             transform.forward = direction;
