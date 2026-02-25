@@ -8,7 +8,7 @@ public class LeaderBehaviour : MonoBehaviour, IFlockingBehaviour
     Transform _player;
     public bool isActive;
 
-    private void Awake()
+    private void Start()
     {
         _player = GameManager.instance.player.transform;
     }

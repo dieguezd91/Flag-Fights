@@ -22,9 +22,14 @@ public class UIManager : MonoBehaviour
     public void Start()
     {
         if (Instance == null) Instance = this;
-        else Destroy(Instance);
+        else { Destroy(gameObject); return; }
 
         _audioSource = GetComponent<AudioSource>();
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this) Instance = null; // Limpiar referencia al destruirse (recarga de escena)
     }
 
     public void Update()

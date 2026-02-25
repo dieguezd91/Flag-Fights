@@ -8,7 +8,7 @@ public class PredatorBehaviour : MonoBehaviour, IFlockingBehaviour
     public float predatorRange;
     Transform target;
 
-    private void Awake()
+    private void Start()
     {
         target = GameManager.instance.player.transform;
     }

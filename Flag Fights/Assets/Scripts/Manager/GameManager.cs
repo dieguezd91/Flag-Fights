@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -43,12 +44,12 @@ public class GameManager : MonoBehaviour
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
+            return; // Evitar que el duplicado siga ejecutando
         }
-        else
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
         // Verificar referencias necesarias
         if (player == null) player = GameObject.FindGameObjectWithTag("Player");
@@ -57,8 +58,36 @@ public class GameManager : MonoBehaviour
         _nodes = FindObjectsOfType<Node>().ToList();
     }
 
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        flagSpawner = FindObjectOfType<FlagSpawner>();
+        _nodes = FindObjectsOfType<Node>().ToList();
+        enemies = null; // Forzar re-fetch de enemigos en la nueva escena
+
+        // Resetear estado para nueva partida
+        _points = 0;
+        _enemyPoints = 0;
+        round = 0;
+        GoblinController.CurrentLeader = null;
+
+        StartCoroutine(StartRoundNextFrame());
+    }
+
+    IEnumerator StartRoundNextFrame()
+    {
+        yield return null; // Esperar un frame para que UIManager.Start() corra primero
+        StartRound();
+    }
+
     void Start()
     {
+        if (instance != this) return; // Evitar que el duplicado inicie una ronda
         StartRound(); // Iniciar la primera ronda
     }
 
@@ -180,7 +209,7 @@ public class GameManager : MonoBehaviour
     void GetActors()
     {
         // Si los enemigos ya existen (ronda 2+), fueron reseteados: no instanciar de nuevo
-        if (enemies != null && enemies.Length > 0)
+        if (enemies != null && enemies.Length > 0 && enemies[0] != null)
             return;
 
         enemyBase = FindObjectOfType<EnemyBase>();
