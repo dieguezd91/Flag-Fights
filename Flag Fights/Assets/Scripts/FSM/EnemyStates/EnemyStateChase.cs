@@ -38,10 +38,11 @@ public class EnemyStateChase<T> : State<T>
 
     private Vector3 GetDir()
     {
-        Rigidbody target = controller.View.LineOfSight.TargetLOS.GetComponent<Rigidbody>();
-        Vector3 point = controller.Model.lastTargetPosKnown + target.transform.forward * 2 * timePrediction;
+        Vector3 knownPos = controller.Model.lastTargetPosKnown;
+        Transform targetTransform = controller.View.LineOfSight.TargetLOS;
+        Vector3 point = knownPos + targetTransform.forward * 2 * timePrediction;
         Vector3 dirToPoint = (point - controller.View.transform.position).normalized;
-        Vector3 dirToTarget = (controller.Model.lastTargetPosKnown - controller.View.transform.position).normalized;
+        Vector3 dirToTarget = (knownPos - controller.View.transform.position).normalized;
         if (Vector3.Dot(dirToPoint, dirToTarget) < 0) dirToPoint = dirToTarget;
         return dirToPoint.normalized;
     }

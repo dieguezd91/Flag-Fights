@@ -55,6 +55,8 @@ public class ObstacleAvoidance
         if (nearColl == null) return currentDir;
         else
         {
+            closestPoint = nearColl.ClosestPoint(_entity.position);
+            if (!calculateY) closestPoint.y = _entity.position.y;
             Vector3 relativePos = _entity.InverseTransformPoint(closestPoint);
             Vector3 dirToClosestPoint = (closestPoint - _entity.position).normalized;
             Vector3 newDir;

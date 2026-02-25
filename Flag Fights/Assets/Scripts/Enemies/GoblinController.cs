@@ -36,7 +36,11 @@ public class GoblinController : EnemyController, IBoid
     {
         _fsm.OnUpdate();
         _root.Execute();
-        _isAlone = Physics.OverlapSphere(transform.position, boidDetectionRadius, Model.boidMask).Count() < minBoids;
+        var boidCols = Physics.OverlapSphere(transform.position, boidDetectionRadius, Model.boidMask);
+        int boidCount = 0;
+        for (int i = 0; i < boidCols.Length; i++)
+            if (boidCols[i].gameObject != gameObject) boidCount++;
+        _isAlone = boidCount < minBoids;
     }
 
     public override void InitializeFSM()

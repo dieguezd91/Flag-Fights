@@ -23,9 +23,13 @@ public class KnightView : MonoBehaviour, IView
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         _los = GetComponent<LineOfSight>();
-        _obs = new ObstacleAvoidance(transform, knightController.Model.angle, knightController.Model.radius, _los.obstacles, knightController.Model.personalArea);
         _audioSource = GetComponent<AudioSource>();
         _agentController = GetComponent<AgentController>();
+    }
+
+    private void Start()
+    {
+        _obs = new ObstacleAvoidance(transform, knightController.Model.angle, knightController.Model.radius, _los.obstacles, knightController.Model.personalArea);
     }
 
     public void PlayAttackAnimation()

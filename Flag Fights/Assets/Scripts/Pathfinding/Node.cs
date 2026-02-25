@@ -12,14 +12,7 @@ public class Node : MonoBehaviour
 
     private void Start()
     {
-        foreach (var node in neighbours)
-        {
-            if (node == this)
-            {
-                neighbours.Remove(node);
-                return;
-            }
-        }
+        neighbours.RemoveAll(node => node == this);
     }
 
 }

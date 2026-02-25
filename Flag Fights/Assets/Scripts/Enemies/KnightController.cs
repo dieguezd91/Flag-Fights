@@ -16,6 +16,7 @@ public class KnightController : EnemyController
     {
         Model = GetComponent<KnightModel>();
         View = GetComponent<KnightView>();
+        Model.lastTargetPosKnown = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
         InitializeFSM();
         InitializeTree();
     }

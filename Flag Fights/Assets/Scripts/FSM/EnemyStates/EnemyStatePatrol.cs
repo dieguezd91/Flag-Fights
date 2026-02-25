@@ -97,8 +97,9 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
                 return;
             }
         }
-        Move(_view.ObstacleAvoidance.GetNewDir(dir.normalized));
-        LookDir(_view.ObstacleAvoidance.GetNewDir(dir));
+        Vector3 avoidDir = _view.ObstacleAvoidance.GetNewDir(dir.normalized);
+        Move(avoidDir);
+        LookDir(avoidDir);
     }
 }
 
