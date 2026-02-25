@@ -16,7 +16,7 @@ public class AvoidanceBehaviour : MonoBehaviour, IFlockingBehaviour
             if (distance > personalArea) continue;
             avoidance += diff.normalized * (personalArea - distance);
         }
-        return avoidance.normalized * multiplier;
+        return avoidance * multiplier;
     }
     private void OnDrawGizmosSelected()
     {

@@ -16,9 +16,10 @@ public class PredatorBehaviour : MonoBehaviour, IFlockingBehaviour
 
     public Vector3 GetDir(List<IBoid> boids, IBoid self)
     {
+        if (GoblinController.CurrentLeader != null) return Vector3.zero;
         var diff = self.Position - target.position;
         if (diff.magnitude > predatorRange) return Vector3.zero;
         Vector3 predatorDir = diff.normalized * (predatorRange - diff.magnitude);
-        return predatorDir.normalized * multiplier;
+        return predatorDir * multiplier;
     }
 }

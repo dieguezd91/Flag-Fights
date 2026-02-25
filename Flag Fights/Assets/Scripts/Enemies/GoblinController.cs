@@ -15,15 +15,42 @@ public class GoblinController : EnemyController, IBoid
     [SerializeField] int minBoids;
     [SerializeField] float boidDetectionRadius;
 
+    public static GoblinController CurrentLeader;
+
     public bool atacking;
+
+    Vector3 _initialPosition;
+    Quaternion _initialRotation;
 
     public override void Awake()
     {
         Model = GetComponent<GoblinModel>();
         View = GetComponent<GoblinView>();
-        InitializeFSM(); 
-        InitializeTree(); 
+        _initialPosition = transform.position;
+        _initialRotation = transform.rotation;
+        InitializeFSM();
+        InitializeTree();
         InitializeSteerings();
+    }
+
+    public void ResetEnemy()
+    {
+        // Liberar liderazgo si este goblin era el líder
+        if (CurrentLeader == this)
+            CurrentLeader = null;
+
+        // Reset física
+        View.RB.velocity = Vector3.zero;
+        View.RB.angularVelocity = Vector3.zero;
+
+        // Reset posición y rotación al spawn original
+        transform.SetPositionAndRotation(_initialPosition, _initialRotation);
+
+        // Reset animator a estado neutro antes de la transición
+        View._animator.SetBool("Running", false);
+
+        // Reset FSM a Idle (desde Chase/Evade/Attack, todos tienen transición a Idle)
+        _fsm.Transition(GoblinStatesEnum.Idle);
     }
 
     public override void InitializeSteerings()
@@ -41,6 +68,30 @@ public class GoblinController : EnemyController, IBoid
         for (int i = 0; i < boidCols.Length; i++)
             if (boidCols[i].gameObject != gameObject) boidCount++;
         _isAlone = boidCount < minBoids;
+        UpdateLeadership();
+    }
+
+    void UpdateLeadership()
+    {
+        bool seesPlayer = View.LOS.HasLOS(View.LOS.Vision);
+        if (seesPlayer)
+        {
+            if (CurrentLeader == null)
+            {
+                CurrentLeader = this;
+            }
+            else if (CurrentLeader != this)
+            {
+                float myDist = Vector3.Distance(transform.position, View.LOS.TargetLOS.position);
+                float leaderDist = Vector3.Distance(CurrentLeader.transform.position, View.LOS.TargetLOS.position);
+                if (myDist < leaderDist)
+                    CurrentLeader = this;
+            }
+        }
+        else if (CurrentLeader == this)
+        {
+            CurrentLeader = null;
+        }
     }
 
     public override void InitializeFSM()
@@ -86,7 +137,12 @@ public class GoblinController : EnemyController, IBoid
         _root = qAttack;
     }
 
-    public bool QChase() => !_isAlone && !View.LOS.HasLOS(Model.attackRange) && View.LOS.HasLOS(View.LOS.Vision);
+    public bool QChase()
+    {
+        bool seesPlayer = !_isAlone && !View.LOS.HasLOS(Model.attackRange) && View.LOS.HasLOS(View.LOS.Vision);
+        bool followingLeader = !_isAlone && CurrentLeader != null && CurrentLeader != this;
+        return seesPlayer || followingLeader;
+    }
     public bool QAttack() => !_isAlone && View.LOS.HasLOS(Model.attackRange);
     public bool QEvade() => _isAlone && View.LOS.HasLOS(View.LOS.Vision);
 

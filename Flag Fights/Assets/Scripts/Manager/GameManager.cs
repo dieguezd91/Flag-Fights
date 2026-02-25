@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour
 
     public void NextRound()
     {
-        DestroyPreviousActors();
+        ResetPreviousActors();
         if (EnemyPoints >= _totalPoints)
         {
             Lose();
@@ -146,7 +146,7 @@ public class GameManager : MonoBehaviour
         // Se muestra una pantalla con el puntaje actual
         UIManager.Instance?.ShowScore();
 
-        // Actualizar parámetros de juego
+        // Actualizar parï¿½metros de juego
         Time.timeScale = 0;
         gameActive = false;
         timeElapsed = true; // Activar el indicador de tiempo transcurrido
@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviour
         // Mostrar pantalla de victoria
         UIManager.Instance?.winScreen.SetActive(true);
 
-        // Volver al menú inicial
+        // Volver al menï¿½ inicial
     }
 
     public void Lose()
@@ -179,24 +179,23 @@ public class GameManager : MonoBehaviour
 
     void GetActors()
     {
-        if (enemyBase != null)
-        {
-            DestroyPreviousActors();
-        }
+        // Si los enemigos ya existen (ronda 2+), fueron reseteados: no instanciar de nuevo
+        if (enemies != null && enemies.Length > 0)
+            return;
+
         enemyBase = FindObjectOfType<EnemyBase>();
         enemyBase?.InitializeBase();
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
     }
 
-    void DestroyPreviousActors()
+    void ResetPreviousActors()
     {
-        enemyBase = null;
-        if (enemies != null)
+        if (enemies == null) return;
+        for (int n = 0; n < enemies.Length; n++)
         {
-            for (int n = 0; n < enemies.Length; n++)
-            {
-                Destroy(enemies[n]);
-            }
+            if (enemies[n] == null) continue;
+            var goblin = enemies[n].GetComponent<GoblinController>();
+            goblin?.ResetEnemy();
         }
     }
 }

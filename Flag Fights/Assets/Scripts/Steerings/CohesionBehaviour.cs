@@ -18,6 +18,6 @@ public class CohesionBehaviour : MonoBehaviour, IFlockingBehaviour
             center /= boids.Count;
             cohesion = center - self.Position;
         }
-        return cohesion.normalized * multiplier;
+        return cohesion * multiplier;
     }
 }

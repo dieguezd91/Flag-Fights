@@ -60,7 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Model: {fileID: 0}
   View: {fileID: 0}
-  minBoids: 4
+  minBoids: 2
   boidDetectionRadius: 6
   atacking: 0
 --- !u!114 &1723628949260941036
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91af5e627a9afd344b1c3e1698260392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chasingSpeed: 1.5
+  chasingSpeed: 2.5
   angle: 180
   radius: 2
   personalArea: 0.125
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3df1fc6b35133b4a83440c58dc5cee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 5
+  radius: 6
   maxBoids: 10
   boidMask:
     serializedVersion: 2
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   multiplier: 1
-  predatorRange: 5
+  predatorRange: 3
 --- !u!114 &5826469450386260653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89537f9af8573a2458a38506f88d2692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 2
+  multiplier: 3.5
   isActive: 1
 --- !u!114 &8460127003005987703
 MonoBehaviour:
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a49cbc468736234d93d34ca81898a29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 3
+  multiplier: 1
 --- !u!114 &-9049242522506452261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 363ab7e541ce2f448987906f825f7702, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 4
+  multiplier: 1.2
 --- !u!114 &5642266455780329622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,8 +204,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da6ff92056007cc4c8f398266a16a4df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 5
-  personalArea: 0.75
+  multiplier: 2
+  personalArea: 1
 --- !u!95 &8319995001502734271
 Animator:
   serializedVersion: 5
