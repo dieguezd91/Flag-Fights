@@ -1,29 +1,23 @@
 using UnityEngine;
 
-public class EnemyStateIdle<T> : State<T>
+public class KnightStateIdle<T> : State<T>
 {
-    KnightController _enemyController;
+    KnightController _controller;
     KnightView _view;
     KnightModel _model;
     float restStartTime;
 
-    public EnemyStateIdle(KnightController enemyController, KnightModel model, KnightView view)
+    public KnightStateIdle(KnightController controller, KnightModel model, KnightView view)
     {
-        _enemyController = enemyController;
-        _model = model; 
+        _controller = controller;
+        _model = model;
         _view = view;
     }
 
     public override void Enter()
     {
-        if (_enemyController == null)
-        {
-            return;
-        }
-        if (_view._animator == null)
-        {
-            return;
-        }
+        if (_controller == null) return;
+        if (_view._animator == null) return;
 
         _view._animator.SetBool("Idle", true);
         _view.RB.velocity = new Vector3(0, _view.RB.velocity.y, 0);
@@ -42,4 +36,3 @@ public class EnemyStateIdle<T> : State<T>
         _view._animator.SetBool("Idle", false);
     }
 }
-

@@ -32,6 +32,12 @@ public class GoblinController : EnemyController, IBoid
         InitializeSteerings();
     }
 
+    public override void Start()
+    {
+        if (GameManager.instance?.player != null)
+            View.LOS.SetTarget(GameManager.instance.player.transform);
+    }
+
     public void ResetEnemy()
     {
         if (CurrentLeader == this)

@@ -1,20 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStatePatrol<T> : State<T>, IPoints
+public class KnightStatePatrol<T> : State<T>, IPoints
 {
-    KnightController _enemyController;
+    KnightController _controller;
     KnightView _view;
     KnightModel _model;
-    float lastChange;
-    Vector3 dir;
 
     List<Vector3> _waypoints;
     int _nextPoint = 0;
 
-    public EnemyStatePatrol(KnightController enemyController, KnightModel model, KnightView view)
+    public KnightStatePatrol(KnightController controller, KnightModel model, KnightView view)
     {
-        _enemyController = enemyController;
+        _controller = controller;
         _view = view;
         _model = model;
     }
@@ -48,7 +46,7 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
     void LookDir(Vector3 dirToLook)
     {
         if (dirToLook.x == 0 && dirToLook.z == 0) return;
-        _enemyController.transform.forward = dirToLook;
+        _controller.transform.forward = dirToLook;
     }
 
     Node GetNewTarget()
@@ -60,11 +58,8 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
     public void SetWayPoints(List<Node> newPoints)
     {
         var list = new List<Vector3>();
-
         for (int i = 0; i < newPoints.Count; i++)
-        {
             list.Add(newPoints[i].transform.position);
-        }
         SetWayPoints(list);
     }
 
@@ -73,8 +68,8 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
         if (newPoints.Count == 0) return;
         _waypoints = newPoints;
         var pos = _waypoints[_nextPoint];
-        pos.y = _enemyController.transform.position.y;
-        _enemyController.Model.isFinishPath = false;
+        pos.y = _controller.transform.position.y;
+        _controller.Model.isFinishPath = false;
     }
 
     void Run()
@@ -85,10 +80,9 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
             _view.AgentController.RunThetaStar();
             return;
         }
-        var point = _waypoints[_nextPoint];
-        var posPoint = point;
-        posPoint.y = _enemyController.transform.position.y;
-        Vector3 dir = posPoint - _enemyController.transform.position;
+        var posPoint = _waypoints[_nextPoint];
+        posPoint.y = _controller.transform.position.y;
+        Vector3 dir = posPoint - _controller.transform.position;
         if (dir.magnitude < 0.2f)
         {
             if (_nextPoint + 1 < _waypoints.Count)
@@ -107,6 +101,3 @@ public class EnemyStatePatrol<T> : State<T>, IPoints
         LookDir(avoidDir);
     }
 }
-
-
-

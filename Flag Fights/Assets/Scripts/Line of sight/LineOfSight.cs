@@ -6,15 +6,28 @@ public class LineOfSight : MonoBehaviour, ILineOfSight
     [SerializeField] float _vision;
     [Range(1, 360)] [SerializeField] float angle;
     [SerializeField] public LayerMask obstacles;
-    public Transform TargetLOS => GameManager.instance.player.transform;
+
+    Transform _target;
+    public Transform TargetLOS => _target;
+
     Vector3 directionToTarget;
     Vector3 Origin => transform.position;
     Vector3 Forward => transform.forward;
 
-    public bool HasLOS() => CheckRange(GameManager.instance.player.transform.position) && CheckAngle(GameManager.instance.player.transform.position) && CheckObstacles(GameManager.instance.player.transform.position);
+    public void SetTarget(Transform target) => _target = target;
 
-    public bool HasLOS(float range) => CheckRange(GameManager.instance.player.transform.position, range) && CheckAngle(GameManager.instance.player.transform.position) && CheckObstacles(GameManager.instance.player.transform.position);
-    public bool HasLOS(float range, Vector3 target) => CheckRange(target, range) && CheckAngle(target) && CheckObstacles(target);
+    public bool HasLOS() => _target != null
+        && CheckRange(_target.position)
+        && CheckAngle(_target.position)
+        && CheckObstacles(_target.position);
+
+    public bool HasLOS(float range) => _target != null
+        && CheckRange(_target.position, range)
+        && CheckAngle(_target.position)
+        && CheckObstacles(_target.position);
+
+    public bool HasLOS(float range, Vector3 target)
+        => CheckRange(target, range) && CheckAngle(target) && CheckObstacles(target);
 
     public bool CheckRange(Vector3 target)
     {
@@ -26,7 +39,6 @@ public class LineOfSight : MonoBehaviour, ILineOfSight
     {
         float distance = Vector3.Distance(target, Origin);
         return distance <= range;
-
     }
 
     public bool CheckAngle(Vector3 target)

@@ -37,6 +37,8 @@ public class GameManager : MonoBehaviour
     List<Node> _nodes;
     public List<Node> Nodes => _nodes;
 
+    int _lastDisplayedSecond = -1;
+
     void Awake()
     {
         if (instance != null && instance != this)
@@ -98,7 +100,26 @@ public class GameManager : MonoBehaviour
     public void CheckRoundStatus()
     {
         currentTime = Time.time - timer;
-        if (currentTime >= lossTimer && !timeElapsed) EndRound(false);
+        if (currentTime >= lossTimer && !timeElapsed)
+        {
+            EndRound(false);
+            return;
+        }
+
+        float remaining = Mathf.Max(0f, lossTimer - currentTime);
+        int second = Mathf.FloorToInt(remaining);
+        if (second != _lastDisplayedSecond)
+        {
+            _lastDisplayedSecond = second;
+            PushTimerDisplay(remaining);
+        }
+    }
+
+    void PushTimerDisplay(float remaining)
+    {
+        int m = Mathf.FloorToInt(remaining / 60f);
+        int s = Mathf.FloorToInt(remaining % 60f);
+        UIManager.Instance?.UpdateTimerDisplay(string.Format("{0:00}:{1:00}", m, s));
     }
 
     private void SetRound()
@@ -123,11 +144,14 @@ public class GameManager : MonoBehaviour
     {
         SetRound();
         Time.timeScale = 1;
-        UIManager.Instance?.ShowHUD();
         timeElapsed = false;
         timer = Time.time;
         currentTime = 0f;
+        _lastDisplayedSecond = -1;
         gameActive = true;
+        UIManager.Instance?.ShowHUD();
+        UIManager.Instance?.UpdateScoreDisplay(_points, _enemyPoints);
+        PushTimerDisplay(lossTimer);
     }
 
     public void NextRound()

@@ -39,17 +39,6 @@ public class GameUIRoot : MonoBehaviour, ISceneUI
     void OnContinuePressed()   => GameManager.instance?.NextRound();
     void OnBackToMenuPressed() => SceneManagerScript.instance?.LoadMainMenu();
 
-    void Update()
-    {
-        if (GameManager.instance == null || UIManager.Instance == null) return;
-
-        float remaining = Mathf.Max(0f, GameManager.instance.lossTimer - GameManager.instance.currentTime);
-        int m = Mathf.FloorToInt(remaining / 60f);
-        int s = Mathf.FloorToInt(remaining % 60f);
-        UIManager.Instance.UpdateTimerDisplay(string.Format("{0:00}:{1:00}", m, s));
-        UIManager.Instance.UpdateScoreDisplay(GameManager.instance.Points, GameManager.instance.EnemyPoints);
-    }
-
     public void ShowHUD()
     {
         HideAll();
