@@ -12,8 +12,6 @@ public class KnightView : MonoBehaviour, IView
     public LineOfSight LineOfSight => _los;
     private ObstacleAvoidance _obs;
     public ObstacleAvoidance ObstacleAvoidance => _obs;
-    private AudioSource _audioSource;
-    public AudioSource AudioSource => _audioSource;
     private AgentController _agentController;
     public AgentController AgentController => _agentController;
 
@@ -23,7 +21,6 @@ public class KnightView : MonoBehaviour, IView
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         _los = GetComponent<LineOfSight>();
-        _audioSource = GetComponent<AudioSource>();
         _agentController = GetComponent<AgentController>();
     }
 
@@ -35,11 +32,6 @@ public class KnightView : MonoBehaviour, IView
     public void PlayAttackAnimation()
     {
         _animator.SetTrigger("Attack");
-    }
-
-    public void PlaySound(AudioClip clip)
-    {
-        AudioSource.PlayOneShot(clip);
     }
 
     public void Move(Vector3 direction, float speed)

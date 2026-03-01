@@ -1,18 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GoblinView : MonoBehaviour, IView
 {
     GoblinController goblinController;
 
-    //COMPONENTS
     [HideInInspector] public Animator _animator;
     [HideInInspector] public Rigidbody RB;
     [HideInInspector] public LineOfSight LOS;
     [HideInInspector] public ObstacleAvoidance OBS;
-    AudioSource _audioSource;
-    public AudioSource AudioSource => _audioSource;
 
     private void Awake()
     {
@@ -20,17 +15,11 @@ public class GoblinView : MonoBehaviour, IView
         _animator = GetComponent<Animator>();
         RB = GetComponent<Rigidbody>();
         RB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        _audioSource = GetComponent<AudioSource>();
     }
 
     public void PlayAttackAnimation()
     {
         _animator.SetTrigger("Attack");
-    }
-
-    public void PlaySound(AudioClip clip)
-    {
-        AudioSource.PlayOneShot(clip);
     }
 
     public void Move(Vector3 direction, float speed)

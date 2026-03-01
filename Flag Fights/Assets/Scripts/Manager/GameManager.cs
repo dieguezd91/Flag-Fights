@@ -21,9 +21,8 @@ public class GameManager : MonoBehaviour
     public float currentTime;
     public float stopTimer;
     [SerializeField] public float lossTimer;
-    private bool timeElapsed = false; // Variable para controlar si ha transcurrido el tiempo
+    private bool timeElapsed = false;
 
-    // Actores
     private EnemyBase enemyBase;
     public GameObject player;
     private GameObject[] enemies;
@@ -40,18 +39,16 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        // Implementar Singleton correctamente
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
-            return; // Evitar que el duplicado siga ejecutando
+            return;
         }
 
         instance = this;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
 
-        // Verificar referencias necesarias
         if (player == null) player = GameObject.FindGameObjectWithTag("Player");
         if (flagSpawner == null) flagSpawner = FindObjectOfType<FlagSpawner>();
 
@@ -68,9 +65,8 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         flagSpawner = FindObjectOfType<FlagSpawner>();
         _nodes = FindObjectsOfType<Node>().ToList();
-        enemies = null; // Forzar re-fetch de enemigos en la nueva escena
+        enemies = null;
 
-        // Resetear estado para nueva partida
         _points = 0;
         _enemyPoints = 0;
         round = 0;
@@ -81,14 +77,14 @@ public class GameManager : MonoBehaviour
 
     IEnumerator StartRoundNextFrame()
     {
-        yield return null; // Esperar un frame para que UIManager.Start() corra primero
+        yield return null;
         StartRound();
     }
 
     void Start()
     {
-        if (instance != this) return; // Evitar que el duplicado inicie una ronda
-        StartRound(); // Iniciar la primera ronda
+        if (instance != this) return;
+        StartRound();
     }
 
     private void Update()
@@ -101,7 +97,7 @@ public class GameManager : MonoBehaviour
 
     public void CheckRoundStatus()
     {
-        currentTime = Time.time - timer; // Calcular el tiempo transcurrido desde el inicio
+        currentTime = Time.time - timer;
         if (currentTime >= lossTimer && !timeElapsed) EndRound(false);
     }
 
@@ -119,18 +115,16 @@ public class GameManager : MonoBehaviour
             flagSpawner.InitializeSpawner();
         }
 
-        GetActors(); // Obtener las referencias de los enemigos, sus bases y la bandera
-        timer = Time.time; // Iniciar el temporizador al inicio
+        GetActors();
+        timer = Time.time;
     }
 
     public void StartRound()
     {
         SetRound();
-        // Empieza a correr el tiempo
         Time.timeScale = 1;
-        // Se activa el HUD
         UIManager.Instance?.ShowHUD();
-        timeElapsed = false; // Reiniciar el indicador de tiempo transcurrido
+        timeElapsed = false;
         timer = Time.time;
         currentTime = 0f;
         gameActive = true;
@@ -160,15 +154,14 @@ public class GameManager : MonoBehaviour
         if (playerWon)
         {
             _points++;
-            UIManager.Instance?.AudioSource.PlayOneShot(victorySFX);
+            AudioManager.Instance?.PlaySFX(victorySFX);
         }
         else
         {
             _enemyPoints++;
-            UIManager.Instance?.AudioSource.PlayOneShot(defeatSFX);
+            AudioManager.Instance?.PlaySFX(defeatSFX);
         }
 
-        // Mostrar pantalla de puntaje (oculta el HUD internamente)
         UIManager.Instance?.ShowScore();
         UIManager.Instance?.UpdateScoreDisplay(_points, _enemyPoints);
 
@@ -191,7 +184,6 @@ public class GameManager : MonoBehaviour
 
     void GetActors()
     {
-        // Si los enemigos ya existen (ronda 2+), fueron reseteados: no instanciar de nuevo
         if (enemies != null && enemies.Length > 0 && enemies[0] != null)
             return;
 

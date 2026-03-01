@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class GoblinStateAttack<T> : State<T>
@@ -36,7 +33,7 @@ public class GoblinStateAttack<T> : State<T>
         dirToTarget.y = 0;
         Vector3 dir = dirToTarget.normalized;
         _view.LookDir(dir);
-        if (Time.time - _lastAttackTime >= _model.attackCD)               //Attack the player
+        if (Time.time - _lastAttackTime >= _model.attackCD)
         {
             _view._animator.SetTrigger("Attack");
             _lastAttackTime = Time.time;
@@ -45,10 +42,10 @@ public class GoblinStateAttack<T> : State<T>
             {
                 if (col.CompareTag("Player"))
                 {
-                    _view.AudioSource.PlayOneShot(_model.attackSFX);
+                    AudioManager.Instance?.PlaySFX(_model.attackSFX);
                     GameManager.instance.EndRound(false);
                 }
-                else _view.AudioSource.PlayOneShot(_model.swingSFX);
+                else AudioManager.Instance?.PlaySFX(_model.swingSFX);
             }
         }
     }

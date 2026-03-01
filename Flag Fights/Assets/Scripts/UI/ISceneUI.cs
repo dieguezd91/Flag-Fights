@@ -1,7 +1,3 @@
-/// <summary>
-/// Contrato que implementa cada SceneUIRoot.
-/// UIManager delega en esta interfaz sin conocer la estructura interna de los paneles.
-/// </summary>
 public interface ISceneUI
 {
     void ShowHUD();

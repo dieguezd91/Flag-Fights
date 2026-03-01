@@ -3,13 +3,11 @@ using UnityEngine;
 /// <summary>
 /// Singleton persistente entre escenas. Orquesta la UI sin conocer paneles individuales.
 /// Delega toda responsabilidad visual al ISceneUI registrado por la escena actual.
+/// El audio se gestiona exclusivamente a través de AudioManager.
 /// </summary>
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
-
-    AudioSource _audioSource;
-    public AudioSource AudioSource => _audioSource;
 
     ISceneUI _currentSceneUI;
 
@@ -23,7 +21,6 @@ public class UIManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        _audioSource = GetComponent<AudioSource>();
     }
 
     void OnDestroy()

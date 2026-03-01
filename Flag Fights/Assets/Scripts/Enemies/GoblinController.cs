@@ -9,7 +9,6 @@ public class GoblinController : EnemyController, IBoid
     [HideInInspector] public GoblinModel Model;
     [HideInInspector] public GoblinView View;
 
-    //AI
     FSM<GoblinStatesEnum> _fsm;
     bool _isAlone;
     [SerializeField] int minBoids;
@@ -35,21 +34,16 @@ public class GoblinController : EnemyController, IBoid
 
     public void ResetEnemy()
     {
-        // Liberar liderazgo si este goblin era el líder
         if (CurrentLeader == this)
             CurrentLeader = null;
 
-        // Reset física
         View.RB.velocity = Vector3.zero;
         View.RB.angularVelocity = Vector3.zero;
 
-        // Reset posición y rotación al spawn original
         transform.SetPositionAndRotation(_initialPosition, _initialRotation);
 
-        // Reset animator a estado neutro antes de la transición
         View._animator.SetBool("Running", false);
 
-        // Reset FSM a Idle (desde Chase/Evade/Attack, todos tienen transición a Idle)
         _fsm.Transition(GoblinStatesEnum.Idle);
     }
 

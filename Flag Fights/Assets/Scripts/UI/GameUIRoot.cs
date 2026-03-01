@@ -1,11 +1,6 @@
 using UnityEngine;
 using TMPro;
 
-/// <summary>
-/// SceneUIRoot de la escena Map (gameplay).
-/// Se registra en UIManager al despertar y expone la API de pantallas.
-/// Los botones se configuran directamente en el Inspector (sin Transform.Find).
-/// </summary>
 public class GameUIRoot : MonoBehaviour, ISceneUI
 {
     [Header("Panels")]
@@ -26,17 +21,13 @@ public class GameUIRoot : MonoBehaviour, ISceneUI
     {
         if (GameManager.instance == null || UIManager.Instance == null) return;
 
-        // Timer
         float remaining = Mathf.Max(0f, GameManager.instance.lossTimer - GameManager.instance.currentTime);
         int m = Mathf.FloorToInt(remaining / 60f);
         int s = Mathf.FloorToInt(remaining % 60f);
         UIManager.Instance.UpdateTimerDisplay(string.Format("{0:00}:{1:00}", m, s));
 
-        // Score
         UIManager.Instance.UpdateScoreDisplay(GameManager.instance.Points, GameManager.instance.EnemyPoints);
     }
-
-    // ─── ISceneUI ────────────────────────────────────────────────────────────
 
     public void ShowHUD()
     {

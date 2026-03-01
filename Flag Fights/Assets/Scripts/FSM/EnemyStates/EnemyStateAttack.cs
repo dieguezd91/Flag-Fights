@@ -46,13 +46,10 @@ public class EnemyStateAttack<T> : State<T>
             {
                 if (col.CompareTag("Player"))
                 {
-                    _view.PlaySound(_model.attackSFX);
+                    AudioManager.Instance?.PlaySFX(_model.attackSFX);
                     GameManager.instance.EndRound(false);
                 }
-                else
-                {
-                    _view.PlaySound(_model.swingSFX);
-                }
+                else AudioManager.Instance?.PlaySFX(_model.swingSFX);
             }
         }
     }
