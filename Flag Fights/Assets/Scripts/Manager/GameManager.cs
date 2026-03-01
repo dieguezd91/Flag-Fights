@@ -129,7 +129,7 @@ public class GameManager : MonoBehaviour
         // Empieza a correr el tiempo
         Time.timeScale = 1;
         // Se activa el HUD
-        UIManager.Instance?.HUD.SetActive(true);
+        UIManager.Instance?.ShowHUD();
         timeElapsed = false; // Reiniciar el indicador de tiempo transcurrido
         timer = Time.time;
         currentTime = 0f;
@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour
         else
         {
             round++;
-            UIManager.Instance?.scoreScreen.SetActive(false);
+            UIManager.Instance?.HideAll();
             StartRound();
         }
     }
@@ -159,51 +159,34 @@ public class GameManager : MonoBehaviour
     {
         if (playerWon)
         {
-            _points++; // Asignar puntos
-            UIManager.Instance?.AudioSource.PlayOneShot(victorySFX); // Reproducir SFX de victoria
+            _points++;
+            UIManager.Instance?.AudioSource.PlayOneShot(victorySFX);
         }
         else
         {
             _enemyPoints++;
-            UIManager.Instance?.AudioSource.PlayOneShot(defeatSFX); // Reproducir SFX de derrota
+            UIManager.Instance?.AudioSource.PlayOneShot(defeatSFX);
         }
 
-        // Se desactiva el HUD
-        UIManager.Instance?.HUD.SetActive(false);
-        // Se actualiza el puntaje
-        UIManager.Instance?.UpdateScore();
-        // Se muestra una pantalla con el puntaje actual
+        // Mostrar pantalla de puntaje (oculta el HUD internamente)
         UIManager.Instance?.ShowScore();
+        UIManager.Instance?.UpdateScoreDisplay(_points, _enemyPoints);
 
-        // Actualizar par�metros de juego
         Time.timeScale = 0;
         gameActive = false;
-        timeElapsed = true; // Activar el indicador de tiempo transcurrido
+        timeElapsed = true;
     }
 
     public void Win()
     {
-        // Se para el tiempo
         Time.timeScale = 0;
-
-        UIManager.Instance?.scoreScreen.SetActive(false);
-        // Se desactiva el HUD
-        UIManager.Instance?.HUD.SetActive(false);
-        // Mostrar pantalla de victoria
-        UIManager.Instance?.winScreen.SetActive(true);
-
-        // Volver al men� inicial
+        UIManager.Instance?.ShowWin();
     }
 
     public void Lose()
     {
-        // Se para el tiempo
         Time.timeScale = 0;
-        UIManager.Instance?.scoreScreen.SetActive(false);
-        // Se desactiva el HUD
-        UIManager.Instance?.HUD.SetActive(false);
-        // Mostrar pantalla de derrota
-        UIManager.Instance?.gameOverScreen.SetActive(true);
+        UIManager.Instance?.ShowGameOver();
     }
 
     void GetActors()

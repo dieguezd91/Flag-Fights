@@ -1,7 +1,9 @@
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
+/// <summary>
+/// Singleton persistente entre escenas. Orquesta la UI sin conocer paneles individuales.
+/// Delega toda responsabilidad visual al ISceneUI registrado por la escena actual.
+/// </summary>
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
@@ -9,106 +11,50 @@ public class UIManager : MonoBehaviour
     AudioSource _audioSource;
     public AudioSource AudioSource => _audioSource;
 
-    [Header("UI Text")]
-    public TextMeshProUGUI score;
-    public TextMeshProUGUI currentScore;
-    public TextMeshProUGUI timer;
+    ISceneUI _currentSceneUI;
 
-    [Header("UI Panels")]
-    public GameObject gameOverScreen;
-    public GameObject winScreen;
-    public GameObject HUD;
-    public GameObject scoreScreen;
-
-    [Header("Buttons")]
-    [SerializeField] private Button _restartGameOverBtn;
-    [SerializeField] private Button _quitGameOverBtn;
-    [SerializeField] private Button _restartWinBtn;
-    [SerializeField] private Button _quitWinBtn;
-    [SerializeField] private Button _continueScoreBtn;
-
-    public void Start()
+    void Awake()
     {
-        if (Instance == null) Instance = this;
-        else { Destroy(gameObject); return; }
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
         _audioSource = GetComponent<AudioSource>();
-
-        BindUI();
     }
 
-    private void BindUI()
-    {
-        if (gameOverScreen != null)
-        {
-            _restartGameOverBtn = gameOverScreen.transform.Find("BackButton")?.GetComponent<Button>();
-            
-            if (_restartGameOverBtn != null)
-            {
-                _restartGameOverBtn.onClick.RemoveAllListeners();
-                _restartGameOverBtn.onClick.AddListener(() => SceneManagerScript.instance?.LoadMainMenu());
-            }
-        }
-
-        if (winScreen != null)
-        {
-            _restartWinBtn = winScreen.transform.Find("BackButton")?.GetComponent<Button>();
-
-            if (_restartWinBtn != null)
-            {
-                _restartWinBtn.onClick.RemoveAllListeners();
-                _restartWinBtn.onClick.AddListener(() => SceneManagerScript.instance?.LoadMainMenu());
-            }
-        }
-
-        if (scoreScreen != null)
-        {
-            _continueScoreBtn = scoreScreen.transform.Find("Continue Button")?.GetComponent<Button>();
-
-            if (_continueScoreBtn != null)
-            {
-                _continueScoreBtn.onClick.RemoveAllListeners();
-                _continueScoreBtn.onClick.AddListener(() => GameManager.instance?.NextRound());
-            }
-        }
-    }
-
-    private void OnDestroy()
+    void OnDestroy()
     {
         if (Instance == this) Instance = null;
-        
-        _restartGameOverBtn?.onClick.RemoveAllListeners();
-        _restartWinBtn?.onClick.RemoveAllListeners();
-        _continueScoreBtn?.onClick.RemoveAllListeners();
     }
 
-    public void Update()
-    {        
-        UpdateTimer();
-        UpdateScore();
-    }
+    // ─── Registro ────────────────────────────────────────────────────────────
 
-    public void UpdateScore()
+    /// <summary>Llamado desde SceneUIRoot.Awake() al cargar cada escena.</summary>
+    public void RegisterSceneUI(ISceneUI ui) => _currentSceneUI = ui;
+
+    /// <summary>Llamado desde SceneUIRoot.OnDestroy() al salir de cada escena.</summary>
+    public void UnregisterSceneUI(ISceneUI ui)
     {
-        score.text = GameManager.instance.Points.ToString() + " - " + GameManager.instance.EnemyPoints.ToString();
+        if (_currentSceneUI == ui) _currentSceneUI = null;
     }
 
-    public void UpdateTimer()
-    {
-        int minutesLeft = Mathf.FloorToInt((GameManager.instance.lossTimer - GameManager.instance.currentTime) / 60.0f);
-        int secondsLeft = Mathf.FloorToInt((GameManager.instance.lossTimer - GameManager.instance.currentTime) % 60.0f);
+    // ─── API de pantallas ────────────────────────────────────────────────────
 
-        timer.text = string.Format("{0:00}:{1:00}", minutesLeft, secondsLeft);
-    }
+    public void ShowHUD()       => _currentSceneUI?.ShowHUD();
+    public void ShowScore()     => _currentSceneUI?.ShowScore();
+    public void ShowGameOver()  => _currentSceneUI?.ShowGameOver();
+    public void ShowWin()       => _currentSceneUI?.ShowWin();
+    public void HideAll()       => _currentSceneUI?.HideAll();
 
-    public void ShowScore()
-    {
-        scoreScreen.SetActive(true);
-        currentScore.text = GameManager.instance.Points.ToString() + " - " + GameManager.instance.EnemyPoints.ToString();
-    }
+    // ─── API de datos ────────────────────────────────────────────────────────
 
-    public void RestartScore()
-    {
+    public void UpdateScoreDisplay(int playerPoints, int enemyPoints)
+        => _currentSceneUI?.UpdateScoreDisplay(playerPoints, enemyPoints);
 
-    }
+    public void UpdateTimerDisplay(string formattedTime)
+        => _currentSceneUI?.UpdateTimerDisplay(formattedTime);
 }
