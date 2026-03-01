@@ -1,16 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerBase : MonoBehaviour
-{ 
-    private void OnTriggerEnter(Collider other)
+{
+    PlayerModel _playerModel;
+    PlayerView _playerView;
+
+    void Awake()
     {
-        if (other.gameObject.CompareTag("Player") && other.gameObject.GetComponent<PlayerModel>().HasFlag && GameManager.instance.currentTime <= GameManager.instance.lossTimer)
+        var player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
         {
-            other.GetComponent<PlayerModel>().HasFlag = false;
-            other.GetComponent<PlayerView>().flag.SetActive(false);
-            GameManager.instance.EndRound(true);
+            _playerModel = player.GetComponent<PlayerModel>();
+            _playerView  = player.GetComponent<PlayerView>();
         }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag("Player")) return;
+        if (_playerModel == null || !_playerModel.HasFlag) return;
+        if (GameManager.instance.currentTime > GameManager.instance.lossTimer) return;
+
+        _playerModel.HasFlag = false;
+        _playerView.SetFlagVisibility(false);
+        GameManager.instance.EndRound(true);
     }
 }

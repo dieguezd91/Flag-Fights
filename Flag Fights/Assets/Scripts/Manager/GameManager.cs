@@ -198,8 +198,8 @@ public class GameManager : MonoBehaviour
         for (int n = 0; n < enemies.Length; n++)
         {
             if (enemies[n] == null) continue;
-            var goblin = enemies[n].GetComponent<GoblinController>();
-            goblin?.ResetEnemy();
+            enemies[n].GetComponent<GoblinController>()?.ResetEnemy();
+            enemies[n].GetComponent<KnightController>()?.ResetEnemy();
         }
     }
 }

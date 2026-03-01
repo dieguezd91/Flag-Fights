@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LineOfSight : MonoBehaviour, ILineOfSight
@@ -8,7 +6,6 @@ public class LineOfSight : MonoBehaviour, ILineOfSight
     [SerializeField] float _vision;
     [Range(1, 360)] [SerializeField] float angle;
     [SerializeField] public LayerMask obstacles;
-    Transform _targetLOS;
     public Transform TargetLOS => GameManager.instance.player.transform;
     Vector3 directionToTarget;
     Vector3 Origin => transform.position;

@@ -12,13 +12,35 @@ public class KnightController : EnemyController
 
     private EnemyStatePatrol<EnemyStatesEnum> _enemyPatrol;
 
+    Vector3 _initialPosition;
+    Quaternion _initialRotation;
+
     public override void Awake()
     {
         Model = GetComponent<KnightModel>();
         View = GetComponent<KnightView>();
         Model.lastTargetPosKnown = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+        _initialPosition = transform.position;
+        _initialRotation = transform.rotation;
         InitializeFSM();
         InitializeTree();
+    }
+
+    public void ResetEnemy()
+    {
+        View.RB.velocity = Vector3.zero;
+        View.RB.angularVelocity = Vector3.zero;
+
+        transform.SetPositionAndRotation(_initialPosition, _initialRotation);
+
+        Model.lastTargetPosKnown = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+        Model.isFinishPath = true;
+        Model.isIdle = true;
+
+        View._animator.SetBool("Running", false);
+        View._animator.SetBool("Patrolling", false);
+
+        fsm.Transition(EnemyStatesEnum.Idle);
     }
 
     public override void Update()
