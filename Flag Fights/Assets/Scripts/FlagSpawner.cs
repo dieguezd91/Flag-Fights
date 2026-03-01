@@ -10,16 +10,20 @@ public class FlagSpawner : MonoBehaviour
     [SerializeField] GameObject flagPrefab;
 
     int pointsDiff;
+    Transform _lastSpawnPoint;
 
     public void InitializeSpawner()
     {
+        if (GameManager.instance.Flag != null)
+            Destroy(GameManager.instance.Flag);
+
         pointsDiff = GameManager.instance.Points - GameManager.instance.EnemyPoints;
         GetSpawnpoints();
         GameObject newFlag = SpawnFlag();
         GameManager.instance.Flag = newFlag;
     }
 
-    void SetWeight(SpawnpointInfo spawnpoint)
+    float GetWeight(SpawnpointInfo spawnpoint)
     {
         float multiplier = 1;
         if (pointsDiff > 0)
@@ -32,23 +36,30 @@ public class FlagSpawner : MonoBehaviour
             if (spawnpoint.closeToPlayerSpawn) multiplier = .5f;
             else multiplier = 2;
         }
-        spawnpoint.weight *= multiplier;
+        return spawnpoint.weight * multiplier;
     }
 
     void GetSpawnpoints()
     {
         spawnpoints = new Dictionary<Transform, float>();
+        bool hasAlternatives = posibleSpawns.Count > 1;
         for (int n = 0; n < posibleSpawns.Count; n++)
         {
             var curr = posibleSpawns[n];
-            SetWeight(curr);
-            spawnpoints[curr.transform] = curr.weight;
+            if (hasAlternatives && curr.transform == _lastSpawnPoint) continue;
+            spawnpoints[curr.transform] = GetWeight(curr);
         }
     }
 
     GameObject SpawnFlag()
     {
         var spawnSelected = MyRandoms.Roulette(spawnpoints);
-        return Instantiate(flagPrefab, spawnSelected.position, spawnSelected.rotation);
+        _lastSpawnPoint = spawnSelected;
+        Vector3 spawnPos = spawnSelected.position;
+
+        if (Physics.Raycast(spawnSelected.position + Vector3.up * 10f, Vector3.down, out RaycastHit hit, 20f))
+            spawnPos = hit.point;
+
+        return Instantiate(flagPrefab, spawnPos, spawnSelected.rotation);
     }
 }
