@@ -304,6 +304,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sfxSource: {fileID: 4959578043080478157}
   _musicSource: {fileID: 408471964481929024}
+  _menuMusic: {fileID: 8300000, guid: aa3478602414d401082090e319fc51e4, type: 3}
+  _gameplayMusic: {fileID: 8300000, guid: 79b1adcd944ac4f709545a8a1358080c, type: 3}
   _masterVolume: 1
   _sfxVolume: 1
   _musicVolume: 1

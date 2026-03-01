@@ -40394,6 +40394,9 @@ MonoBehaviour:
   scoreText: {fileID: 924669085944057820}
   timerText: {fileID: 2160525839511167800}
   currentScoreText: {fileID: 3841788438521528982}
+  _continueButton: {fileID: 3307475576684086157}
+  _gameOverBackButton: {fileID: 3055122889836899196}
+  _winBackButton: {fileID: 3279257674565134525}
 --- !u!224 &7591443072544748382
 RectTransform:
   m_ObjectHideFlags: 0

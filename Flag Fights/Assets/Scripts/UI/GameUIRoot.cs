@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class GameUIRoot : MonoBehaviour, ISceneUI
@@ -14,8 +15,29 @@ public class GameUIRoot : MonoBehaviour, ISceneUI
     [SerializeField] TMP_Text timerText;
     [SerializeField] TMP_Text currentScoreText;
 
-    void Awake() => UIManager.Instance?.RegisterSceneUI(this);
-    void OnDestroy() => UIManager.Instance?.UnregisterSceneUI(this);
+    [Header("Buttons")]
+    [SerializeField] Button _continueButton;
+    [SerializeField] Button _gameOverBackButton;
+    [SerializeField] Button _winBackButton;
+
+    void Awake()
+    {
+        UIManager.Instance?.RegisterSceneUI(this);
+        _continueButton?.onClick.AddListener(OnContinuePressed);
+        _gameOverBackButton?.onClick.AddListener(OnBackToMenuPressed);
+        _winBackButton?.onClick.AddListener(OnBackToMenuPressed);
+    }
+
+    void OnDestroy()
+    {
+        UIManager.Instance?.UnregisterSceneUI(this);
+        _continueButton?.onClick.RemoveAllListeners();
+        _gameOverBackButton?.onClick.RemoveAllListeners();
+        _winBackButton?.onClick.RemoveAllListeners();
+    }
+
+    void OnContinuePressed()   => GameManager.instance?.NextRound();
+    void OnBackToMenuPressed() => SceneManagerScript.instance?.LoadMainMenu();
 
     void Update()
     {
@@ -25,7 +47,6 @@ public class GameUIRoot : MonoBehaviour, ISceneUI
         int m = Mathf.FloorToInt(remaining / 60f);
         int s = Mathf.FloorToInt(remaining % 60f);
         UIManager.Instance.UpdateTimerDisplay(string.Format("{0:00}:{1:00}", m, s));
-
         UIManager.Instance.UpdateScoreDisplay(GameManager.instance.Points, GameManager.instance.EnemyPoints);
     }
 
