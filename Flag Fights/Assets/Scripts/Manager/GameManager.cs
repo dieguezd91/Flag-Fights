@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,14 +20,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] public float lossTimer;
     private bool timeElapsed = false;
 
-    private EnemyBase enemyBase;
     public GameObject player;
-    PlayerController _playerController;
-    private GameObject[] enemies;
     public GameObject Flag;
-    [SerializeField] FlagSpawner flagSpawner;
 
-    [SerializeField] Transform playerInitialTransform;
+    RoundWorldSystem _roundWorld;
 
     [SerializeField] AudioClip victorySFX;
     [SerializeField] AudioClip defeatSFX;
@@ -45,13 +40,12 @@ public class GameManager : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(gameObject);
+
         SceneManager.sceneLoaded += OnSceneLoaded;
         GameEvents.OnPlayerHit    += OnPlayerHitHandler;
         GameEvents.OnFlagCaptured += OnFlagCapturedHandler;
 
         if (player == null) player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null) _playerController = player.GetComponent<PlayerController>();
-        if (flagSpawner == null) flagSpawner = FindObjectOfType<FlagSpawner>();
     }
 
     void OnDestroy()
@@ -64,9 +58,7 @@ public class GameManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        _playerController = player != null ? player.GetComponent<PlayerController>() : null;
-        flagSpawner = FindObjectOfType<FlagSpawner>();
-        enemies = null;
+        _roundWorld = FindObjectOfType<RoundWorldSystem>();
 
         _points = 0;
         _enemyPoints = 0;
@@ -85,6 +77,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         if (instance != this) return;
+        _roundWorld = FindObjectOfType<RoundWorldSystem>();
         StartRound();
     }
 
@@ -123,18 +116,7 @@ public class GameManager : MonoBehaviour
 
     private void SetRound()
     {
-        if (player != null && playerInitialTransform != null)
-        {
-            player.transform.SetPositionAndRotation(playerInitialTransform.position, playerInitialTransform.rotation);
-            _playerController?.ResetRoundState();
-        }
-
-        if (flagSpawner != null)
-        {
-            flagSpawner.InitializeSpawner();
-        }
-
-        GetActors();
+        _roundWorld?.SetupRound();
         timer = Time.time;
     }
 
@@ -154,7 +136,7 @@ public class GameManager : MonoBehaviour
 
     public void NextRound()
     {
-        ResetPreviousActors();
+        _roundWorld?.ResetActors();
         if (EnemyPoints >= _totalPoints)
         {
             Lose();
@@ -209,24 +191,4 @@ public class GameManager : MonoBehaviour
         UIManager.Instance?.ShowGameOver();
     }
 
-    void GetActors()
-    {
-        if (enemies != null && enemies.Length > 0 && enemies[0] != null)
-            return;
-
-        enemyBase = FindObjectOfType<EnemyBase>();
-        enemyBase?.InitializeBase();
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
-    }
-
-    void ResetPreviousActors()
-    {
-        if (enemies == null) return;
-        for (int n = 0; n < enemies.Length; n++)
-        {
-            if (enemies[n] == null) continue;
-            enemies[n].GetComponent<GoblinController>()?.ResetEnemy();
-            enemies[n].GetComponent<KnightController>()?.ResetEnemy();
-        }
-    }
 }
