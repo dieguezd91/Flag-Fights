@@ -45,6 +45,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void ResetRoundState()
+    {
+        _model.HasFlag = false;
+        _view.SetFlagVisibility(false);
+    }
+
     void InitializeFSM()
     {
         var idle = new PlayerStateIdle<PlayerStatesEnum>(_view, _model, PlayerStatesEnum.Run);

@@ -51,8 +51,7 @@ public class KnightStatePatrol<T> : State<T>, IPoints
 
     Node GetNewTarget()
     {
-        var r = MyRandoms.Range(0, GameManager.instance.Nodes.Count);
-        return GameManager.instance.Nodes[(int)r];
+        return _controller.NodeRegistry?.GetRandomNode();
     }
 
     public void SetWayPoints(List<Node> newPoints)

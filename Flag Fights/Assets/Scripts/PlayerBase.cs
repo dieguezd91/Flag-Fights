@@ -22,6 +22,6 @@ public class PlayerBase : MonoBehaviour
 
         _playerModel.HasFlag = false;
         _playerView.SetFlagVisibility(false);
-        GameEvents.OnFlagCaptured?.Invoke();
+        GameEvents.RaiseFlagCaptured();
     }
 }

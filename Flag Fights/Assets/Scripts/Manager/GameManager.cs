@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -25,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     private EnemyBase enemyBase;
     public GameObject player;
+    PlayerController _playerController;
     private GameObject[] enemies;
     public GameObject Flag;
     [SerializeField] FlagSpawner flagSpawner;
@@ -33,9 +32,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] AudioClip victorySFX;
     [SerializeField] AudioClip defeatSFX;
-
-    List<Node> _nodes;
-    public List<Node> Nodes => _nodes;
 
     int _lastDisplayedSecond = -1;
 
@@ -54,9 +50,8 @@ public class GameManager : MonoBehaviour
         GameEvents.OnFlagCaptured += OnFlagCapturedHandler;
 
         if (player == null) player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null) _playerController = player.GetComponent<PlayerController>();
         if (flagSpawner == null) flagSpawner = FindObjectOfType<FlagSpawner>();
-
-        _nodes = FindObjectsOfType<Node>().ToList();
     }
 
     void OnDestroy()
@@ -69,8 +64,8 @@ public class GameManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        _playerController = player != null ? player.GetComponent<PlayerController>() : null;
         flagSpawner = FindObjectOfType<FlagSpawner>();
-        _nodes = FindObjectsOfType<Node>().ToList();
         enemies = null;
 
         _points = 0;
@@ -131,8 +126,7 @@ public class GameManager : MonoBehaviour
         if (player != null && playerInitialTransform != null)
         {
             player.transform.SetPositionAndRotation(playerInitialTransform.position, playerInitialTransform.rotation);
-            player.GetComponent<PlayerView>().SetFlagVisibility(false);
-            player.GetComponent<PlayerModel>().HasFlag = false;
+            _playerController?.ResetRoundState();
         }
 
         if (flagSpawner != null)

@@ -7,6 +7,8 @@ public class KnightController : EnemyController
 
     FSM<KnightStatesEnum> _fsm;
     KnightStatePatrol<KnightStatesEnum> _patrolState;
+    NodeRegistry _nodeRegistry;
+    public NodeRegistry NodeRegistry => _nodeRegistry;
 
     Vector3 _initialPosition;
     Quaternion _initialRotation;
@@ -26,6 +28,7 @@ public class KnightController : EnemyController
     {
         if (GameManager.instance?.player != null)
             View.LineOfSight.SetTarget(GameManager.instance.player.transform);
+        _nodeRegistry = FindObjectOfType<NodeRegistry>();
     }
 
     public void ResetEnemy()

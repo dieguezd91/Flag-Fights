@@ -49,8 +49,6 @@ public class GameUIRoot : MonoBehaviour, ISceneUI
     {
         HideAll();
         scorePanel?.SetActive(true);
-        if (currentScoreText != null && GameManager.instance != null)
-            currentScoreText.text = $"{GameManager.instance.Points} - {GameManager.instance.EnemyPoints}";
     }
 
     public void ShowGameOver()
@@ -77,6 +75,8 @@ public class GameUIRoot : MonoBehaviour, ISceneUI
     {
         if (scoreText != null)
             scoreText.text = $"{playerPoints} - {enemyPoints}";
+        if (currentScoreText != null)
+            currentScoreText.text = $"{playerPoints} - {enemyPoints}";
     }
 
     public void UpdateTimerDisplay(string formattedTime)

@@ -45,7 +45,7 @@ public class KnightStateAttack<T> : State<T>
             if (col.CompareTag("Player"))
             {
                 AudioManager.Instance?.PlaySFX(_model.attackSFX);
-                GameEvents.OnPlayerHit?.Invoke();
+                GameEvents.RaisePlayerHit();
             }
             else AudioManager.Instance?.PlaySFX(_model.swingSFX);
         }
