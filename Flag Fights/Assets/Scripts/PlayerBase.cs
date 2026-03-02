@@ -19,10 +19,9 @@ public class PlayerBase : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
         if (_playerModel == null || !_playerModel.HasFlag) return;
-        if (GameManager.instance.currentTime > GameManager.instance.lossTimer) return;
 
         _playerModel.HasFlag = false;
         _playerView.SetFlagVisibility(false);
-        GameManager.instance.EndRound(true);
+        GameEvents.OnFlagCaptured?.Invoke();
     }
 }

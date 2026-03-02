@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
+        GameEvents.OnPlayerHit    += OnPlayerHitHandler;
+        GameEvents.OnFlagCaptured += OnFlagCapturedHandler;
 
         if (player == null) player = GameObject.FindGameObjectWithTag("Player");
         if (flagSpawner == null) flagSpawner = FindObjectOfType<FlagSpawner>();
@@ -60,6 +62,8 @@ public class GameManager : MonoBehaviour
     void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        GameEvents.OnPlayerHit    -= OnPlayerHitHandler;
+        GameEvents.OnFlagCaptured -= OnFlagCapturedHandler;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -173,8 +177,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void OnPlayerHitHandler()    => EndRound(false);
+    void OnFlagCapturedHandler() => EndRound(true);
+
     public void EndRound(bool playerWon)
     {
+        if (!gameActive) return;
+
         if (playerWon)
         {
             _points++;
