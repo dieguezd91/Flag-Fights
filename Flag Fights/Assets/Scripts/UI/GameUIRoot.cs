@@ -43,24 +43,28 @@ public class GameUIRoot : MonoBehaviour, ISceneUI
     {
         HideAll();
         hudPanel?.SetActive(true);
+        hudPanel?.transform.PopIn();
     }
 
     public void ShowScore()
     {
         HideAll();
         scorePanel?.SetActive(true);
+        scorePanel?.transform.PopIn();
     }
 
     public void ShowGameOver()
     {
         HideAll();
         gameOverPanel?.SetActive(true);
+        gameOverPanel?.transform.PopIn();
     }
 
     public void ShowWin()
     {
         HideAll();
         winPanel?.SetActive(true);
+        winPanel?.transform.PopIn();
     }
 
     public void HideAll()
@@ -74,9 +78,15 @@ public class GameUIRoot : MonoBehaviour, ISceneUI
     public void UpdateScoreDisplay(int playerPoints, int enemyPoints)
     {
         if (scoreText != null)
+        {
             scoreText.text = $"{playerPoints} - {enemyPoints}";
+            scoreText.transform.PunchScale();
+        }
         if (currentScoreText != null)
+        {
             currentScoreText.text = $"{playerPoints} - {enemyPoints}";
+            currentScoreText.transform.PunchScale();
+        }
     }
 
     public void UpdateTimerDisplay(string formattedTime)

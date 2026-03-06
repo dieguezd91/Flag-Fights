@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f7acfd3c767bc748b74aa128071c34c, type: 3}
+  m_Name: TweenSettings
+  m_EditorClassIdentifier: 
+  DefaultDuration: 0.3
+  FastDuration: 0.15
+  SlowDuration: 0.6
+  UI:
+    PopDuration: 0.3
+    PopInScale: 1.2
+    FadeDuration: 0.25
+    ButtonHoverScale: 1.1
+    ButtonClickScale: 0.95
+    DefaultEase: 27
+  Gameplay:
+    PunchStrength: 0.2
+    PunchDuration: 0.15
+    ShakeStrength: 0.1
+    ShakeDuration: 0.2
+  World:
+    FloatAmplitude: 0.2
+    FloatFrequency: 2
+    SpawnPopDuration: 0.5
+    SpawnEase: 24

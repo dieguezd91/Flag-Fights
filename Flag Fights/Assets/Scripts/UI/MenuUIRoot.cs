@@ -19,6 +19,10 @@ public class MenuUIRoot : MonoBehaviour, ISceneUI
         _creditsButton?.onClick.AddListener(OnCreditsPressed);
         _creditsBackButton?.onClick.AddListener(OnCreditsBackPressed);
         _quitButton?.onClick.AddListener(OnQuitPressed);
+
+        // Initial setup
+        if (mainScreen != null) mainScreen.transform.localScale = Vector3.one;
+        if (creditsPanel != null) creditsPanel.SetActive(false);
     }
 
     void OnDestroy()
@@ -32,15 +36,33 @@ public class MenuUIRoot : MonoBehaviour, ISceneUI
 
     void OnPlayPressed()        => SceneManagerScript.instance?.StartGame();
     void OnQuitPressed()        => SceneManagerScript.instance?.Quit();
-    void OnCreditsPressed()     { mainScreen?.SetActive(false); creditsPanel?.SetActive(true);  }
-    void OnCreditsBackPressed() { creditsPanel?.SetActive(false); mainScreen?.SetActive(true);  }
+
+    void OnCreditsPressed()
+    {
+        mainScreen?.transform.PopOut(onComplete: () =>
+        {
+            mainScreen.SetActive(false);
+            creditsPanel.SetActive(true);
+            creditsPanel.transform.PopIn();
+        });
+    }
+
+    void OnCreditsBackPressed()
+    {
+        creditsPanel?.transform.PopOut(onComplete: () =>
+        {
+            creditsPanel.SetActive(false);
+            mainScreen.SetActive(true);
+            mainScreen.transform.PopIn();
+        });
+    }
 
     public void ShowHUD()      { }
     public void ShowScore()    { }
     public void ShowGameOver() { }
     public void ShowWin()      { }
 
-    public void HideAll() => mainScreen?.SetActive(false);
+    public void HideAll() => mainScreen?.transform.PopOut(onComplete: () => mainScreen.SetActive(false));
 
     public void UpdateScoreDisplay(int playerPoints, int enemyPoints) { }
     public void UpdateTimerDisplay(string formattedTime) { }

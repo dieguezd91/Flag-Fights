@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerView : MonoBehaviour
@@ -27,6 +25,10 @@ public class PlayerView : MonoBehaviour
         if (flag != null)
         {
             flag.SetActive(isVisible);
+            if (isVisible)
+            {
+                flag.transform.PopIn();
+            }
         }
     }
 }
