@@ -16,7 +16,6 @@ public class TweenFeedbackComponent : MonoBehaviour
     {
         if (TweenSettings.Global == null) return;
 
-        // Initialize from TweenSettings if not overridden in Inspector
         if (_duration < 0)
         {
             if (_type == AnimationType.Floating) _duration = 1f / TweenSettings.Global.World.FloatFrequency;

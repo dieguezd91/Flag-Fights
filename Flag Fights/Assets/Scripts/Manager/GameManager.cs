@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -134,14 +135,19 @@ public class GameManager : MonoBehaviour
         PushTimerDisplay(lossTimer);
     }
 
-    public void NextRound()
+    public async void NextRound()
     {
+        // 1. Fade out to black
+        await FadeScreen.FadeOut();
+
+        // 2. Perform the reset while the screen is black
         _roundWorld?.ResetActors();
-        if (EnemyPoints >= _totalPoints)
+        
+        if (_enemyPoints >= _totalPoints)
         {
             Lose();
         }
-        else if (Points >= _totalPoints)
+        else if (_points >= _totalPoints)
         {
             Win();
         }
@@ -151,6 +157,12 @@ public class GameManager : MonoBehaviour
             UIManager.Instance?.HideAll();
             StartRound();
         }
+
+        // 3. Optional small delay for polish
+        await Task.Delay(200);
+
+        // 4. Fade back in
+        await FadeScreen.FadeIn();
     }
 
     void OnPlayerHitHandler()    => EndRound(false);

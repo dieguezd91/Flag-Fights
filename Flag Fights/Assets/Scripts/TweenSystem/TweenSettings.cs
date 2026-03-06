@@ -22,6 +22,7 @@ public class TweenSettings : ScriptableObject
         public float PopDuration = 0.3f;
         public float PopInScale = 1.2f;
         public float FadeDuration = 0.25f;
+        public float ScreenFadeDuration = 0.5f;
         public float ButtonHoverScale = 1.1f;
         public float ButtonClickScale = 0.95f;
         public DG.Tweening.Ease DefaultEase = DG.Tweening.Ease.OutBack;

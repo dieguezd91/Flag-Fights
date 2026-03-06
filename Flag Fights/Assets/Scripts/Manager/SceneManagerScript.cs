@@ -1,10 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// Gestiona la carga de escenas. Los botones de cada escena llaman
-/// directamente a estos métodos desde el Inspector (sin BindUI por código).
-/// </summary>
 public class SceneManagerScript : MonoBehaviour
 {
     public static SceneManagerScript instance;
@@ -24,14 +20,13 @@ public class SceneManagerScript : MonoBehaviour
         if (instance == this) instance = null;
     }
 
-    public void StartGame() => ChangeScene(1);
+    public void StartGame() => ChangeScene("Map");
 
-    public void LoadMainMenu() => ChangeScene(0);
+    public void LoadMainMenu() => ChangeScene("MainMenu");
 
-    private void ChangeScene(int n)
+    private void ChangeScene(string sceneName)
     {
-        SceneManager.LoadScene(n);
-        CurrentScene = n;
+        FadeScreen.FadeAndLoadScene(sceneName);
     }
 
     public void Quit() => Application.Quit();
