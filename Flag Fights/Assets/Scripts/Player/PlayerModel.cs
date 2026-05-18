@@ -7,5 +7,6 @@ public class PlayerModel : MonoBehaviour
     public bool HasFlag = false;
     public float Speed;
     public float TurnSpeed;
-    public Vector2 MovementInput;
+    public float MoveInput;
+    public float TurnInput;
 }

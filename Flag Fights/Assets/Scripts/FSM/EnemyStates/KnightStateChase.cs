@@ -17,7 +17,8 @@ public class KnightStateChase<T> : State<T>
 
     public override void Enter()
     {
-        _controller.View._animator.SetBool("Running", true);
+        if (_controller.View._animator != null)
+            _controller.View._animator.SetBool("Running", true);
     }
 
     public override void Execute()
@@ -29,7 +30,8 @@ public class KnightStateChase<T> : State<T>
 
     public override void Sleep()
     {
-        _controller.View._animator.SetBool("Running", false);
+        if (_controller.View._animator != null)
+            _controller.View._animator.SetBool("Running", false);
     }
 
     Vector3 GetDir()

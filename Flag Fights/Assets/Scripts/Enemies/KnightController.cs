@@ -42,8 +42,11 @@ public class KnightController : EnemyController
         Model.isFinishPath = true;
         Model.isIdle = true;
 
-        View._animator.SetBool("Running", false);
-        View._animator.SetBool("Patrolling", false);
+        if (View._animator != null)
+        {
+            View._animator.SetBool("Running", false);
+            View._animator.SetBool("Patrolling", false);
+        }
 
         _fsm.Transition(KnightStatesEnum.Idle);
     }

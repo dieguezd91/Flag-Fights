@@ -23,7 +23,8 @@ public class KnightStateAttack<T> : State<T>
 
     public override void Sleep()
     {
-        _view._animator.ResetTrigger("Attack");
+        if (_view._animator != null)
+            _view._animator.ResetTrigger("Attack");
     }
 
     public override void Execute()

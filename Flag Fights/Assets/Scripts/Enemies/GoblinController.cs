@@ -48,7 +48,8 @@ public class GoblinController : EnemyController, IBoid
 
         transform.SetPositionAndRotation(_initialPosition, _initialRotation);
 
-        View._animator.SetBool("Running", false);
+        if (View._animator != null)
+            View._animator.SetBool("Running", false);
 
         _fsm.Transition(GoblinStatesEnum.Idle);
     }

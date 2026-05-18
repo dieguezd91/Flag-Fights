@@ -17,7 +17,8 @@ public class GoblinStateEvade<T> : State<T>
 
     public override void Enter()
     {
-        _view._animator.SetBool("Running", true);
+        if (_view._animator != null)
+            _view._animator.SetBool("Running", true);
     }
 
     public override void Execute()
@@ -29,7 +30,8 @@ public class GoblinStateEvade<T> : State<T>
 
     public override void Sleep()
     {
-        _view._animator.SetBool("Running", false);
+        if (_view._animator != null)
+            _view._animator.SetBool("Running", false);
     }
 
 

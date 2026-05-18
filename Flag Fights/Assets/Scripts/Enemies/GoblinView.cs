@@ -19,7 +19,8 @@ public class GoblinView : MonoBehaviour, IView
 
     public void PlayAttackAnimation()
     {
-        _animator.SetTrigger("Attack");
+        if (_animator != null)
+            _animator.SetTrigger("Attack");
     }
 
     public void Move(Vector3 direction, float speed)

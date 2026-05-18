@@ -32,7 +32,8 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateMovementInput()
     {
-        _model.MovementInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        _model.MoveInput = Input.GetAxisRaw("Vertical");
+        _model.TurnInput = Input.GetAxisRaw("Horizontal");
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -68,5 +69,5 @@ public class PlayerController : MonoBehaviour
         _root = qRun;
     }
 
-    bool QRun() => _model.MovementInput != Vector2.zero;
+    bool QRun() => Mathf.Abs(_model.MoveInput) > 0.01f;
 }

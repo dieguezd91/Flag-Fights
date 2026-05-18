@@ -19,7 +19,8 @@ public class KnightStatePatrol<T> : State<T>, IPoints
 
     public override void Enter()
     {
-        _view._animator.SetBool("Patrolling", true);
+        if (_view._animator != null)
+            _view._animator.SetBool("Patrolling", true);
         _view.AgentController.target = GetNewTarget();
         _nextPoint = 0;
         _view.AgentController.RunThetaStar();
@@ -33,7 +34,8 @@ public class KnightStatePatrol<T> : State<T>, IPoints
 
     public override void Sleep()
     {
-        _view._animator.SetBool("Patrolling", false);
+        if (_view._animator != null)
+            _view._animator.SetBool("Patrolling", false);
     }
 
     void Move(Vector3 dirToMove)

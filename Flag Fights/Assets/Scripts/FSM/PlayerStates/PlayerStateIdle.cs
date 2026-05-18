@@ -27,7 +27,7 @@ public class PlayerStateIdle<T> : State<T>
     public override void Execute()
     {
         base.Execute();
-        if (_model.MovementInput != Vector2.zero)
+        if (_model.MoveInput >= 0.01f)
         {
             _fsm.Transition(_runInput);
         }

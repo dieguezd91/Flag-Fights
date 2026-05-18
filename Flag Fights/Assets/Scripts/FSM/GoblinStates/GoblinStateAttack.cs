@@ -17,13 +17,15 @@ public class GoblinStateAttack<T> : State<T>
     public override void Enter()
     {
         _view.RB.velocity = new Vector3(0, _view.RB.velocity.y, 0);
-        _view._animator.SetTrigger("Attack");
+        if (_view._animator != null)
+            _view._animator.SetTrigger("Attack");
         _lastAttackTime = Time.time;
     }
 
     public override void Sleep()
     {
-        _view._animator.ResetTrigger("Attack");
+        if (_view._animator != null)
+            _view._animator.ResetTrigger("Attack");
     }
 
     public override void Execute()
@@ -34,7 +36,8 @@ public class GoblinStateAttack<T> : State<T>
         _view.LookDir(dir);
         if (Time.time - _lastAttackTime >= _model.attackCD)
         {
-            _view._animator.SetTrigger("Attack");
+            if (_view._animator != null)
+                _view._animator.SetTrigger("Attack");
             _lastAttackTime = Time.time;
             Collider[] collidersAhead = Physics.OverlapSphere(_controller.transform.position + _controller.transform.forward * .25f + _controller.transform.up * .25f, .2f);
             foreach (Collider col in collidersAhead)

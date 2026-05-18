@@ -33,6 +33,7 @@ public class KnightStateIdle<T> : State<T>
 
     public override void Sleep()
     {
-        _view._animator.SetBool("Idle", false);
+        if (_view._animator != null)
+            _view._animator.SetBool("Idle", false);
     }
 }
