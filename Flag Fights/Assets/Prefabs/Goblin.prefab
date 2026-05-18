@@ -77,7 +77,7 @@ MonoBehaviour:
   chasingSpeed: 2.5
   angle: 180
   radius: 2
-  personalArea: 0.125
+  personalArea: 0.1
   attackRange: 0.225
   attackCD: 0.6
   obsMask:
@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89537f9af8573a2458a38506f88d2692, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 3.5
+  multiplier: 2
   isActive: 1
 --- !u!114 &8460127003005987703
 MonoBehaviour:
@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   multiplier: 2
-  personalArea: 1
+  personalArea: 0.5
 --- !u!54 &6707915767971497464
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -435,7 +435,7 @@ PrefabInstance:
         'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:RightArm'\n\tTransform
         'mixamorig:LeftLeg'\n\tTransform 'mixamorig:LeftShoulder'\n\tTransform 'mixamorig:RightFoot'\n\tTransform
         'mixamorig:Head'\n\tTransform 'mixamorig:LeftUpLeg'\n\tand more ...\n\tFrom
-        animation clip 'Attack'\n\tFrom animation clip 'mixamo.com'"
+        animation clip 'Attack'"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

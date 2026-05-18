@@ -12,7 +12,7 @@ public class GoblinView : MonoBehaviour, IView
     private void Awake()
     {
         LOS = GetComponent<LineOfSight>();
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInChildren<Animator>();
         RB = GetComponent<Rigidbody>();
         RB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
