@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private PlayerModel _model;
-    private PlayerView _view;
+    [SerializeField] private PlayerModel _model;
+    [SerializeField] private PlayerView _view;
 
     // FSM
     private FSM<PlayerStatesEnum> _fsm;
@@ -11,11 +11,12 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _model = GetComponent<PlayerModel>();
-        _view = GetComponent<PlayerView>();
+        if (_model == null) _model = GetComponent<PlayerModel>();
+        if (_view == null) _view = GetComponent<PlayerView>();
 
         if (_model == null || _view == null)
         {
+            Debug.LogError($"[{nameof(PlayerController)}] Missing PlayerModel or PlayerView on {name}. Flag pickup is disabled.", this);
             return;
         }
 
@@ -32,22 +33,36 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateMovementInput()
     {
+        if (_model == null) return;
+
         _model.MoveInput = Input.GetAxisRaw("Vertical");
         _model.TurnInput = Input.GetAxisRaw("Horizontal");
     }
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.CompareTag("Flag"))
+        if (!collision.CompareTag("Flag"))
         {
-            collision.gameObject.SetActive(false);
-            _view.SetFlagVisibility(true);
-            _model.HasFlag = true;
+            return;
         }
+
+        Debug.Log($"[{nameof(PlayerController)}] Flag contact detected with {collision.name}. Hand flag assigned: {_view != null && _view.HasFlagReference}", this);
+
+        if (_model == null || _view == null)
+        {
+            Debug.LogError($"[{nameof(PlayerController)}] Cannot pick up flag because PlayerModel or PlayerView is missing on {name}.", this);
+            return;
+        }
+
+        collision.gameObject.SetActive(false);
+        _view.SetFlagVisibility(true);
+        _model.HasFlag = true;
     }
 
     public void ResetRoundState()
     {
+        if (_model == null || _view == null) return;
+
         _model.HasFlag = false;
         _view.SetFlagVisibility(false);
     }
@@ -69,5 +84,5 @@ public class PlayerController : MonoBehaviour
         _root = qRun;
     }
 
-    bool QRun() => Mathf.Abs(_model.MoveInput) > 0.01f;
+    bool QRun() => _model != null && Mathf.Abs(_model.MoveInput) > 0.01f;
 }

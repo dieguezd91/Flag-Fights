@@ -127,11 +127,11 @@ GameObject:
   - component: {fileID: 454490951598111301}
   m_Layer: 0
   m_Name: Flag
-  m_TagString: Untagged
+  m_TagString: Flag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &436063497648767333
 Transform:
   m_ObjectHideFlags: 0
@@ -2496,6 +2496,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d3cfac3e97fc7345a736a6122a8c315, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _model: {fileID: 2914615087961016119}
+  _view: {fileID: 2371797183781715027}
 --- !u!114 &2371797183781715027
 MonoBehaviour:
   m_ObjectHideFlags: 0
