@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 983779582245147046}
   - component: {fileID: 5663774195484863245}
   - component: {fileID: 4919751874316836583}
+  - component: {fileID: 910000000000000003}
   m_Layer: 0
   m_Name: Flag
   m_TagString: Flag
@@ -232,3 +233,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &910000000000000003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710560215107864773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cf08942c1a947158a1be07efaa715bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  observedFlag: {fileID: 1710560215107864773}
+  pickupParticles: {fileID: 0}
+  pickupFeedbackObject: {fileID: 0}

@@ -12,9 +12,13 @@ public class RoundWorldSystem : MonoBehaviour
     public void SetupRound()
     {
         if (_playerController != null && _playerInitialTransform != null)
+        {
             _playerController.transform.SetPositionAndRotation(
                 _playerInitialTransform.position,
                 _playerInitialTransform.rotation);
+            GameEvents.RaisePlayerRespawned(_playerController);
+        }
+
         _playerController?.ResetRoundState();
 
         _flagSpawner?.InitializeSpawner();

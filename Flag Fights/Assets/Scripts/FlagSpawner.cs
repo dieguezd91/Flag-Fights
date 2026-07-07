@@ -21,6 +21,7 @@ public class FlagSpawner : MonoBehaviour
         GetSpawnpoints();
         GameObject newFlag = SpawnFlag();
         GameManager.instance.Flag = newFlag;
+        GameEvents.RaiseFlagSpawned(newFlag);
     }
 
     float GetWeight(SpawnpointInfo spawnpoint)

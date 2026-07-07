@@ -133,6 +133,7 @@ public class GameManager : MonoBehaviour
         UIManager.Instance?.ShowHUD();
         UIManager.Instance?.UpdateScoreDisplay(_points, _enemyPoints);
         PushTimerDisplay(lossTimer);
+        GameEvents.RaiseRoundStarted(round);
     }
 
     public async void NextRound()
@@ -183,8 +184,12 @@ public class GameManager : MonoBehaviour
             AudioManager.Instance?.PlaySFX(defeatSFX);
         }
 
+        GameEvents.RaiseScoreChanged(_points, _enemyPoints);
+
         UIManager.Instance?.ShowScore();
         UIManager.Instance?.UpdateScoreDisplay(_points, _enemyPoints);
+
+        GameEvents.RaiseRoundEnded(playerWon);
 
         Time.timeScale = 0;
         gameActive = false;

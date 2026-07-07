@@ -48,6 +48,8 @@ public class AudioManager : MonoBehaviour
         _sfxSource.PlayOneShot(clip, _sfxVolume * _masterVolume);
     }
 
+    public void PlaySfx(AudioClip clip) => PlaySFX(clip);
+
     public void PlayMusic(AudioClip clip, bool loop = true)
     {
         if (clip == null || _musicSource == null) return;

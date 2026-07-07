@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8332180451670854284}
   - component: {fileID: 1913024265163420583}
   - component: {fileID: 4913627051978099409}
+  - component: {fileID: 910000000000000005}
   m_Layer: 0
   m_Name: PlayerBase
   m_TagString: Untagged
@@ -38,6 +39,7 @@ Transform:
   - {fileID: 6537678984892487397}
   - {fileID: 5106558866577992195}
   - {fileID: 186959761807157868}
+  - {fileID: 910000000000000007}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1913024265163420583
@@ -52,6 +54,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bccaa242f9eb9124e95c3866bd5b8e95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &910000000000000005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151460794119751063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b16c6c17694b45f0b2249f241f68fad8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  captureReadyIndicator: {fileID: 910000000000000006}
 --- !u!65 &4913627051978099409
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15538,3 +15554,34 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 431194, guid: 4a0161dd17a0d6b42b4f8046836bcb22, type: 3}
   m_PrefabInstance: {fileID: 4583256886373611798}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &910000000000000006
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 910000000000000007}
+  m_Layer: 0
+  m_Name: CaptureReadyIndicator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &910000000000000007
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 910000000000000006}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.05, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8332180451670854284}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

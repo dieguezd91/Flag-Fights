@@ -266,6 +266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 340809432098262076}
   - component: {fileID: 8648124176719406390}
+  - component: {fileID: 910000000000000004}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -309,3 +310,22 @@ MonoBehaviour:
   _masterVolume: 1
   _sfxVolume: 1
   _musicVolume: 1
+--- !u!114 &910000000000000004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8961759155467570372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e1f8151ba3b4d70a836e31b0419188a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flagPickupSfx: {fileID: 0}
+  flagCapturedSfx: {fileID: 0}
+  scoreChangedSfx: {fileID: 0}
+  roundWinSfx: {fileID: 0}
+  roundLoseSfx: {fileID: 0}
+  playerHitSfx: {fileID: 0}
+  playerRespawnSfx: {fileID: 0}
