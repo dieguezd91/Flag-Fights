@@ -14,11 +14,7 @@ public class PlayerController : MonoBehaviour
         if (_model == null) _model = GetComponent<PlayerModel>();
         if (_view == null) _view = GetComponent<PlayerView>();
 
-        if (_model == null || _view == null)
-        {
-            Debug.LogError($"[{nameof(PlayerController)}] Missing PlayerModel or PlayerView on {name}. Flag pickup is disabled.", this);
-            return;
-        }
+        if (_model == null || _view == null) return;
 
         InitializeFSM();
         InitializeTree();
@@ -41,18 +37,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (!collision.CompareTag("Flag"))
-        {
-            return;
-        }
-
-        Debug.Log($"[{nameof(PlayerController)}] Flag contact detected with {collision.name}. Hand flag assigned: {_view != null && _view.HasFlagReference}", this);
-
-        if (_model == null || _view == null)
-        {
-            Debug.LogError($"[{nameof(PlayerController)}] Cannot pick up flag because PlayerModel or PlayerView is missing on {name}.", this);
-            return;
-        }
+        if (!collision.CompareTag("Flag")) return;
+        if (_model == null || _view == null) return;
 
         collision.gameObject.SetActive(false);
         _view.SetFlagVisibility(true);

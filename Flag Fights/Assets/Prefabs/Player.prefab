@@ -2774,6 +2774,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d3cfac3e97fc7345a736a6122a8c315, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _model: {fileID: 0}
+  _view: {fileID: 0}
 --- !u!114 &7150637009108313051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2802,7 +2804,8 @@ MonoBehaviour:
   HasFlag: 0
   Speed: 5
   TurnSpeed: 75
-  MovementInput: {x: 0, y: 0}
+  MoveInput: 0
+  TurnInput: 0
 --- !u!1 &8095303719496697850
 GameObject:
   m_ObjectHideFlags: 0
