@@ -15,23 +15,35 @@ public class KnightStateChase<T> : State<T>
         _timePrediction = timePrediction;
     }
 
+    private void UpdateAnimator()
+    {
+        if (_controller.View._animator == null) return;
+        float speed = new Vector3(_controller.View.RB.velocity.x, 0, _controller.View.RB.velocity.z).magnitude;
+        if (speed > 0.1f)
+        {
+            _controller.View._animator.SetBool("Running", true);
+            _controller.View._animator.SetBool("Patrolling", false);
+            _controller.View._animator.SetBool("Idle", false);
+        }
+        else
+        {
+            _controller.View._animator.SetBool("Idle", true);
+            _controller.View._animator.SetBool("Running", false);
+            _controller.View._animator.SetBool("Patrolling", false);
+        }
+    }
+
     public override void Enter()
     {
-        if (_controller.View._animator != null)
-            _controller.View._animator.SetBool("Running", true);
+        UpdateAnimator();
     }
 
     public override void Execute()
     {
+        UpdateAnimator();
         Vector3 dir = _controller.View.ObstacleAvoidance.GetNewDir(GetDir());
         _view.Move(dir, _controller.Model.chasingSpeed);
         _view.LookDir(new Vector3(dir.x, 0, dir.z));
-    }
-
-    public override void Sleep()
-    {
-        if (_controller.View._animator != null)
-            _controller.View._animator.SetBool("Running", false);
     }
 
     Vector3 GetDir()

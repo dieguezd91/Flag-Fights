@@ -2361,6 +2361,15 @@ MonoBehaviour:
   lastTargetPosKnown: {x: 0, y: 0, z: 0}
   attackSFX: {fileID: 8300000, guid: 308f81c9f79b57645b65ae590bd9f6b2, type: 3}
   swingSFX: {fileID: 8300000, guid: 2609c6f925116994f84291e2f815ac81, type: 3}
+  attackImpactDelay: 0.35
+  attackRecoveryTime: 0.8
+  hitForwardOffset: 0.35
+  hitVerticalOffset: 0.5
+  hitRadius: 0.4
+  hitLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  debugAttack: 0
 --- !u!114 &-129516531747733022
 MonoBehaviour:
   m_ObjectHideFlags: 0

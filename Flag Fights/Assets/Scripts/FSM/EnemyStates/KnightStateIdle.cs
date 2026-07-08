@@ -20,6 +20,8 @@ public class KnightStateIdle<T> : State<T>
         if (_view._animator == null) return;
 
         _view._animator.SetBool("Idle", true);
+        _view._animator.SetBool("Running", false);
+        _view._animator.SetBool("Patrolling", false);
         _view.RB.velocity = new Vector3(0, _view.RB.velocity.y, 0);
         restStartTime = Time.time;
     }
@@ -27,13 +29,13 @@ public class KnightStateIdle<T> : State<T>
     public override void Execute()
     {
         base.Execute();
+        if (_view._animator != null)
+        {
+            _view._animator.SetBool("Idle", true);
+            _view._animator.SetBool("Running", false);
+            _view._animator.SetBool("Patrolling", false);
+        }
         if (Time.time >= _model.restingTime + restStartTime)
             _model.isFinishPath = false;
-    }
-
-    public override void Sleep()
-    {
-        if (_view._animator != null)
-            _view._animator.SetBool("Idle", false);
     }
 }

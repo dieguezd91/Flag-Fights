@@ -14,9 +14,26 @@ public class GoblinStateAttack<T> : State<T>
         _view = view;
     }
 
+    private void UpdateAnimator()
+    {
+        if (_view._animator == null) return;
+        float speed = new Vector3(_view.RB.velocity.x, 0, _view.RB.velocity.z).magnitude;
+        if (speed <= 0.1f)
+        {
+            _view._animator.SetBool("Idle", true);
+            _view._animator.SetBool("Running", false);
+        }
+        else
+        {
+            _view._animator.SetBool("Idle", false);
+            _view._animator.SetBool("Running", true);
+        }
+    }
+
     public override void Enter()
     {
         _view.RB.velocity = new Vector3(0, _view.RB.velocity.y, 0);
+        UpdateAnimator();
         if (_view._animator != null)
             _view._animator.SetTrigger("Attack");
         _lastAttackTime = Time.time;
@@ -30,6 +47,7 @@ public class GoblinStateAttack<T> : State<T>
 
     public override void Execute()
     {
+        UpdateAnimator();
         Vector3 dirToTarget = _view.LOS.TargetLOS.position - _controller.transform.position;
         dirToTarget.y = 0;
         Vector3 dir = dirToTarget.normalized;

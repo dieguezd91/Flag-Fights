@@ -15,22 +15,20 @@ public class GoblinStateIdle<T> : State<T>
 
     public override void Enter()
     {
-        if (_controller == null)
-        {
-            return;
-        }
-        if (_view._animator == null)
-        {
-            return;
-        }
+        if (_controller == null || _view._animator == null) return;
 
         _view._animator.SetBool("Idle", true);
+        _view._animator.SetBool("Running", false);
         _view.RB.velocity = new Vector3(0, _view.RB.velocity.y, 0);
     }
-    
-    public override void Sleep()
+
+    public override void Execute()
     {
+        base.Execute();
         if (_view._animator != null)
-            _view._animator.SetBool("Idle", false);
+        {
+            _view._animator.SetBool("Idle", true);
+            _view._animator.SetBool("Running", false);
+        }
     }
 }

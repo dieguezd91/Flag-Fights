@@ -25,7 +25,7 @@ public class FSM<T>
     public void Transition(T input)
     {
         IState<T> newState = _current.GetTransition(input);
-        if (newState != null)
+        if (newState != null && newState != _current)
         {
             _current.Sleep();
             _current = newState;

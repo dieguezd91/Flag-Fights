@@ -52,9 +52,23 @@ public class KnightView : MonoBehaviour, IView
 
     void OnDrawGizmos()
     {
+        if (knightController == null)
+            knightController = GetComponent<KnightController>();
+
+        if (knightController == null || knightController.Model == null) return;
+
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, knightController.Model.radius);        
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, knightController.Model.personalArea);
+
+        if (knightController.Model.debugAttack)
+        {
+            Gizmos.color = Color.yellow;
+            Vector3 hitCenter = transform.position
+                + transform.forward * knightController.Model.hitForwardOffset
+                + Vector3.up * knightController.Model.hitVerticalOffset;
+            Gizmos.DrawWireSphere(hitCenter, knightController.Model.hitRadius);
+        }
     }
 }

@@ -17,10 +17,27 @@ public class KnightStatePatrol<T> : State<T>, IPoints
         _model = model;
     }
 
+    private void UpdateAnimator()
+    {
+        if (_view._animator == null) return;
+        float speed = new Vector3(_view.RB.velocity.x, 0, _view.RB.velocity.z).magnitude;
+        if (speed > 0.1f)
+        {
+            _view._animator.SetBool("Patrolling", true);
+            _view._animator.SetBool("Running", false);
+            _view._animator.SetBool("Idle", false);
+        }
+        else
+        {
+            _view._animator.SetBool("Idle", true);
+            _view._animator.SetBool("Patrolling", false);
+            _view._animator.SetBool("Running", false);
+        }
+    }
+
     public override void Enter()
     {
-        if (_view._animator != null)
-            _view._animator.SetBool("Patrolling", true);
+        UpdateAnimator();
         _view.AgentController.target = GetNewTarget();
         _nextPoint = 0;
         _view.AgentController.RunThetaStar();
@@ -29,13 +46,8 @@ public class KnightStatePatrol<T> : State<T>, IPoints
     public override void Execute()
     {
         base.Execute();
+        UpdateAnimator();
         Run();
-    }
-
-    public override void Sleep()
-    {
-        if (_view._animator != null)
-            _view._animator.SetBool("Patrolling", false);
     }
 
     void Move(Vector3 dirToMove)
