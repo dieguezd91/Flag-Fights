@@ -4,4 +4,5 @@ public enum KnightStatesEnum
     Patrol,
     Chase,
     Attack,
+    RoundDefeat,
 }

@@ -31,6 +31,25 @@ public class KnightController : EnemyController
         _nodeRegistry = FindObjectOfType<NodeRegistry>();
     }
 
+    KnightStateDefeat<KnightStatesEnum> _roundDefeatState;
+
+    public void EnterRoundDefeat()
+    {
+        if (_fsm == null || _roundDefeatState == null) return;
+        if (_fsm.CurrentState == _roundDefeatState) return;
+
+        _fsm.Transition(KnightStatesEnum.RoundDefeat);
+    }
+
+    public void ResetForRound()
+    {
+        if (View != null && View._animator != null)
+        {
+            View._animator.ResetTrigger("Defeat");
+        }
+        ResetEnemy();
+    }
+
     public void ResetEnemy()
     {
         View.RB.velocity = Vector3.zero;
@@ -54,7 +73,10 @@ public class KnightController : EnemyController
     public override void Update()
     {
         _fsm.OnUpdate();
-        _root.Execute();
+        if (_fsm.CurrentState != _roundDefeatState)
+        {
+            _root.Execute();
+        }
     }
 
     public override void InitializeFSM()
@@ -63,21 +85,31 @@ public class KnightController : EnemyController
         var chase  = new KnightStateChase<KnightStatesEnum>(this, Model, View);
         var attack = new KnightStateAttack<KnightStatesEnum>(this, Model, View);
         var idle   = new KnightStateIdle<KnightStatesEnum>(this, Model, View);
+        _roundDefeatState = new KnightStateDefeat<KnightStatesEnum>(this, Model, View);
 
         _fsm = new FSM<KnightStatesEnum>(idle);
 
         _patrolState.AddTransition(KnightStatesEnum.Chase,  chase);
         _patrolState.AddTransition(KnightStatesEnum.Attack, attack);
         _patrolState.AddTransition(KnightStatesEnum.Idle,   idle);
+        _patrolState.AddTransition(KnightStatesEnum.RoundDefeat, _roundDefeatState);
+
         chase.AddTransition(KnightStatesEnum.Patrol, _patrolState);
         chase.AddTransition(KnightStatesEnum.Idle,   idle);
         chase.AddTransition(KnightStatesEnum.Attack, attack);
+        chase.AddTransition(KnightStatesEnum.RoundDefeat, _roundDefeatState);
+
         attack.AddTransition(KnightStatesEnum.Chase,  chase);
         attack.AddTransition(KnightStatesEnum.Patrol, _patrolState);
         attack.AddTransition(KnightStatesEnum.Idle,   idle);
+        attack.AddTransition(KnightStatesEnum.RoundDefeat, _roundDefeatState);
+
         idle.AddTransition(KnightStatesEnum.Chase,  chase);
         idle.AddTransition(KnightStatesEnum.Patrol, _patrolState);
         idle.AddTransition(KnightStatesEnum.Attack, attack);
+        idle.AddTransition(KnightStatesEnum.RoundDefeat, _roundDefeatState);
+
+        _roundDefeatState.AddTransition(KnightStatesEnum.Idle, idle);
     }
 
     public override void InitializeTree()

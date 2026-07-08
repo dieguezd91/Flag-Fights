@@ -49,10 +49,16 @@ public class PlayerController : MonoBehaviour
         _model.CurrentMoveInput = Mathf.MoveTowards(_model.CurrentMoveInput, target, rate * Time.deltaTime);
     }
 
+    private void OnEnable()
+    {
+        GameEvents.OnRoundEnded += OnRoundEndedHandler;
+    }
+
     private void OnTriggerEnter(Collider collision)
     {
         if (_model == null || _view == null) return;
         if (_model.IsDead) return;
+        if (GameManager.instance != null && GameManager.instance.IsRoundEnding) return;
 
         if (!collision.CompareTag("Flag")) return;
 
@@ -70,6 +76,7 @@ public class PlayerController : MonoBehaviour
 
     public void ResetRoundState()
     {
+        enabled = true;
         if (_model == null || _view == null) return;
 
         _model.IsDead = false;
@@ -90,10 +97,22 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
+        GameEvents.OnRoundEnded -= OnRoundEndedHandler;
         if (_model != null)
         {
             _model.CurrentMoveInput = 0f;
         }
+    }
+
+    private void OnRoundEndedHandler(bool playerWon)
+    {
+        if (_model != null)
+        {
+            _model.MoveInput = 0f;
+            _model.TurnInput = 0f;
+            _model.CurrentMoveInput = 0f;
+        }
+        enabled = false;
     }
 
     bool ShouldUseLegacyFlagVisibility()

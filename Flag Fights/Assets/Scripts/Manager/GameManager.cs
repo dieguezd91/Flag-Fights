@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     bool gameActive;
     private bool _isRoundEnding = false;
+    public bool IsRoundEnding => _isRoundEnding;
     [SerializeField, Min(0f)] private float _playerDeathResultDelay = 2.8f;
     [SerializeField, Min(0f)] private float _enemyDefeatResultDelay = 2.0f;
     public int TotalPoints => _totalPoints;
