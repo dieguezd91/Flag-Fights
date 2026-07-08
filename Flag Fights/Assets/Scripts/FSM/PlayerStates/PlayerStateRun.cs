@@ -23,7 +23,7 @@ public class PlayerStateRun<T> : State<T>
 
     public override void Execute()
     {
-        _transform.Translate(Vector3.forward * Time.deltaTime * _model.Speed * _model.MoveInput);
+        _transform.Translate(Vector3.forward * Time.deltaTime * _model.Speed * _model.CurrentMoveInput);
         _transform.Rotate(Vector3.up, _model.TurnSpeed * _model.TurnInput * Time.deltaTime);
     }
 

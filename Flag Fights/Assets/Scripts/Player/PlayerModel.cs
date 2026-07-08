@@ -9,4 +9,8 @@ public class PlayerModel : MonoBehaviour
     public float TurnSpeed;
     public float MoveInput;
     public float TurnInput;
+
+    public float Acceleration = 4f;
+    public float Deceleration = 8f;
+    public float CurrentMoveInput;
 }

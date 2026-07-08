@@ -36,6 +36,10 @@ public class PlayerController : MonoBehaviour
 
         _model.MoveInput = Input.GetAxisRaw("Vertical");
         _model.TurnInput = Input.GetAxisRaw("Horizontal");
+
+        float target = _model.MoveInput;
+        float rate = Mathf.Abs(target) > Mathf.Abs(_model.CurrentMoveInput) ? _model.Acceleration : _model.Deceleration;
+        _model.CurrentMoveInput = Mathf.MoveTowards(_model.CurrentMoveInput, target, rate * Time.deltaTime);
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -60,6 +64,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_model == null || _view == null) return;
 
+        _model.CurrentMoveInput = 0f;
         bool hadFlag = _model.HasFlag;
         _model.HasFlag = false;
 
@@ -69,6 +74,14 @@ public class PlayerController : MonoBehaviour
         // TODO: Remove this fallback after all player prefabs require PlayerFlagCarryVisual.
         if (ShouldUseLegacyFlagVisibility())
             _view.SetFlagVisibility(false);
+    }
+
+    private void OnDisable()
+    {
+        if (_model != null)
+        {
+            _model.CurrentMoveInput = 0f;
+        }
     }
 
     bool ShouldUseLegacyFlagVisibility()
@@ -93,5 +106,18 @@ public class PlayerController : MonoBehaviour
         _root = qRun;
     }
 
-    bool QRun() => _model != null && Mathf.Abs(_model.MoveInput) > 0.01f;
+    bool QRun()
+    {
+        if (_model == null) return false;
+        float threshold = 0.05f;
+        bool isCurrentlyRunning = _fsm != null && _fsm.CurrentState is PlayerStateRun<PlayerStatesEnum>;
+        if (isCurrentlyRunning)
+        {
+            return Mathf.Abs(_model.CurrentMoveInput) > threshold;
+        }
+        else
+        {
+            return Mathf.Abs(_model.MoveInput) > threshold;
+        }
+    }
 }

@@ -140,7 +140,7 @@ MonoBehaviour:
     m_Bits: 1024
   IgnoreTag: Wall
   CameraRadius: 0.2
-  DampingIntoCollision: 0
+  DampingIntoCollision: 0.25
   DampingFromCollision: 2
 --- !u!114 &4392513170424135803
 MonoBehaviour:
