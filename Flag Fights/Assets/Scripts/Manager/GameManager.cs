@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     bool gameActive;
     private bool _isRoundEnding = false;
+    private bool _isTransitioningRound;
     public bool IsRoundEnding => _isRoundEnding;
     [SerializeField, Min(0f)] private float _playerDeathResultDelay = 2.8f;
     [SerializeField, Min(0f)] private float _enemyDefeatResultDelay = 2.0f;
@@ -143,10 +143,22 @@ public class GameManager : MonoBehaviour
         GameEvents.RaiseRoundStarted(round);
     }
 
-    public async void NextRound()
+    public void NextRound()
     {
-        // 1. Fade out to black
-        await FadeScreen.FadeOut();
+        if (_isTransitioningRound) return;
+        StartCoroutine(NextRoundRoutine());
+    }
+
+    private IEnumerator NextRoundRoutine()
+    {
+        _isTransitioningRound = true;
+        Debug.Log("[GameManager] NextRound started");
+
+        // 1. Fade out to black (ignore timescale)
+        if (ScreenFadeController.Instance != null)
+        {
+            yield return StartCoroutine(ScreenFadeController.Instance.FadeOutRoutine());
+        }
 
         // 2. Perform the reset while the screen is black
         _roundWorld?.ResetActors();
@@ -166,11 +178,17 @@ public class GameManager : MonoBehaviour
             StartRound();
         }
 
-        // 3. Optional small delay for polish
-        await Task.Delay(200);
+        // 3. Optional small delay for polish (independent of Time.timeScale)
+        yield return new WaitForSecondsRealtime(0.2f);
 
         // 4. Fade back in
-        await FadeScreen.FadeIn();
+        if (ScreenFadeController.Instance != null)
+        {
+            yield return StartCoroutine(ScreenFadeController.Instance.FadeInRoutine());
+        }
+
+        Debug.Log("[GameManager] NextRound completed");
+        _isTransitioningRound = false;
     }
 
     private void BeginRoundEndSequence(bool playerWon)

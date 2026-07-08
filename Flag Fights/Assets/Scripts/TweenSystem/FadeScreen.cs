@@ -1,23 +1,55 @@
-using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.UI;
 
-public static class FadeScreen
+public class FadeScreen : MonoBehaviour
 {
-    public static bool IsReady => ScreenFadeController.Instance != null;
+    [SerializeField] private CanvasGroup _canvasGroup;
+    [SerializeField] private Image _fadeImage;
+    private Canvas _canvas;
 
-    public static async Task FadeOut(float? duration = null)
+    private void Awake()
     {
-        if (!IsReady) return;
-        await ScreenFadeController.Instance.FadeOut(duration);
+        if (_canvasGroup == null) _canvasGroup = GetComponentInChildren<CanvasGroup>();
+        if (_fadeImage == null) _fadeImage = GetComponentInChildren<Image>();
+        _canvas = GetComponent<Canvas>();
+        
+        Hide();
     }
 
-    public static async Task FadeIn(float? duration = null)
+    public void Show()
     {
-        if (!IsReady) return;
-        await ScreenFadeController.Instance.FadeIn(duration);
+        if (_canvas != null) _canvas.enabled = true;
+        SetAlpha(1f);
+        SetBlocking(true);
     }
-public static void FadeAndLoadScene(string sceneName, float? duration = null)
-{
-    if (ScreenFadeController.Instance == null) return;
-    ScreenFadeController.Instance.FadeAndLoadScene(sceneName, duration);
-}
+
+    public void Hide()
+    {
+        SetAlpha(0f);
+        SetBlocking(false);
+        if (_canvas != null) _canvas.enabled = false;
+    }
+
+    public void SetAlpha(float alpha)
+    {
+        if (_canvasGroup != null)
+        {
+            _canvasGroup.alpha = alpha;
+        }
+    }
+
+    public void SetBlocking(bool value)
+    {
+        if (_canvasGroup != null)
+        {
+            _canvasGroup.blocksRaycasts = value;
+            _canvasGroup.interactable = value;
+        }
+        if (_fadeImage != null)
+        {
+            _fadeImage.raycastTarget = value;
+        }
+    }
+
+    public CanvasGroup CanvasGroup => _canvasGroup;
 }

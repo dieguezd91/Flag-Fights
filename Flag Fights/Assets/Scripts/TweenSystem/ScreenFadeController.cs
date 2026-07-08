@@ -1,26 +1,24 @@
 using System.Collections;
-using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class ScreenFadeController : MonoBehaviour
 {
     public static ScreenFadeController Instance { get; private set; }
 
     [Header("References")]
-    [SerializeField] private CanvasGroup _canvasGroup;
-    [SerializeField] private Image _fadeImage;
+    [SerializeField] private FadeScreen _fadeScreen;
 
     private bool _isTransitioning;
-    private TaskCompletionSource<bool> _fadeOutTcs;
-    private TaskCompletionSource<bool> _fadeInTcs;
+    private Coroutine _fadeCoroutine;
+    private Tween _currentTween;
 
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
+            Debug.Log($"[{nameof(ScreenFadeController)}] Duplicate detected, destroying: {gameObject.name}");
             Destroy(gameObject);
             return;
         }
@@ -33,129 +31,121 @@ public class ScreenFadeController : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
 
-        if (_canvasGroup == null) _canvasGroup = GetComponentInChildren<CanvasGroup>();
-            
-        // Initial state: invisible, non-blocking, and disabled Canvas
-        _canvasGroup.alpha = 0f;
-        _canvasGroup.blocksRaycasts = false;
-
-        if (_fadeImage != null)
+        if (_fadeScreen == null)
         {
-            _fadeImage.raycastTarget = false;
+            _fadeScreen = GetComponentInChildren<FadeScreen>();
+            if (_fadeScreen == null)
+            {
+                _fadeScreen = GetComponent<FadeScreen>();
+                if (_fadeScreen == null)
+                {
+                    _fadeScreen = gameObject.AddComponent<FadeScreen>();
+                }
+            }
         }
-
-        Canvas canvas = GetComponent<Canvas>();
-        if (canvas != null)
-        {
-            canvas.enabled = false;
-        }
-    }
-
-    private void OnDisable()
-    {
-        CleanUpPendingTasks();
     }
 
     private void OnDestroy()
     {
-        CleanUpPendingTasks();
-    }
-
-    private void CleanUpPendingTasks()
-    {
-        if (_fadeOutTcs != null && !_fadeOutTcs.Task.IsCompleted)
+        if (Instance == this)
         {
-            _fadeOutTcs.TrySetResult(false);
+            Instance = null;
         }
-        if (_fadeInTcs != null && !_fadeInTcs.Task.IsCompleted)
+        if (_currentTween != null && _currentTween.IsActive())
         {
-            _fadeInTcs.TrySetResult(false);
+            _currentTween.Kill();
         }
     }
 
-    public Task FadeOut(float? duration = null)
+    public void FadeOut(float? duration = null)
     {
-        // Cancel any prior fade out task
-        if (_fadeOutTcs != null && !_fadeOutTcs.Task.IsCompleted)
-        {
-            _fadeOutTcs.TrySetResult(false);
-        }
-
-        _fadeOutTcs = new TaskCompletionSource<bool>();
-        StartCoroutine(FadeOutRoutine(duration, _fadeOutTcs));
-        return _fadeOutTcs.Task;
+        if (_fadeCoroutine != null) StopCoroutine(_fadeCoroutine);
+        _fadeCoroutine = StartCoroutine(FadeOutRoutine(duration));
     }
 
-    private IEnumerator FadeOutRoutine(float? duration, TaskCompletionSource<bool> tcs)
+    public IEnumerator FadeOutRoutine(float? duration = null)
     {
-        // Enable components for fading out (to black)
-        Canvas canvas = GetComponent<Canvas>();
-        if (canvas != null)
+        Debug.Log("[ScreenFadeController] FadeToBlack started");
+        
+        if (_currentTween != null && _currentTween.IsActive())
         {
-            canvas.enabled = true;
+            _currentTween.Kill(false);
         }
 
-        if (_fadeImage != null)
+        if (_fadeScreen != null)
         {
-            _fadeImage.raycastTarget = true;
+            _fadeScreen.Show();
+            _fadeScreen.SetAlpha(0f);
         }
-
-        _canvasGroup.blocksRaycasts = true;
 
         float d = duration ?? (TweenSettings.Global != null ? TweenSettings.Global.UI.ScreenFadeDuration : 0.5f);
 
-        Tween tween = _canvasGroup.DOFade(1f, d)
-            .SetUpdate(true)
-            .SetEase(Ease.OutQuad)
-            .SetLink(gameObject);
-
-        yield return tween.WaitForCompletion();
-
-        _canvasGroup.alpha = 1f;
-
-        tcs.TrySetResult(true);
-    }
-
-    public Task FadeIn(float? duration = null)
-    {
-        // Cancel any prior fade in task
-        if (_fadeInTcs != null && !_fadeInTcs.Task.IsCompleted)
+        if (_fadeScreen != null && _fadeScreen.CanvasGroup != null)
         {
-            _fadeInTcs.TrySetResult(false);
+            _currentTween = _fadeScreen.CanvasGroup.DOFade(1f, d)
+                .SetUpdate(true) // Ignore timeScale
+                .SetEase(Ease.OutQuad)
+                .SetLink(gameObject);
+
+            while (_currentTween != null && _currentTween.IsActive() && !_currentTween.IsComplete())
+            {
+                yield return null;
+            }
         }
 
-        _fadeInTcs = new TaskCompletionSource<bool>();
-        StartCoroutine(FadeInRoutine(duration, _fadeInTcs));
-        return _fadeInTcs.Task;
+        if (_fadeScreen != null)
+        {
+            _fadeScreen.SetAlpha(1f);
+            _fadeScreen.SetBlocking(true);
+        }
+
+        Debug.Log("[ScreenFadeController] FadeToBlack completed");
+        _fadeCoroutine = null;
     }
 
-    private IEnumerator FadeInRoutine(float? duration, TaskCompletionSource<bool> tcs)
+    public void FadeIn(float? duration = null)
     {
+        if (_fadeCoroutine != null) StopCoroutine(_fadeCoroutine);
+        _fadeCoroutine = StartCoroutine(FadeInRoutine(duration));
+    }
+
+    public IEnumerator FadeInRoutine(float? duration = null)
+    {
+        Debug.Log("[ScreenFadeController] FadeFromBlack started");
+
+        if (_currentTween != null && _currentTween.IsActive())
+        {
+            _currentTween.Kill(false);
+        }
+
+        if (_fadeScreen != null)
+        {
+            _fadeScreen.SetAlpha(1f);
+            _fadeScreen.SetBlocking(true);
+        }
+
         float d = duration ?? (TweenSettings.Global != null ? TweenSettings.Global.UI.ScreenFadeDuration : 0.5f);
 
-        Tween tween = _canvasGroup.DOFade(0f, d)
-            .SetUpdate(true)
-            .SetEase(Ease.InQuad)
-            .SetLink(gameObject);
-
-        yield return tween.WaitForCompletion();
-
-        // Ensure clean inactive state
-        _canvasGroup.alpha = 0f;
-        _canvasGroup.blocksRaycasts = false;
-
-        if (_fadeImage != null)
+        if (_fadeScreen != null && _fadeScreen.CanvasGroup != null)
         {
-            _fadeImage.raycastTarget = false;
+            _currentTween = _fadeScreen.CanvasGroup.DOFade(0f, d)
+                .SetUpdate(true) // Ignore timeScale
+                .SetEase(Ease.InQuad)
+                .SetLink(gameObject);
+
+            while (_currentTween != null && _currentTween.IsActive() && !_currentTween.IsComplete())
+            {
+                yield return null;
+            }
         }
 
-        Canvas canvas = GetComponent<Canvas>();
-        if (canvas != null)
+        if (_fadeScreen != null)
         {
-            canvas.enabled = false;
+            _fadeScreen.Hide();
         }
 
-        tcs.TrySetResult(true);
+        Debug.Log("[ScreenFadeController] FadeFromBlack completed");
+        _fadeCoroutine = null;
     }
 
     public void FadeAndLoadScene(string sceneName, float? duration = null)
@@ -164,18 +154,13 @@ public class ScreenFadeController : MonoBehaviour
         StartCoroutine(FadeAndLoadSceneRoutine(sceneName, duration));
     }
 
-    private IEnumerator FadeAndLoadSceneRoutine(string sceneName, float? duration)
+    public IEnumerator FadeAndLoadSceneRoutine(string sceneName, float? duration = null)
     {
         _isTransitioning = true;
+        Debug.Log($"[ScreenFadeController] FadeAndLoadScene started for: {sceneName}");
 
-        // 1. Fade Out (to black)
-        Task fadeOutTask = FadeOut(duration);
-        while (!fadeOutTask.IsCompleted)
-        {
-            yield return null;
-        }
+        yield return StartCoroutine(FadeOutRoutine(duration));
 
-        // 2. Load the scene asynchronously
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
         if (op != null)
         {
@@ -186,16 +171,11 @@ public class ScreenFadeController : MonoBehaviour
             }
         }
 
-        // 3. Wait a brief moment to stabilize
         yield return new WaitForSecondsRealtime(0.1f);
 
-        // 4. Fade In (to transparent)
-        Task fadeInTask = FadeIn(duration);
-        while (!fadeInTask.IsCompleted)
-        {
-            yield return null;
-        }
+        yield return StartCoroutine(FadeInRoutine(duration));
 
+        Debug.Log($"[ScreenFadeController] FadeAndLoadScene completed for: {sceneName}");
         _isTransitioning = false;
     }
-}
+}

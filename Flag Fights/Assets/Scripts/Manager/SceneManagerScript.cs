@@ -26,7 +26,14 @@ public class SceneManagerScript : MonoBehaviour
 
     private void ChangeScene(string sceneName)
     {
-        FadeScreen.FadeAndLoadScene(sceneName);
+        if (ScreenFadeController.Instance != null)
+        {
+            ScreenFadeController.Instance.FadeAndLoadScene(sceneName);
+        }
+        else
+        {
+            SceneManager.LoadScene(sceneName);
+        }
     }
 
     public void Quit() => Application.Quit();
