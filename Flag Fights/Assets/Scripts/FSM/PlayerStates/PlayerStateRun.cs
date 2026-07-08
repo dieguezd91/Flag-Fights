@@ -15,7 +15,10 @@ public class PlayerStateRun<T> : State<T>
 
     public override void Enter()
     {
-        _view.Animator.SetBool("Running", true);
+        if (_view.Animator != null)
+        {
+            _view.Animator.SetBool("Running", true);
+        }
     }
 
     public override void Execute()
@@ -26,6 +29,9 @@ public class PlayerStateRun<T> : State<T>
 
     public override void Sleep()
     {
-        _view.Animator.SetBool("Running", false);
+        if (_view.Animator != null)
+        {
+            _view.Animator.SetBool("Running", false);
+        }
     }
 }

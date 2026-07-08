@@ -25,9 +25,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        UpdateMovementInput();
         if (_fsm != null) _fsm.OnUpdate();
         if (_root != null) _root.Execute();
-        UpdateMovementInput();
     }
 
     private void UpdateMovementInput()
