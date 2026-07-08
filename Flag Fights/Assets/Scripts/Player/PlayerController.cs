@@ -11,11 +11,14 @@ public class PlayerController : MonoBehaviour
     private FSM<PlayerStatesEnum> _fsm;
     private ITreeNode _root;
 
+    private Transform _camTransform;
+
     private void Awake()
     {
         if (_model == null) _model = GetComponent<PlayerModel>();
         if (_view == null) _view = GetComponent<PlayerView>();
         _flagCarryVisual = GetComponent<PlayerFlagCarryVisual>();
+        if (Camera.main != null) _camTransform = Camera.main.transform;
 
         if (_model == null || _view == null) return;
 
@@ -41,8 +44,51 @@ public class PlayerController : MonoBehaviour
     {
         if (_model == null) return;
 
-        _model.MoveInput = Input.GetAxisRaw("Vertical");
-        _model.TurnInput = Input.GetAxisRaw("Horizontal");
+        float verticalInput = Input.GetAxisRaw("Vertical");
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+
+        Vector2 rawInput = new Vector2(horizontalInput, verticalInput);
+        float inputMagnitude = Mathf.Clamp01(rawInput.magnitude);
+
+        Vector3 moveDirection = Vector3.zero;
+        if (_camTransform != null)
+        {
+            Vector3 camForward = _camTransform.forward;
+            Vector3 camRight = _camTransform.right;
+            camForward.y = 0f;
+            camRight.y = 0f;
+            camForward.Normalize();
+            camRight.Normalize();
+
+            moveDirection = camForward * rawInput.y + camRight * rawInput.x;
+            if (moveDirection.sqrMagnitude > 0.001f)
+            {
+                moveDirection.Normalize();
+            }
+            else
+            {
+                moveDirection = Vector3.zero;
+            }
+        }
+        else
+        {
+            moveDirection = new Vector3(rawInput.x, 0f, rawInput.y);
+            if (moveDirection.sqrMagnitude > 0.001f)
+            {
+                moveDirection.Normalize();
+            }
+            else
+            {
+                moveDirection = Vector3.zero;
+            }
+        }
+
+        if (moveDirection.sqrMagnitude > 0.001f)
+        {
+            _model.SetMoveDirection(moveDirection);
+        }
+        _model.MoveInput = inputMagnitude;
+        _model.TurnInput = horizontalInput;
 
         float target = _model.MoveInput;
         float rate = Mathf.Abs(target) > Mathf.Abs(_model.CurrentMoveInput) ? _model.Acceleration : _model.Deceleration;

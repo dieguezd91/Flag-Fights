@@ -34,8 +34,8 @@ public class MenuUIRoot : MonoBehaviour, ISceneUI
         _quitButton?.onClick.RemoveAllListeners();
     }
 
-    void OnPlayPressed()        => SceneManagerScript.instance?.StartGame();
-    void OnQuitPressed()        => SceneManagerScript.instance?.Quit();
+    void OnPlayPressed() => SceneManagerScript.instance?.StartGame();
+    void OnQuitPressed() => SceneManagerScript.instance?.Quit();
 
     public void OpenCredits()
     {

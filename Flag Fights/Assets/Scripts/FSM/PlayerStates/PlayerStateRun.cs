@@ -24,8 +24,29 @@ public class PlayerStateRun<T> : State<T>
     public override void Execute()
     {
         if (_model != null && _model.IsDead) return;
-        _transform.Translate(Vector3.forward * Time.deltaTime * _model.Speed * _model.CurrentMoveInput);
-        _transform.Rotate(Vector3.up, _model.TurnSpeed * _model.TurnInput * Time.deltaTime);
+
+        if (_model != null && _model.CurrentMoveDirection.sqrMagnitude > 0.001f)
+        {
+            Vector3 desiredDirection = _model.CurrentMoveDirection;
+            desiredDirection.y = 0f;
+            desiredDirection.Normalize();
+
+            // Rotate towards desiredDirection using existing turn speed (degrees/sec)
+            Quaternion targetRot = Quaternion.LookRotation(desiredDirection);
+            _transform.rotation = Quaternion.RotateTowards(_transform.rotation, targetRot, _model.TurnSpeed * Time.deltaTime);
+
+            // Calculate actual move direction based on actual body forward
+            Vector3 actualMoveDirection = _transform.forward;
+            actualMoveDirection.y = 0f;
+            actualMoveDirection.Normalize();
+
+            // Calculate alignment
+            float alignment = Vector3.Dot(actualMoveDirection, desiredDirection);
+            float alignmentSpeedMultiplier = Mathf.InverseLerp(0.2f, 0.95f, alignment);
+
+            // Move along actual body forward
+            _transform.Translate(actualMoveDirection * Time.deltaTime * _model.Speed * _model.CurrentMoveInput * alignmentSpeedMultiplier, Space.World);
+        }
     }
 
     public override void Sleep()
