@@ -2543,6 +2543,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 3016689598285952454}
   carriedFlagVisual: {fileID: 440988602181613065}
+  carryIndicator: {fileID: 0}
+  animator: {fileID: 6972493344640457676}
+  updateAnimatorCarryParameter: 1
 --- !u!136 &2051081227243337339
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2606,7 +2609,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 5421e2ba733798340b5b31ad59b6b675, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
