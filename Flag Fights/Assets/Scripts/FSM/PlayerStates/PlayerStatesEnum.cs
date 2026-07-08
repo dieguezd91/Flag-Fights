@@ -6,4 +6,5 @@ public enum PlayerStatesEnum
 {
     Idle,
     Run,
+    Dead
 }

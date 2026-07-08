@@ -25,7 +25,14 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (_model != null && _model.IsDead)
+        {
+            _fsm?.OnUpdate();
+            return;
+        }
+
         UpdateMovementInput();
+
         if (_fsm != null) _fsm.OnUpdate();
         if (_root != null) _root.Execute();
     }
@@ -44,8 +51,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (!collision.CompareTag("Flag")) return;
         if (_model == null || _view == null) return;
+        if (_model.IsDead) return;
+
+        if (!collision.CompareTag("Flag")) return;
 
         GameObject pickedFlag = collision.gameObject;
         GameEvents.RaiseFlagPickedUp(this, pickedFlag);
@@ -55,7 +64,6 @@ public class PlayerController : MonoBehaviour
 
         GameEvents.RaiseFlagCarryChanged(this, true);
 
-        // TODO: Remove this fallback after all player prefabs require PlayerFlagCarryVisual.
         if (ShouldUseLegacyFlagVisibility())
             _view.SetFlagVisibility(true);
     }
@@ -64,16 +72,20 @@ public class PlayerController : MonoBehaviour
     {
         if (_model == null || _view == null) return;
 
+        _model.IsDead = false;
+        _model.MoveInput = 0f;
+        _model.TurnInput = 0f;
         _model.CurrentMoveInput = 0f;
-        bool hadFlag = _model.HasFlag;
+
         _model.HasFlag = false;
+        GameEvents.RaiseFlagCarryChanged(this, false);
 
-        if (hadFlag)
-            GameEvents.RaiseFlagCarryChanged(this, false);
-
-        // TODO: Remove this fallback after all player prefabs require PlayerFlagCarryVisual.
         if (ShouldUseLegacyFlagVisibility())
             _view.SetFlagVisibility(false);
+
+        _view.ResetToIdle();
+
+        _fsm?.Transition(PlayerStatesEnum.Idle);
     }
 
     private void OnDisable()
@@ -93,9 +105,17 @@ public class PlayerController : MonoBehaviour
     {
         var idle = new PlayerStateIdle<PlayerStatesEnum>(_view, _model, PlayerStatesEnum.Run);
         var run = new PlayerStateRun<PlayerStatesEnum>(_view, _model, transform);
+        var dead = new PlayerStateDead<PlayerStatesEnum>(_view, _model);
+
         _fsm = new FSM<PlayerStatesEnum>(idle);
+
         idle.AddTransition(PlayerStatesEnum.Run, run);
+        idle.AddTransition(PlayerStatesEnum.Dead, dead);
+
         run.AddTransition(PlayerStatesEnum.Idle, idle);
+        run.AddTransition(PlayerStatesEnum.Dead, dead);
+
+        dead.AddTransition(PlayerStatesEnum.Idle, idle);
     }
 
     void InitializeTree()
@@ -119,5 +139,24 @@ public class PlayerController : MonoBehaviour
         {
             return Mathf.Abs(_model.MoveInput) > threshold;
         }
+    }
+
+    public void Die()
+    {
+        if (_model == null || _view == null) return;
+        if (_model.IsDead) return;
+
+        _model.IsDead = true;
+        _model.MoveInput = 0f;
+        _model.TurnInput = 0f;
+        _model.CurrentMoveInput = 0f;
+
+        _model.HasFlag = false;
+        GameEvents.RaiseFlagCarryChanged(this, false);
+
+        if (ShouldUseLegacyFlagVisibility())
+            _view.SetFlagVisibility(false);
+
+        _fsm?.Transition(PlayerStatesEnum.Dead);
     }
 }

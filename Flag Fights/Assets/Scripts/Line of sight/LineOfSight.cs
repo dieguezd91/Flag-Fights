@@ -17,17 +17,29 @@ public class LineOfSight : MonoBehaviour, ILineOfSight
     public void SetTarget(Transform target) => _target = target;
 
     public bool HasLOS() => _target != null
+        && !IsTargetDead()
         && CheckRange(_target.position)
         && CheckAngle(_target.position)
         && CheckObstacles(_target.position);
 
     public bool HasLOS(float range) => _target != null
+        && !IsTargetDead()
         && CheckRange(_target.position, range)
         && CheckAngle(_target.position)
         && CheckObstacles(_target.position);
 
     public bool HasLOS(float range, Vector3 target)
-        => CheckRange(target, range) && CheckAngle(target) && CheckObstacles(target);
+    {
+        if (IsTargetDead()) return false;
+        return CheckRange(target, range) && CheckAngle(target) && CheckObstacles(target);
+    }
+
+    private bool IsTargetDead()
+    {
+        if (_target == null) return false;
+        var model = _target.GetComponent<PlayerModel>();
+        return model != null && model.IsDead;
+    }
 
     public bool CheckRange(Vector3 target)
     {

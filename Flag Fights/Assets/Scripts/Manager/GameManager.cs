@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     bool gameActive;
+    private bool _isRoundEnding = false;
+    [SerializeField, Min(0f)] private float _playerDeathResultDelay = 2.8f;
     public int TotalPoints => _totalPoints;
     [SerializeField] int _totalPoints;
     public int Points => _points;
@@ -92,6 +94,8 @@ public class GameManager : MonoBehaviour
 
     public void CheckRoundStatus()
     {
+        if (_isRoundEnding) return;
+
         currentTime = Time.time - timer;
         if (currentTime >= lossTimer && !timeElapsed)
         {
@@ -123,6 +127,7 @@ public class GameManager : MonoBehaviour
 
     public void StartRound()
     {
+        _isRoundEnding = false;
         SetRound();
         Time.timeScale = 1;
         timeElapsed = false;
@@ -166,7 +171,25 @@ public class GameManager : MonoBehaviour
         await FadeScreen.FadeIn();
     }
 
-    void OnPlayerHitHandler()    => EndRound(false);
+    void OnPlayerHitHandler()
+    {
+        if (_isRoundEnding) return;
+        _isRoundEnding = true;
+
+        if (player != null)
+        {
+            player.GetComponent<PlayerController>()?.Die();
+        }
+
+        StartCoroutine(DelayEndRound(false));
+    }
+
+    private IEnumerator DelayEndRound(bool playerWon)
+    {
+        yield return new WaitForSecondsRealtime(_playerDeathResultDelay);
+        EndRound(playerWon);
+    }
+
     void OnFlagCapturedHandler() => EndRound(true);
 
     public void EndRound(bool playerWon)

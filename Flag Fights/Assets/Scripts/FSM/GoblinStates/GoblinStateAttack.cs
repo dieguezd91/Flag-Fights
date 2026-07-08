@@ -62,8 +62,12 @@ public class GoblinStateAttack<T> : State<T>
             {
                 if (col.CompareTag("Player"))
                 {
-                    AudioManager.Instance?.PlaySFX(_model.attackSFX);
-                    GameEvents.RaisePlayerHit();
+                    var pModel = col.GetComponent<PlayerModel>();
+                    if (pModel != null && !pModel.IsDead)
+                    {
+                        AudioManager.Instance?.PlaySFX(_model.attackSFX);
+                        GameEvents.RaisePlayerHit();
+                    }
                 }
                 else AudioManager.Instance?.PlaySFX(_model.swingSFX);
             }

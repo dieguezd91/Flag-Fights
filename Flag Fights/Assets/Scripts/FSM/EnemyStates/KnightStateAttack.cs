@@ -128,8 +128,12 @@ public class KnightStateAttack<T> : State<T>
         {
             if (col.CompareTag("Player"))
             {
-                playerHit = true;
-                break;
+                var pModel = col.GetComponent<PlayerModel>();
+                if (pModel != null && !pModel.IsDead)
+                {
+                    playerHit = true;
+                    break;
+                }
             }
         }
 
