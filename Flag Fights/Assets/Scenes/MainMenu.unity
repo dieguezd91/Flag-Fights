@@ -4816,31 +4816,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1512457360}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 661893609}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1191433883}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1512457360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4923,6 +4899,7 @@ GameObject:
   - component: {fileID: 1539973279}
   - component: {fileID: 1539973281}
   - component: {fileID: 1539973280}
+  - component: {fileID: 1539973282}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -4971,8 +4948,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: FLAG FIGHTS
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 953d1e81ca089d947b499fe90b566fda, type: 2}
-  m_sharedMaterial: {fileID: -6877553108213650994, guid: 953d1e81ca089d947b499fe90b566fda, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7949ff9fd005536458f97d300a7dc29e, type: 2}
+  m_sharedMaterial: {fileID: -6877553108213650994, guid: 7949ff9fd005536458f97d300a7dc29e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5046,6 +5023,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1539973278}
   m_CullTransparentMesh: 1
+--- !u!114 &1539973282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539973278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79a8f5b319837b2479c9356dccc17c70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _amplitude: 10
+  _frequency: 0.035
+  _speed: 3
+  _verticalAmplitude: 10
+  _anchorX: -700
 --- !u!1001 &1590974533
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6449,55 +6443,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2016034955}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: PlayOneShot
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: 1e3450430a0ded140ae7a3ecff87aea0, type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1191433883}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: PlayOneShot
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: 1e3450430a0ded140ae7a3ecff87aea0, type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 661893609}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &2016034955
 MonoBehaviour:
   m_ObjectHideFlags: 0

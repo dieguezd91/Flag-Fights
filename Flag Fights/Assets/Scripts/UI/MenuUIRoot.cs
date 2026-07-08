@@ -16,8 +16,8 @@ public class MenuUIRoot : MonoBehaviour, ISceneUI
     {
         UIManager.Instance?.RegisterSceneUI(this);
         _playButton?.onClick.AddListener(OnPlayPressed);
-        _creditsButton?.onClick.AddListener(OnCreditsPressed);
-        _creditsBackButton?.onClick.AddListener(OnCreditsBackPressed);
+        _creditsButton?.onClick.AddListener(OpenCredits);
+        _creditsBackButton?.onClick.AddListener(CloseCredits);
         _quitButton?.onClick.AddListener(OnQuitPressed);
 
         // Initial setup
@@ -37,7 +37,7 @@ public class MenuUIRoot : MonoBehaviour, ISceneUI
     void OnPlayPressed()        => SceneManagerScript.instance?.StartGame();
     void OnQuitPressed()        => SceneManagerScript.instance?.Quit();
 
-    void OnCreditsPressed()
+    public void OpenCredits()
     {
         mainScreen?.transform.PopOut(onComplete: () =>
         {
@@ -47,7 +47,7 @@ public class MenuUIRoot : MonoBehaviour, ISceneUI
         });
     }
 
-    void OnCreditsBackPressed()
+    public void CloseCredits()
     {
         creditsPanel?.transform.PopOut(onComplete: () =>
         {
