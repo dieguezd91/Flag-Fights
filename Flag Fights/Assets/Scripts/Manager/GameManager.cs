@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     bool gameActive;
     private bool _isRoundEnding = false;
     [SerializeField, Min(0f)] private float _playerDeathResultDelay = 2.8f;
+    [SerializeField, Min(0f)] private float _enemyDefeatResultDelay = 2.0f;
     public int TotalPoints => _totalPoints;
     [SerializeField] int _totalPoints;
     public int Points => _points;
@@ -171,26 +172,33 @@ public class GameManager : MonoBehaviour
         await FadeScreen.FadeIn();
     }
 
-    void OnPlayerHitHandler()
+    private void BeginRoundEndSequence(bool playerWon)
     {
         if (_isRoundEnding) return;
         _isRoundEnding = true;
 
+        GameEvents.RaiseRoundEndSequenceStarted(playerWon);
+        StartCoroutine(DelayEndRound(playerWon));
+    }
+
+    void OnPlayerHitHandler()
+    {
         if (player != null)
         {
             player.GetComponent<PlayerController>()?.Die();
         }
 
-        StartCoroutine(DelayEndRound(false));
+        BeginRoundEndSequence(false);
     }
 
     private IEnumerator DelayEndRound(bool playerWon)
     {
-        yield return new WaitForSecondsRealtime(_playerDeathResultDelay);
+        float delay = playerWon ? _enemyDefeatResultDelay : _playerDeathResultDelay;
+        yield return new WaitForSecondsRealtime(delay);
         EndRound(playerWon);
     }
 
-    void OnFlagCapturedHandler() => EndRound(true);
+    void OnFlagCapturedHandler() => BeginRoundEndSequence(true);
 
     public void EndRound(bool playerWon)
     {

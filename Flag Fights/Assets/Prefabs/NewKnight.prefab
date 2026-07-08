@@ -2264,6 +2264,7 @@ GameObject:
   - component: {fileID: -6728396408315894994}
   - component: {fileID: -129516531747733022}
   - component: {fileID: 1734293358056167090}
+  - component: {fileID: 6289021950025872213}
   - component: {fileID: -5122273367637806397}
   - component: {fileID: 8349142724042983708}
   - component: {fileID: 2969441208342543976}
@@ -2397,6 +2398,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 0}
+--- !u!114 &6289021950025872213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6800388641764657861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d4531b57786dd842aa9cc55a07351ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _knightController: {fileID: -129516531747733022}
+  _knightView: {fileID: 1734293358056167090}
 --- !u!54 &-5122273367637806397
 Rigidbody:
   m_ObjectHideFlags: 0

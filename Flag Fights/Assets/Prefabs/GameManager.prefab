@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7adb5aeb417543f41a9998d69628ffc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerDeathResultDelay: 3
+  _enemyDefeatResultDelay: 3
   _totalPoints: 3
   round: 0
   timer: 0
