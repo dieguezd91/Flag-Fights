@@ -52,25 +52,46 @@ public class GoblinStateAttack<T> : State<T>
         dirToTarget.y = 0;
         Vector3 dir = dirToTarget.normalized;
         _view.LookDir(dir);
-        if (Time.time - _lastAttackTime >= _model.attackCD)
+        if (Time.time - _lastAttackTime < _model.attackCD)
+            return;
+
+        if (_view._animator != null)
+            _view._animator.SetTrigger("Attack");
+
+        _lastAttackTime = Time.time;
+        ResolveAttack();
+    }
+
+    private void ResolveAttack()
+    {
+        Vector3 hitCenter = _controller.transform.position
+            + _controller.transform.forward * 0.25f
+            + _controller.transform.up * 0.25f;
+
+        Collider[] collidersAhead = Physics.OverlapSphere(hitCenter, 0.2f);
+
+        bool playerHit = false;
+
+        foreach (Collider collider in collidersAhead)
         {
-            if (_view._animator != null)
-                _view._animator.SetTrigger("Attack");
-            _lastAttackTime = Time.time;
-            Collider[] collidersAhead = Physics.OverlapSphere(_controller.transform.position + _controller.transform.forward * .25f + _controller.transform.up * .25f, .2f);
-            foreach (Collider col in collidersAhead)
-            {
-                if (col.CompareTag("Player"))
-                {
-                    var pModel = col.GetComponent<PlayerModel>();
-                    if (pModel != null && !pModel.IsDead)
-                    {
-                        AudioManager.Instance?.PlaySFX(_model.attackSFX);
-                        GameEvents.RaisePlayerHit();
-                    }
-                }
-                else AudioManager.Instance?.PlaySFX(_model.swingSFX);
-            }
+            if (!collider.CompareTag("Player"))
+                continue;
+
+            PlayerModel playerModel = collider.GetComponent<PlayerModel>();
+            if (playerModel == null || playerModel.IsDead)
+                continue;
+
+            playerHit = true;
+            break;
         }
+
+        if (playerHit)
+        {
+            AudioManager.Instance?.PlaySFX(_model.attackSFX);
+            GameEvents.RaisePlayerHit();
+            return;
+        }
+
+        AudioManager.Instance?.PlaySFX(_model.swingSFX);
     }
 }
