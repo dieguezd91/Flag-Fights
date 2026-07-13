@@ -15,6 +15,10 @@ public class PlayerFootstepFeedbackPresenter : MonoBehaviour
     [SerializeField, Tooltip("Rango de modulación aleatoria del pitch (tono) para cada paso.")] 
     private Vector2 pitchRange = new Vector2(0.95f, 1.05f);
 
+    [Header("Dust")]
+    [SerializeField] private ParticleSystem footstepDust;
+    [SerializeField, Min(1)] private int particlesPerStep = 10;
+
     [Header("Step Detection")]
     [SerializeField, Min(0.1f), Tooltip("Distancia horizontal en metros que debe recorrer el jugador para producir un paso.")] 
     private float distancePerStep = 1f;
@@ -73,7 +77,7 @@ public class PlayerFootstepFeedbackPresenter : MonoBehaviour
             return;
 
         _accumulatedDistance %= distancePerStep;
-        PlayFootstep();
+        TriggerFootstepFeedback();
     }
 
     private bool CanPlayFootsteps()
@@ -84,7 +88,13 @@ public class PlayerFootstepFeedbackPresenter : MonoBehaviour
             && playerModel.CurrentMoveInput >= movementThreshold;
     }
 
-    private void PlayFootstep()
+    private void TriggerFootstepFeedback()
+    {
+        PlayFootstepSound();
+        EmitFootstepDust();
+    }
+
+    private void PlayFootstepSound()
     {
         if (footstepSource == null)
             return;
@@ -103,6 +113,14 @@ public class PlayerFootstepFeedbackPresenter : MonoBehaviour
         footstepSource.PlayOneShot(footstepClips[clipIndex]);
 
         _lastClipIndex = clipIndex;
+    }
+
+    private void EmitFootstepDust()
+    {
+        if (footstepDust == null)
+            return;
+
+        footstepDust.Emit(particlesPerStep);
     }
 
     private int SelectClipIndex()
