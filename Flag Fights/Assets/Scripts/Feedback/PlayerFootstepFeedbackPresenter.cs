@@ -2,17 +2,28 @@ using UnityEngine;
 
 public class PlayerFootstepFeedbackPresenter : MonoBehaviour
 {
-    [SerializeField] private PlayerModel playerModel;
+    [SerializeField, Tooltip("Referencia al modelo del jugador para verificar su estado e input.")] 
+    private PlayerModel playerModel;
 
     [Header("Audio")]
-    [SerializeField] private AudioSource footstepSource;
-    [SerializeField] private AudioClip[] footstepClips;
-    [SerializeField] private Vector2 pitchRange = new Vector2(0.95f, 1.05f);
+    [SerializeField, Tooltip("AudioSource dedicado exclusivamente a reproducir los sonidos de pasos.")] 
+    private AudioSource footstepSource;
+
+    [SerializeField, Tooltip("Array de clips de audio para los pasos. Se seleccionan de forma aleatoria sin repetir el último.")] 
+    private AudioClip[] footstepClips;
+
+    [SerializeField, Tooltip("Rango de modulación aleatoria del pitch (tono) para cada paso.")] 
+    private Vector2 pitchRange = new Vector2(0.95f, 1.05f);
 
     [Header("Step Detection")]
-    [SerializeField, Min(0.1f)] private float distancePerStep = 1f;
-    [SerializeField, Min(0f)] private float movementThreshold = 0.1f;
-    [SerializeField, Min(0.1f)] private float teleportThreshold = 2f;
+    [SerializeField, Min(0.1f), Tooltip("Distancia horizontal en metros que debe recorrer el jugador para producir un paso.")] 
+    private float distancePerStep = 1f;
+
+    [SerializeField, Min(0f), Tooltip("Umbral de input de movimiento mínimo para permitir la reproducción de pasos.")] 
+    private float movementThreshold = 0.1f;
+
+    [SerializeField, Min(0.1f), Tooltip("Distancia máxima permitida en un frame. Si se supera, se considera teleport/respawn y no suena paso.")] 
+    private float teleportThreshold = 2f;
 
     private Vector3 _lastPosition;
     private float _accumulatedDistance;
