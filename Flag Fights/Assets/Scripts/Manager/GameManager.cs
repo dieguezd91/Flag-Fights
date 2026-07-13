@@ -67,20 +67,28 @@ public class GameManager : MonoBehaviour
         round = 0;
         GoblinController.CurrentLeader = null;
 
+        PrepareRound();
         StartCoroutine(StartRoundNextFrame());
     }
 
     IEnumerator StartRoundNextFrame()
     {
         yield return null;
-        StartRound();
+        if (ScreenFadeController.Instance != null)
+        {
+            while (ScreenFadeController.Instance.IsTransitioning)
+            {
+                yield return null;
+            }
+        }
+        ActivateRound();
     }
 
     void Start()
     {
         if (instance != this) return;
         _roundWorld = FindObjectOfType<RoundWorldSystem>();
-        StartRound();
+        // Relying on StartRoundNextFrame() from OnSceneLoaded to trigger the first round's StartRound() after fade-in
     }
 
     private void Update()
@@ -124,10 +132,14 @@ public class GameManager : MonoBehaviour
         timer = Time.time;
     }
 
-    public void StartRound()
+    public void PrepareRound()
     {
         _isRoundEnding = false;
-        SetRound();
+        _roundWorld?.SetupRound();
+    }
+
+    public void ActivateRound()
+    {
         Time.timeScale = 1;
         timeElapsed = false;
         timer = Time.time;
@@ -138,6 +150,12 @@ public class GameManager : MonoBehaviour
         UIManager.Instance?.UpdateScoreDisplay(_points, _enemyPoints);
         PushTimerDisplay(lossTimer);
         GameEvents.RaiseRoundStarted(round);
+    }
+
+    public void StartRound()
+    {
+        PrepareRound();
+        ActivateRound();
     }
 
     public void NextRound()
@@ -160,6 +178,7 @@ public class GameManager : MonoBehaviour
         // 2. Perform the reset while the screen is black
         _roundWorld?.ResetActors();
         
+        bool roundStarted = false;
         if (_enemyPoints >= _totalPoints)
         {
             Lose();
@@ -172,7 +191,8 @@ public class GameManager : MonoBehaviour
         {
             round++;
             UIManager.Instance?.HideAll();
-            StartRound();
+            PrepareRound();
+            roundStarted = true;
         }
 
         // 3. Optional small delay for polish (independent of Time.timeScale)
@@ -182,6 +202,12 @@ public class GameManager : MonoBehaviour
         if (ScreenFadeController.Instance != null)
         {
             yield return StartCoroutine(ScreenFadeController.Instance.FadeInRoutine());
+        }
+
+        if (roundStarted)
+        {
+            yield return new WaitForSecondsRealtime(0.3f); // Small extra delay for camera focus
+            ActivateRound();
         }
 
         Debug.Log("[GameManager] NextRound completed");

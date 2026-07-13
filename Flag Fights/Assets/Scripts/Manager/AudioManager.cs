@@ -9,10 +9,6 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource _sfxSource;
     [SerializeField] AudioSource _musicSource;
 
-    [Header("Music Clips")]
-    [SerializeField] AudioClip _menuMusic;
-    [SerializeField] AudioClip _gameplayMusic;
-
     [Header("Volume")]
     [Range(0f, 1f)] [SerializeField] float _masterVolume = 1f;
     [Range(0f, 1f)] [SerializeField] float _sfxVolume    = 1f;
@@ -23,36 +19,12 @@ public class AudioManager : MonoBehaviour
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        SceneManager.sceneLoaded += OnSceneLoaded;
         ApplyVolumes();
     }
 
     void OnDestroy()
     {
         if (Instance == this) Instance = null;
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    private void Start()
-    {
-        if (Instance != this)
-            return;
-
-        PlayMusicForScene(SceneManager.GetActiveScene());
-    }
-
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        PlayMusicForScene(scene);
-    }
-
-    private void PlayMusicForScene(Scene scene)
-    {
-        switch (scene.buildIndex)
-        {
-            case 0: PlayMusic(_menuMusic);    break;
-            case 1: PlayMusic(_gameplayMusic); break;
-        }
     }
 
     private void ApplyVolumes()

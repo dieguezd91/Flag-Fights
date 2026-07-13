@@ -14,6 +14,8 @@ public class ScreenFadeController : MonoBehaviour
     private Coroutine _fadeCoroutine;
     private Tween _currentTween;
 
+    public bool IsTransitioning => _isTransitioning || _fadeCoroutine != null;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)

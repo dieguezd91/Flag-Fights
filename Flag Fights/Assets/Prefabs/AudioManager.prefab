@@ -305,8 +305,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sfxSource: {fileID: 4959578043080478157}
   _musicSource: {fileID: 408471964481929024}
-  _menuMusic: {fileID: 8300000, guid: aa3478602414d401082090e319fc51e4, type: 3}
-  _gameplayMusic: {fileID: 8300000, guid: 79b1adcd944ac4f709545a8a1358080c, type: 3}
   _masterVolume: 1
   _sfxVolume: 1
   _musicVolume: 1
@@ -322,8 +320,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e1f8151ba3b4d70a836e31b0419188a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flagPickupSfx: {fileID: 0}
-  flagCapturedSfx: {fileID: 0}
+  flagPickupSfx: {fileID: 8300000, guid: f3d7d7faefb8547439d0809163ffa6c3, type: 3}
+  flagCapturedSfx: {fileID: 8300000, guid: 111156997ea143b4ab3bb144d0a7bab6, type: 3}
   roundWinSfx: {fileID: 8300000, guid: d9fe834b3e53bae4c87db2fc37ec1a1f, type: 3}
   roundLoseSfx: {fileID: 8300000, guid: ccfe813586c84ef468cd8281bf2a3cfa, type: 3}
-  playerRespawnSfx: {fileID: 0}
+  playerRespawnSfx: {fileID: 8300000, guid: 5403faba68558954097d1908a9635a90, type: 3}
+  playerDeathSfx: {fileID: 8300000, guid: 393d33472394be04e9a3432d0efee9c7, type: 3}
+  menuMusic: {fileID: 8300000, guid: aa3478602414d401082090e319fc51e4, type: 3}
+  gameplayMusic: {fileID: 8300000, guid: 79b1adcd944ac4f709545a8a1358080c, type: 3}
