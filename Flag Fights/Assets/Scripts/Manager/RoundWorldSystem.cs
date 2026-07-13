@@ -17,6 +17,13 @@ public class RoundWorldSystem : MonoBehaviour
                 _playerInitialTransform.position,
                 _playerInitialTransform.rotation);
             GameEvents.RaisePlayerRespawned(_playerController);
+
+            // Reset Cinemachine virtual cameras previous state to prevent interpolation/damping from the old position
+            var virtualCameras = FindObjectsOfType<Cinemachine.CinemachineVirtualCameraBase>();
+            foreach (var vcam in virtualCameras)
+            {
+                vcam.PreviousStateIsValid = false;
+            }
         }
 
         _playerController?.ResetRoundState();
