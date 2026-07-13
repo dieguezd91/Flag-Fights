@@ -24,6 +24,7 @@ public class AudioManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
+        ApplyVolumes();
     }
 
     void OnDestroy()
@@ -32,7 +33,20 @@ public class AudioManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    private void Start()
+    {
+        if (Instance != this)
+            return;
+
+        PlayMusicForScene(SceneManager.GetActiveScene());
+    }
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        PlayMusicForScene(scene);
+    }
+
+    private void PlayMusicForScene(Scene scene)
     {
         switch (scene.buildIndex)
         {
@@ -41,11 +55,20 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    private void ApplyVolumes()
+    {
+        if (_sfxSource != null)
+            _sfxSource.volume = _sfxVolume * _masterVolume;
+
+        if (_musicSource != null)
+            _musicSource.volume = _musicVolume * _masterVolume;
+    }
+
     public void PlaySFX(AudioClip clip)
     {
         if (clip == null || _sfxSource == null) return;
 
-        _sfxSource.PlayOneShot(clip, _sfxVolume * _masterVolume);
+        _sfxSource.PlayOneShot(clip);
     }
 
     public void PlaySfx(AudioClip clip) => PlaySFX(clip);
@@ -56,7 +79,7 @@ public class AudioManager : MonoBehaviour
         if (_musicSource.clip == clip && _musicSource.isPlaying) return;
         _musicSource.clip   = clip;
         _musicSource.loop   = loop;
-        _musicSource.volume = _musicVolume * _masterVolume;
+        ApplyVolumes();
         _musicSource.Play();
     }
 
@@ -65,19 +88,31 @@ public class AudioManager : MonoBehaviour
     public void SetMasterVolume(float v)
     {
         _masterVolume = Mathf.Clamp01(v);
-        if (_sfxSource)   _sfxSource.volume  = _sfxVolume  * _masterVolume;
-        if (_musicSource) _musicSource.volume = _musicVolume * _masterVolume;
+        ApplyVolumes();
     }
 
     public void SetSFXVolume(float v)
     {
         _sfxVolume = Mathf.Clamp01(v);
-        if (_sfxSource) _sfxSource.volume = _sfxVolume * _masterVolume;
+        ApplyVolumes();
     }
 
     public void SetMusicVolume(float v)
     {
         _musicVolume = Mathf.Clamp01(v);
-        if (_musicSource) _musicSource.volume = _musicVolume * _masterVolume;
+        ApplyVolumes();
     }
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        _masterVolume = Mathf.Clamp01(_masterVolume);
+        _sfxVolume = Mathf.Clamp01(_sfxVolume);
+        _musicVolume = Mathf.Clamp01(_musicVolume);
+        if (Application.isPlaying)
+        {
+            ApplyVolumes();
+        }
+    }
+#endif
 }
