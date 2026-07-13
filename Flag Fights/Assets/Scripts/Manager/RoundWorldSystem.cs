@@ -16,6 +16,9 @@ public class RoundWorldSystem : MonoBehaviour
             _playerController.transform.SetPositionAndRotation(
                 _playerInitialTransform.position,
                 _playerInitialTransform.rotation);
+
+            Physics.SyncTransforms(); // Sync physics transforms immediately so Cinemachine reads the new position
+
             GameEvents.RaisePlayerRespawned(_playerController);
 
             // Reset Cinemachine virtual cameras previous state to prevent interpolation/damping from the old position

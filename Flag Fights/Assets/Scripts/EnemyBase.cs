@@ -34,7 +34,12 @@ public class EnemyBase : MonoBehaviour
             {
                 var transformSelected = MyRandoms.Roulette(spawnPoints);
                 spawnPoints.Remove(transformSelected);
-                Instantiate(characterPrefab, transformSelected.position, transformSelected.rotation);
+                Vector3 spawnPos = transformSelected.position;
+                if (Physics.Raycast(transformSelected.position + Vector3.up * 10f, Vector3.down, out RaycastHit hit, 20f))
+                {
+                    spawnPos = hit.point;
+                }
+                Instantiate(characterPrefab, spawnPos, transformSelected.rotation);
             }
         }
     }
