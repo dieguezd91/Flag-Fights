@@ -13,6 +13,7 @@ public class PlayerModel : MonoBehaviour
     public float Acceleration = 4f;
     public float Deceleration = 8f;
     public float CurrentMoveInput;
+    public AudioClip deathSFX;
 
     public Vector3 CurrentMoveDirection { get; private set; }
 

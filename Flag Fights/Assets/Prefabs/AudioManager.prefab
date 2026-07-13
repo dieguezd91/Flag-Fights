@@ -325,6 +325,5 @@ MonoBehaviour:
   roundWinSfx: {fileID: 8300000, guid: d9fe834b3e53bae4c87db2fc37ec1a1f, type: 3}
   roundLoseSfx: {fileID: 8300000, guid: ccfe813586c84ef468cd8281bf2a3cfa, type: 3}
   playerRespawnSfx: {fileID: 8300000, guid: 5403faba68558954097d1908a9635a90, type: 3}
-  playerDeathSfx: {fileID: 8300000, guid: 393d33472394be04e9a3432d0efee9c7, type: 3}
   menuMusic: {fileID: 8300000, guid: aa3478602414d401082090e319fc51e4, type: 3}
   gameplayMusic: {fileID: 8300000, guid: 79b1adcd944ac4f709545a8a1358080c, type: 3}

@@ -222,6 +222,7 @@ public class PlayerController : MonoBehaviour
         if (ShouldUseLegacyFlagVisibility())
             _view.SetFlagVisibility(false);
 
+        AudioManager.Instance?.PlaySFX(_model.deathSFX);
         _fsm?.Transition(PlayerStatesEnum.Dead);
     }
 }

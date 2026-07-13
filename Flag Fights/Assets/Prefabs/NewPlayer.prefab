@@ -2565,6 +2565,7 @@ MonoBehaviour:
   Acceleration: 4
   Deceleration: 8
   CurrentMoveInput: 0
+  deathSFX: {fileID: 8300000, guid: 393d33472394be04e9a3432d0efee9c7, type: 3}
 --- !u!136 &2051081227243337339
 CapsuleCollider:
   m_ObjectHideFlags: 0
