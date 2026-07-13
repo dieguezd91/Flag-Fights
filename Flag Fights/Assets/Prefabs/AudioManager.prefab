@@ -307,7 +307,7 @@ MonoBehaviour:
   _musicSource: {fileID: 408471964481929024}
   _masterVolume: 1
   _sfxVolume: 1
-  _musicVolume: 1
+  _musicVolume: 0.3
 --- !u!114 &910000000000000004
 MonoBehaviour:
   m_ObjectHideFlags: 0
