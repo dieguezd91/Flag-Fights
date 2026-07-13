@@ -324,8 +324,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flagPickupSfx: {fileID: 0}
   flagCapturedSfx: {fileID: 0}
-  scoreChangedSfx: {fileID: 0}
-  roundWinSfx: {fileID: 0}
-  roundLoseSfx: {fileID: 0}
-  playerHitSfx: {fileID: 0}
+  roundWinSfx: {fileID: 8300000, guid: d9fe834b3e53bae4c87db2fc37ec1a1f, type: 3}
+  roundLoseSfx: {fileID: 8300000, guid: ccfe813586c84ef468cd8281bf2a3cfa, type: 3}
+  playerHitSfx: {fileID: 8300000, guid: 308f81c9f79b57645b65ae590bd9f6b2, type: 3}
   playerRespawnSfx: {fileID: 0}

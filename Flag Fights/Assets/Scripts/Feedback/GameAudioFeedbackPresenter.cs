@@ -7,7 +7,6 @@ public class GameAudioFeedbackPresenter : MonoBehaviour
     [SerializeField] AudioClip flagCapturedSfx;
 
     [Header("Score and Round")]
-    [SerializeField] AudioClip scoreChangedSfx;
     [SerializeField] AudioClip roundWinSfx;
     [SerializeField] AudioClip roundLoseSfx;
 
@@ -19,7 +18,6 @@ public class GameAudioFeedbackPresenter : MonoBehaviour
     {
         GameEvents.OnFlagPickedUp += OnFlagPickedUp;
         GameEvents.OnFlagCaptured += OnFlagCaptured;
-        GameEvents.OnScoreChanged += OnScoreChanged;
         GameEvents.OnRoundEnded += OnRoundEnded;
         GameEvents.OnPlayerHit += OnPlayerHit;
         GameEvents.OnPlayerRespawned += OnPlayerRespawned;
@@ -29,7 +27,6 @@ public class GameAudioFeedbackPresenter : MonoBehaviour
     {
         GameEvents.OnFlagPickedUp -= OnFlagPickedUp;
         GameEvents.OnFlagCaptured -= OnFlagCaptured;
-        GameEvents.OnScoreChanged -= OnScoreChanged;
         GameEvents.OnRoundEnded -= OnRoundEnded;
         GameEvents.OnPlayerHit -= OnPlayerHit;
         GameEvents.OnPlayerRespawned -= OnPlayerRespawned;
@@ -37,7 +34,6 @@ public class GameAudioFeedbackPresenter : MonoBehaviour
 
     void OnFlagPickedUp(PlayerController player, GameObject flag) => Play(flagPickupSfx);
     void OnFlagCaptured() => Play(flagCapturedSfx);
-    void OnScoreChanged(int playerPoints, int enemyPoints) => Play(scoreChangedSfx);
     void OnRoundEnded(bool playerWon) => Play(playerWon ? roundWinSfx : roundLoseSfx);
     void OnPlayerHit() => Play(playerHitSfx);
     void OnPlayerRespawned(PlayerController player) => Play(playerRespawnSfx);

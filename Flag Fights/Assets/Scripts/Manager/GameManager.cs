@@ -30,9 +30,6 @@ public class GameManager : MonoBehaviour
 
     RoundWorldSystem _roundWorld;
 
-    [SerializeField] AudioClip victorySFX;
-    [SerializeField] AudioClip defeatSFX;
-
     int _lastDisplayedSecond = -1;
 
     void Awake()
@@ -226,12 +223,10 @@ public class GameManager : MonoBehaviour
         if (playerWon)
         {
             _points++;
-            AudioManager.Instance?.PlaySFX(victorySFX);
         }
         else
         {
             _enemyPoints++;
-            AudioManager.Instance?.PlaySFX(defeatSFX);
         }
 
         GameEvents.RaiseScoreChanged(_points, _enemyPoints);
